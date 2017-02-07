@@ -1,7 +1,12 @@
+const path = require('path');
+
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: {
+    tutorial: "./src/tutorial/index.tsx",
+  },
   output: {
-    filename: "./dist/bundle.js"
+    path: path.join(__dirname, "public/build"),
+    filename: "[name].js",
   },
   devtool: "source-map",
   resolve: {

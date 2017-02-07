@@ -7,8 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "build": "webpack --progress --colors --config ./webpack.config.dev.js",
-    "build:prod": "webpack --config ./webpack.config.prod.js"
+    "dev-build": "webpack --progress --colors --config ./webpack.config.dev.js",
+    "dev-watch": "webpack --progress --colors --config ./webpack.config.dev.js --watch",
+    "prod": "webpack --config ./webpack.config.prod.js"
   },
   "repository": {
     "type": "git",
