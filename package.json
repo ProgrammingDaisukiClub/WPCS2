@@ -9,7 +9,8 @@
   "scripts": {
     "dev-build": "webpack --progress --colors --config ./webpack.config.dev.js",
     "dev-watch": "webpack --progress --colors --config ./webpack.config.dev.js --watch",
-    "prod": "webpack --config ./webpack.config.prod.js"
+    "prod": "webpack --config ./webpack.config.prod.js",
+    "heroku-postbuild": "npm run dev-build"
   },
   "repository": {
     "type": "git",
