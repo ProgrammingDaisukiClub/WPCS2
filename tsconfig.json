@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./public/build",
+    "outDir": "./app/assets/javascripts/build",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "es6",

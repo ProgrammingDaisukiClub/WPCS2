@@ -1,14 +1,13 @@
 const path = require('path');
 
-module.exports = {
+let config = {
   entry: {
     tutorial: "./src/tutorial/index.tsx",
   },
   output: {
-    path: path.join(__dirname, "public/build"),
+    path: path.join(__dirname, "./app/assets/javascripts/build"),
     filename: "[name].js",
   },
-  devtool: "source-map",
   resolve: {
     extensions: [".ts", ".tsx", ".js"]
   },
@@ -21,3 +20,11 @@ module.exports = {
     }]
   }
 };
+
+if(process.env.NODE_ENV === "development") {
+  Object.assign(config, {
+    devtool: "source-map",
+  });
+}
+
+module.exports = config;

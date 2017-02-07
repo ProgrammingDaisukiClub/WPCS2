@@ -7,10 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "dev-build": "webpack --progress --colors --config ./webpack.config.dev.js",
-    "dev-watch": "webpack --progress --colors --config ./webpack.config.dev.js --watch",
-    "prod": "webpack --config ./webpack.config.prod.js",
-    "heroku-postbuild": "npm run dev-build"
+    "dev-build": "NODE_ENV=development webpack --progress --colors",
+    "dev-watch": "NODE_ENV=development webpack --progress --colors --watch",
+    "prod": "NODE_ENV=production webpack"
   },
   "repository": {
     "type": "git",
