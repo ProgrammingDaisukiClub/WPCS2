@@ -41,12 +41,12 @@ bower.json
 # Ignore Byebug command history file.
 .byebug_history
 
-
 # Ignore node_modules
 node_modules/
 
 # Ignore webpack build file
 public/build/
 
-# Ignore npm-debug.log
+# Ignore log files
 npm-debug.log
+logfile
