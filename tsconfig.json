@@ -4,10 +4,10 @@
     "module": "es6",
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
     "outDir": "public/build",
     "sourceMap": true,
-    "target": "es5",
+    "target": "es5"
   },
   "exclude": [
     ".tscache",
