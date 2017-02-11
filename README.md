@@ -11,8 +11,11 @@ Waseda Programming Contest System 2
 * npm: 4.1.2
 
 ## How to deploy
+1. Make sure you have been installed gems: `rails`, `railties` and `bundler`
 
-1. install nodejs and npm
+1. Install nodejs and npm
+
+1. `bundler install`
 
 1. `$ npm install`
 
