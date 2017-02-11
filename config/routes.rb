@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     sessions:      'users/sessions',
   }
 
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+
   #if Rails.env.development?
   resources 'react_tutorial', only: ['index']
   #end
