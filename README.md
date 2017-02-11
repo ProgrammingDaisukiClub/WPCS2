@@ -25,6 +25,8 @@ Waseda Programming Contest System 2
   `$ npm run dev-watch`
 * build (for production)
   `$ npm run prod`
+  
+1. `rails server`
 
 * ...
 
