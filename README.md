@@ -19,11 +19,11 @@ Waseda Programming Contest System 2
 
 1. `$ npm install`
 
-* build (for development)
+ * build (for development)
   `$ npm run dev-build`
-* watch (for development)
+ * watch (for development)
   `$ npm run dev-watch`
-* build (for production)
+ * build (for production)
   `$ npm run prod`
   
 1. `rails server`
