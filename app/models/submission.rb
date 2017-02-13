@@ -1,4 +1,4 @@
 class Submission < ApplicationRecord
   belongs_to :user
-  belongs_to :case
+  belongs_to :test_case
 end
