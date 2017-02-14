@@ -2,6 +2,8 @@
 
 Waseda Programming Contest System 2
 
+[![wercker status](https://app.wercker.com/status/252b5ef09b779ef907f68c6b9b43a192/m/master "wercker status")](https://app.wercker.com/project/byKey/252b5ef09b779ef907f68c6b9b43a192)
+
 ## Requirements
 
 * Ruby: 2.4.0
