@@ -5,6 +5,11 @@ services:
 
 build:
   steps:
+    - bigtruedata/install-node:
+      version: 7.5.0
+
+    - npm-install
+
     - bundle-install
 
     - rails-database-yml:
@@ -23,4 +28,4 @@ build:
 
     - script:
         name: Minitest
-        code: bundle exec test
+        code: bundle exec rake test
