@@ -26,9 +26,9 @@
         <td><%= admin_contest.name_ja %></td>
         <td><%= admin_contest.score_baseline %></td>
         <td><%= admin_contest.start_at %></td>
-        <td><%= link_to 'Show', admin_contest %></td>
+        <td><%= link_to 'Show', admin_contest_path(admin_contest) %></td>
         <td><%= link_to 'Edit', edit_admin_contest_path(admin_contest) %></td>
-        <td><%= link_to 'Destroy', admin_contest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', admin_contests_path(admin_contest), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

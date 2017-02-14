@@ -1,4 +1,4 @@
-<%= form_for(admin_contest) do |f| %>
+<%= form_for(new_admin_contest_path) do |f| %>
   <% if admin_contest.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(admin_contest.errors.count, "error") %> prohibited this admin_contest from being saved:</h2>
