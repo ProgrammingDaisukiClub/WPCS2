@@ -22,12 +22,12 @@ namespace :sample_data do
                   when 1 then DateTime.now
                   when 2 then DateTime.now - 1.week
                   when 0 then DateTime.now + 1.week
-        end,
+                  end,
         end_at: case i % 3
                 when 1 then DateTime.now + 10.year
                 when 2 then DateTime.now - 1.week + 2.hour
                 when 0 then DateTime.now + 1.week + 2.hour
-        end,
+                end,
         score_baseline: 0.5
       )
 
@@ -75,7 +75,7 @@ namespace :sample_data do
           )
           next unless ended || (started && registered)
           [*0..8].sample.times do |_k|
-            submission = Submission.create(
+            Submission.create(
               user_id: user.id,
               data_set_id: rand(2) == 1 ? data_set_small.id : data_set_large.id,
               answer: '1 2 3 4 5',
