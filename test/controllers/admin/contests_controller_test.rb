@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Admin::ContestsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @admin_contest = admin_contests(:one)
+    @admin_contest = Contest.create!(name_ja: 'MyString', name_en: 'MyString', description_ja: 'MyString', description_en: 'MyString', start_at: Time.current, end_at: Time.current.next_month, score_baseline: 100)
   end
 
   test "should get index" do
