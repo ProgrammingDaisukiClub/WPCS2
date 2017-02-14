@@ -1,15 +1,34 @@
-# README
+# WPCS2
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Waseda Programming Contest System 2
 
-Things you may want to cover:
+## Requirements
 
-* Ruby version
+* Ruby: 2.4.0
 
-* Node version 7.5.0
+* Node: 7.5.0
 
-* npm version 4.1.2
+* npm: 4.1.2
+
+## How to deploy
+1. Make sure you have been installed gems: `rails`, `railties` and `bundler`
+
+1. Install nodejs and npm
+
+1. `bundler install`
+
+1. `$ npm install`
+
+ * build (for development)
+  `$ npm run dev-build`
+ * watch (for development)
+  `$ npm run dev-watch`
+ * build (for production)
+  `$ npm run prod`
+  
+1. `rails server`
+
+* ...
 
 * System dependencies
 
@@ -26,15 +45,3 @@ Things you may want to cover:
 * Deployment instructions
 
 * TypeScript Installation and Usage
-
-1. install nodejs and npm
-2. `$ npm install`
-
-* build (for development)
-  `$ npm run dev-build`
-* watch (for development)
-  `$ npm run dev-watch`
-* build (for production)
-  `$ npm run prod`
-
-* ...
