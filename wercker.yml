@@ -9,10 +9,10 @@ build:
       version: 7.5.0
 
     - script:
-        name: Install dependencies
-        code: |
-          sudo apt-get update
-          sudo apt-get install -y graphviz
+      name: Install dependencies
+      code: |
+        sudo apt-get update
+        sudo apt-get install -y graphviz
 
     - npm-install
 
@@ -22,27 +22,28 @@ build:
       service: postgresql-docker
 
     - script:
-        name: Echo ruby information
-        code: |
-          echo "ruby version $(ruby --version) running"
-          echo "from location $(which ruby)"
-          echo -p "gem list: $(gem list)"
+      name: echo ruby information
+      code: |
+        echo "ruby version $(ruby --version) running"
+        echo "from location $(which ruby)"
+        echo -p "gem list: $(gem list)"
 
     - script:
-        name: Set up db
-        code: RAILS_ENV=test bundle exec rake db:schema:load
+      name: Set up db
+      code: RAILS_ENV=test bundle exec rake db:schema:load
 
     - script:
-        name: Run minitest
-        code: bundle exec rake test
+      name: Run minitest
+      code: bundle exec rake test
 
     - script:
-        name: Run lint
-        code: npm run lint
+      name: Run lint tools
+      code: |
+        bundle exec rubocop
+        npm run lint
 
     - script:
-        name: Generate erd
-        code: |
-          bundle exec rake db:schema:load
-          bundle exec rake erd
-          mv erd.pdf ${WERCKER_OUTPUT_DIR}
+      name: Generate erd
+      code: |
+        RAILS_ENV=test bundle exec rake erd
+        mv erd.pdf ${WERCKER_OUTPUT_DIR}
