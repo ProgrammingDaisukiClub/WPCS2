@@ -2,7 +2,7 @@
 
 one:
   user: one
-  test_case: one
+  data_set: one
   answer: MyText
   code: MyText
   language_id: 1
@@ -10,7 +10,7 @@ one:
 
 two:
   user: two
-  test_case: two
+  data_set: two
   answer: MyText
   code: MyText
   language_id: 1

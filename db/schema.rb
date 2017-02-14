@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214081523) do
+ActiveRecord::Schema.define(version: 20170214103526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,18 @@ ActiveRecord::Schema.define(version: 20170214081523) do
     t.datetime "updated_at",     null: false
   end
 
+  create_table "data_sets", force: :cascade do |t|
+    t.integer  "problem_id"
+    t.string   "label"
+    t.text     "input",                  null: false
+    t.text     "output",                 null: false
+    t.integer  "score",                  null: false
+    t.integer  "accuracy",   default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["problem_id"], name: "index_data_sets_on_problem_id", using: :btree
+  end
+
   create_table "problems", force: :cascade do |t|
     t.integer  "contest_id"
     t.string   "name_ja",        null: false
@@ -71,27 +83,15 @@ ActiveRecord::Schema.define(version: 20170214081523) do
 
   create_table "submissions", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "test_case_id"
+    t.integer  "data_set_id"
     t.text     "answer",          null: false
     t.text     "code"
     t.integer  "language_id"
     t.integer  "judge_status_id", null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["test_case_id"], name: "index_submissions_on_test_case_id", using: :btree
+    t.index ["data_set_id"], name: "index_submissions_on_data_set_id", using: :btree
     t.index ["user_id"], name: "index_submissions_on_user_id", using: :btree
-  end
-
-  create_table "test_cases", force: :cascade do |t|
-    t.integer  "problem_id"
-    t.string   "case_name"
-    t.text     "input",                  null: false
-    t.text     "output",                 null: false
-    t.integer  "score",                  null: false
-    t.integer  "accuracy",   default: 0, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.index ["problem_id"], name: "index_test_cases_on_problem_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -118,8 +118,8 @@ ActiveRecord::Schema.define(version: 20170214081523) do
 
   add_foreign_key "contest_registrations", "contests"
   add_foreign_key "contest_registrations", "users"
+  add_foreign_key "data_sets", "problems"
   add_foreign_key "problems", "contests"
-  add_foreign_key "submissions", "test_cases"
+  add_foreign_key "submissions", "data_sets"
   add_foreign_key "submissions", "users"
-  add_foreign_key "test_cases", "problems"
 end
