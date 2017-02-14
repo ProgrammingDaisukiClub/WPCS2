@@ -2,7 +2,7 @@
 
 one:
   user: one
-  case: one
+  test_case: one
   answer: MyText
   code: MyText
   language_id: 1
@@ -10,7 +10,7 @@ one:
 
 two:
   user: two
-  case: two
+  test_case: two
   answer: MyText
   code: MyText
   language_id: 1

@@ -7,7 +7,6 @@ one:
   description_ja: MyString
   description_en: MyString
   order: 1
-  point: 1
 
 two:
   contest: two
@@ -16,4 +15,3 @@ two:
   description_ja: MyString
   description_en: MyString
   order: 1
-  point: 1
