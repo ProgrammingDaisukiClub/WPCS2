@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  case_name: MyString
+  problem: one
+  input: MyText
+  output: MyText
+  score: 1
+  accuracy: 1
+
+two:
+  case_name: MyString
+  problem: two
+  input: MyText
+  output: MyText
+  score: 1
+  accuracy: 1
