@@ -1,12 +1,12 @@
 namespace :sample_data do
-  desc "サンプルデータを生成する"
+  desc 'サンプルデータを生成する'
   task generate: :environment do
     user_ids = []
     20.times do |i|
       user = User.create(
         email: "sample-user-#{i}@example.com",
-        password: "password",
-        password_confirmation: "password",
+        password: 'password',
+        password_confirmation: 'password'
       )
       user_ids << user.id
     end
@@ -19,23 +19,24 @@ namespace :sample_data do
         description_ja: "サンプルコンテスト#{i}の説明です",
         description_en: "Description of SampleContest#{i}",
         start_at: case i % 3
-          when 1 then DateTime.now;
-          when 2 then DateTime.now - 1.week;
-          when 0 then DateTime.now + 1.week;
+                  when 1 then DateTime.now
+                  when 2 then DateTime.now - 1.week
+                  when 0 then DateTime.now + 1.week
         end,
         end_at: case i % 3
-          when 1 then DateTime.now + 10.year;
-          when 2 then DateTime.now - 1.week + 2.hour;
-          when 0 then DateTime.now + 1.week + 2.hour;
+                when 1 then DateTime.now + 10.year
+                when 2 then DateTime.now - 1.week + 2.hour
+                when 0 then DateTime.now + 1.week + 2.hour
         end,
-        score_baseline: 0.5,
+        score_baseline: 0.5
       )
 
       users.each do |user|
+        next unless rand(2) == 1
         ContestRegistration.create(
           user_id: user.id,
-          contest_id: contest.id,
-        ) if rand(2) == 1
+          contest_id: contest.id
+        )
       end
 
       [*4..12].sample.times do |j|
@@ -45,24 +46,24 @@ namespace :sample_data do
           name_en: "SampleContest#{i} - Problem#{j}",
           description_ja: "サンプルコンテスト#{i} - 問題#{j}の説明です",
           description_en: "Description of SampleContest#{i} - Problem#{j}",
-          order: j,
+          order: j
         )
 
         data_set_small = DataSet.create(
-          label: "Small",
+          label: 'Small',
           problem_id: problem.id,
-          input: "1 2 3 4 5",
-          output: "1 2 3 4 5",
+          input: '1 2 3 4 5',
+          output: '1 2 3 4 5',
           score: (rand(200) + 1) * 10,
-          accuracy: 0,
+          accuracy: 0
         )
         data_set_large = DataSet.create(
-          label: "Large",
+          label: 'Large',
           problem_id: problem.id,
-          input: "1 2 3 4 5",
-          output: "1 2 3 4 5",
+          input: '1 2 3 4 5',
+          output: '1 2 3 4 5',
           score: (rand(200) + 1) * 10,
-          accuracy: 0,
+          accuracy: 0
         )
 
         users.each do |user|
@@ -72,15 +73,14 @@ namespace :sample_data do
             contest_id: contest.id,
             user_id: user.id
           )
-          if ended or (started and registered)
-            [*0..8].sample.times do |k|
-              submission = Submission.create(
-                user_id: user.id,
-                data_set_id: rand(2) == 1 ? data_set_small.id : data_set_large.id,
-                answer: "1 2 3 4 5",
-                judge_status_id: 1,
-              )
-            end
+          next unless ended || (started && registered)
+          [*0..8].sample.times do |_k|
+            submission = Submission.create(
+              user_id: user.id,
+              data_set_id: rand(2) == 1 ? data_set_small.id : data_set_large.id,
+              answer: '1 2 3 4 5',
+              judge_status_id: 1
+            )
           end
         end
       end
