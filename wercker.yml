@@ -27,5 +27,9 @@ build:
         code: RAILS_ENV=test bundle exec rake db:schema:load
 
     - script:
-        name: Minitest
+        name: Run minitest
         code: bundle exec rake test
+
+    - script:
+        name: Run lint
+        code: npm run lint
