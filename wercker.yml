@@ -8,6 +8,12 @@ build:
     - bigtruedata/install-node:
       version: 7.5.0
 
+    - script:
+      name: Install dependencies
+      code: |
+        sudo apt-get update
+        sudo apt-get install -y graphviz
+
     - npm-install
 
     - bundle-install
@@ -35,3 +41,9 @@ build:
       code: |
         bundle exec rubocop
         npm run lint
+
+    - script:
+      name: Generate erd
+      code: |
+        RAILS_ENV=test bundle exec rake erd
+        mv erd.pdf ${WERCKER_OUTPUT_DIR}
