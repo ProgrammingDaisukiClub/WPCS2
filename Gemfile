@@ -51,6 +51,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # letter opener for web
   gem 'letter_opener_web'
+  # model diagram generator (need graphviz)
+  gem 'rails-erd'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

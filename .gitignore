@@ -50,3 +50,6 @@ public/build/
 # Ignore log files
 npm-debug.log
 logfile
+.idea
+erd.pdf
+WPCS2.iml
