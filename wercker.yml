@@ -8,6 +8,12 @@ build:
     - bigtruedata/install-node:
       version: 7.5.0
 
+    - script:
+        name: Install dependencies
+        code: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+
     - npm-install
 
     - bundle-install
@@ -16,11 +22,11 @@ build:
       service: postgresql-docker
 
     - script:
-        name: echo ruby information
+        name: Echo ruby information
         code: |
-            echo "ruby version $(ruby --version) running"
-            echo "from location $(which ruby)"
-            echo -p "gem list: $(gem list)"
+          echo "ruby version $(ruby --version) running"
+          echo "from location $(which ruby)"
+          echo -p "gem list: $(gem list)"
 
     - script:
         name: Set up db
@@ -33,3 +39,9 @@ build:
     - script:
         name: Run lint
         code: npm run lint
+
+    - script:
+        name: Generate erd
+        code: |
+          bundle exec rake erd
+          mv erd.pdf ${WERCKER_OUTPUT_DIR}
