@@ -9,8 +9,11 @@
   "scripts": {
     "dev-build": "webpack --progress --colors --config ./webpack.config.dev.js",
     "dev-watch": "webpack --progress --colors --config ./webpack.config.dev.js --watch",
+    "fix": "tslint --type-check --project tsconfig.json --fix",
     "prod": "webpack --config ./webpack.config.prod.js",
-    "heroku-postbuild": "npm run dev-build"
+    "heroku-postbuild": "npm run dev-build",
+    "tslint": "tslint --type-check --project tsconfig.json",
+    "lint": "npm run tslint"
   },
   "repository": {
     "type": "git",
@@ -23,10 +26,12 @@
   },
   "homepage": "https://github.com/ProgrammingDaisukiClub/WPCS2#readme",
   "devDependencies": {
-    "@types/react": "^15.0.6",
-    "@types/react-dom": "^0.14.22",
+    "@types/react": "^15.0.9",
+    "@types/react-dom": "^0.14.23",
     "ts-loader": "^2.0.0",
-    "typescript": "^2.1.5",
+    "tslint": "^4.4.2",
+    "tslint-microsoft-contrib": "^4.0.0",
+    "typescript": "^2.1.6",
     "webpack": "^2.2.1"
   },
   "dependencies": {

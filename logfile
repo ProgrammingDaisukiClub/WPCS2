@@ -1,6 +1,0 @@
-LOG:  database system was shut down at 2017-02-07 17:36:56 JST
-LOG:  MultiXact member wraparound protections are now enabled
-LOG:  autovacuum launcher started
-LOG:  database system is ready to accept connections
-FATAL:  database "wpcs2_development" does not exist
-FATAL:  database "wpcs2_development" does not exist
