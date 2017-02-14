@@ -32,6 +32,64 @@ ActiveRecord::Schema.define(version: 20170214081523) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "contest_registrations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "contest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contest_id"], name: "index_contest_registrations_on_contest_id", using: :btree
+    t.index ["user_id"], name: "index_contest_registrations_on_user_id", using: :btree
+  end
+
+  create_table "contests", force: :cascade do |t|
+    t.string   "name_ja",        null: false
+    t.string   "name_en",        null: false
+    t.string   "description_ja", null: false
+    t.string   "description_en", null: false
+    t.datetime "start_at",       null: false
+    t.datetime "end_at",         null: false
+    t.float    "score_baseline", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "problems", force: :cascade do |t|
+    t.integer  "contest_id"
+    t.string   "name_ja",        null: false
+    t.string   "name_en",        null: false
+    t.string   "description_ja", null: false
+    t.string   "description_en", null: false
+    t.integer  "order",          null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["contest_id"], name: "index_problems_on_contest_id", using: :btree
+  end
+
+  create_table "submissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "test_case_id"
+    t.text     "answer",          null: false
+    t.text     "code"
+    t.integer  "language_id"
+    t.integer  "judge_status_id", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["test_case_id"], name: "index_submissions_on_test_case_id", using: :btree
+    t.index ["user_id"], name: "index_submissions_on_user_id", using: :btree
+  end
+
+  create_table "test_cases", force: :cascade do |t|
+    t.integer  "problem_id"
+    t.string   "case_name"
+    t.text     "input",                  null: false
+    t.text     "output",                 null: false
+    t.integer  "score",                  null: false
+    t.integer  "accuracy",   default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["problem_id"], name: "index_test_cases_on_problem_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -54,4 +112,10 @@ ActiveRecord::Schema.define(version: 20170214081523) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "contest_registrations", "contests"
+  add_foreign_key "contest_registrations", "users"
+  add_foreign_key "problems", "contests"
+  add_foreign_key "submissions", "test_cases"
+  add_foreign_key "submissions", "users"
+  add_foreign_key "test_cases", "problems"
 end
