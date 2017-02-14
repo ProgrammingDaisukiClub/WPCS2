@@ -51,3 +51,6 @@ public/build/
 # Ignore log files
 npm-debug.log
 logfile
+.idea/
+erd.pdf
+*.iml
