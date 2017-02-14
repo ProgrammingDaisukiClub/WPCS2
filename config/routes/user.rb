@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-=begin
-  devise_for :admins
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'welcome#index'
   devise_for :users, controllers: {
@@ -17,5 +16,4 @@ Rails.application.routes.draw do
   #if Rails.env.development?
   resources 'react_tutorial', only: ['index']
   #end
-=end
 end
