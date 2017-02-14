@@ -1,0 +1,22 @@
+Metrics/AbcSize:
+  Exclude:
+    - 'db/**/*.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'db/**/*.rb'
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'config/**/*.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/**/*.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
