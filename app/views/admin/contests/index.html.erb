@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Admin Contests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description en</th>
+      <th>Description ja</th>
+      <th>End at</th>
+      <th>Name en</th>
+      <th>Name ja</th>
+      <th>Score baseline</th>
+      <th>Start at</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_contests.each do |admin_contest| %>
+      <tr>
+        <td><%= admin_contest.description_en %></td>
+        <td><%= admin_contest.description_ja %></td>
+        <td><%= admin_contest.end_at %></td>
+        <td><%= admin_contest.name_en %></td>
+        <td><%= admin_contest.name_ja %></td>
+        <td><%= admin_contest.score_baseline %></td>
+        <td><%= admin_contest.start_at %></td>
+        <td><%= link_to 'Show', admin_contest %></td>
+        <td><%= link_to 'Edit', edit_admin_contest_path(admin_contest) %></td>
+        <td><%= link_to 'Destroy', admin_contest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Admin Contest', new_admin_contest_path %>

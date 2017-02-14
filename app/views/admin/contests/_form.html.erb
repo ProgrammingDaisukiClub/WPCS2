@@ -1,0 +1,52 @@
+<%= form_for(admin_contest) do |f| %>
+  <% if admin_contest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(admin_contest.errors.count, "error") %> prohibited this admin_contest from being saved:</h2>
+
+      <ul>
+      <% admin_contest.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description_en %>
+    <%= f.text_field :description_en %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description_ja %>
+    <%= f.text_field :description_ja %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_at %>
+    <%= f.datetime_select :end_at %>
+  </div>
+
+  <div class="field">
+    <%= f.label :name_en %>
+    <%= f.text_field :name_en %>
+  </div>
+
+  <div class="field">
+    <%= f.label :name_ja %>
+    <%= f.text_field :name_ja %>
+  </div>
+
+  <div class="field">
+    <%= f.label :score_baseline %>
+    <%= f.text_field :score_baseline %>
+  </div>
+
+  <div class="field">
+    <%= f.label :start_at %>
+    <%= f.datetime_select :start_at %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

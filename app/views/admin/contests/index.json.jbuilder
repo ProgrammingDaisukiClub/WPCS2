@@ -1,0 +1,1 @@
+json.array! @admin_contests, partial: 'admin_contests/admin_contest', as: :admin_contest
