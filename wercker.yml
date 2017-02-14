@@ -43,5 +43,6 @@ build:
     - script:
         name: Generate erd
         code: |
+          bundle exec rake db:schema:load
           bundle exec rake erd
           mv erd.pdf ${WERCKER_OUTPUT_DIR}
