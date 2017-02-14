@@ -17,7 +17,7 @@ namespace :sample_data do
         name_ja: "サンプルコンテスト#{i}",
         name_en: "SampleContest#{i}",
         description_ja: "サンプルコンテスト#{i}の説明です",
-        description_en: "description of SampleContest#{i}",
+        description_en: "Description of SampleContest#{i}",
         start_at: case i % 3
           when 1 then DateTime.now;
           when 2 then DateTime.now - 1.week;
@@ -44,7 +44,7 @@ namespace :sample_data do
           name_ja: "サンプルコンテスト#{i} - 問題#{j}",
           name_en: "SampleContest#{i} - Problem#{j}",
           description_ja: "サンプルコンテスト#{i} - 問題#{j}の説明です",
-          description_en: "description of SampleContest#{i} - Problem#{j}",
+          description_en: "Description of SampleContest#{i} - Problem#{j}",
           order: j,
         )
 
@@ -66,7 +66,13 @@ namespace :sample_data do
         )
 
         users.each do |user|
-          if contest.end_at <= DateTime.now or (contest.start_at <= DateTime.now and ContestRegistration.find_by(contest_id: contest.id, user_id: user.id))
+          ended = contest.end_at <= DateTime.now
+          started = contest.start_at <= DateTime.now
+          registered = ContestRegistration.find_by(
+            contest_id: contest.id,
+            user_id: user.id
+          )
+          if ended or (started and registered)
             [*0..8].sample.times do |k|
               submission = Submission.create(
                 user_id: user.id,
