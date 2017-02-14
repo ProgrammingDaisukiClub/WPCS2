@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ContestTest < ActiveSupport::TestCase
-  test "should create a contest object" do
+  test 'should create a contest object' do
     assert_not_nil Contest.create!(
       name_ja: 'n_ja',
       name_en: 'n_en',
@@ -9,7 +9,7 @@ class ContestTest < ActiveSupport::TestCase
       description_en: 'd_en',
       start_at: DateTime.now,
       end_at: DateTime.now,
-      score_baseline: 10,
+      score_baseline: 10
     )
   end
 end
