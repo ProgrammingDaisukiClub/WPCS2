@@ -16,20 +16,22 @@ build:
       service: postgresql-docker
 
     - script:
-        name: echo ruby information
-        code: |
-            echo "ruby version $(ruby --version) running"
-            echo "from location $(which ruby)"
-            echo -p "gem list: $(gem list)"
+      name: echo ruby information
+      code: |
+        echo "ruby version $(ruby --version) running"
+        echo "from location $(which ruby)"
+        echo -p "gem list: $(gem list)"
 
     - script:
-        name: Set up db
-        code: RAILS_ENV=test bundle exec rake db:schema:load
+      name: Set up db
+      code: RAILS_ENV=test bundle exec rake db:schema:load
 
     - script:
-        name: Run minitest
-        code: bundle exec rake test
+      name: Run minitest
+      code: bundle exec rake test
 
     - script:
-        name: Run lint
-        code: npm run lint
+      name: Run lint tools
+      code: |
+        bundle exec rubocop
+        npm run lint
