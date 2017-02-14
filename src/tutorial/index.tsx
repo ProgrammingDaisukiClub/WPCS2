@@ -1,5 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Hello from "./Hello";
+import Hello from 'tutorial/Hello';
 
-ReactDOM.render(<Hello content="hello world"/>, document.getElementById('app'));
+/**
+ * Code of the entry point in the tutorial page.
+ */
+
+ReactDOM.render(<Hello content='hello world'/>, document.getElementById('app'));
