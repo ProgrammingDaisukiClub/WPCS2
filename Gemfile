@@ -49,10 +49,12 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  # letter opener for web
+  # Show mails via Web browser
   gem 'letter_opener_web'
-  # model diagram generator (need graphviz)
+  # Generate entity relationship diagram (needing graphviz)
   gem 'rails-erd'
+  # Check code style
+  gem 'rubocop', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
