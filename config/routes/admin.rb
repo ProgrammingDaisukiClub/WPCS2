@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       confirmations: 'admin/admins/confirmations',
       passwords:     'admin/admins/passwords',
       registrations: 'admin/admins/registrations',
-      sessions:      'admin/admins/sessions',
+      sessions:      'admin/admins/sessions'
     }
   end
   namespace :admin do
