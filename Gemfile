@@ -39,6 +39,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'pry-byebug'
+  # Generate entity relationship diagram (needing graphviz)
+  gem 'rails-erd'
 end
 
 group :development do
@@ -50,8 +52,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Show mails via Web browser
   gem 'letter_opener_web'
-  # Generate entity relationship diagram (needing graphviz)
-  gem 'rails-erd'
   # Check code style
   gem 'rubocop', require: false
 end
