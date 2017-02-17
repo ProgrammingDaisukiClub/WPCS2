@@ -1,0 +1,18 @@
+AllCops:
+  Exclude:
+    - 'db/**/*.rb'
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'config/**/*.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - "**/*.rake"
