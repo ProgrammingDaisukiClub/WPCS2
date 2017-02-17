@@ -7,10 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "dev-build": "webpack --progress --colors --config ./webpack.config.dev.js",
-    "dev-watch": "webpack --progress --colors --config ./webpack.config.dev.js --watch",
+    "dev-build": "NODE_ENV=development webpack --progress --colors",
+    "dev-watch": "NODE_ENV=development webpack --progress --colors --watch",
     "fix": "tslint --type-check --project tsconfig.json --fix",
-    "prod": "webpack --config ./webpack.config.prod.js",
+    "prod": "NODE_ENV=production webpack",
     "heroku-postbuild": "npm run dev-build",
     "tslint": "tslint --type-check --project tsconfig.json",
     "lint": "npm run tslint"
