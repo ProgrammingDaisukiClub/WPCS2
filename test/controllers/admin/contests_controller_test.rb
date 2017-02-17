@@ -16,11 +16,11 @@ class Admin::ContestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create admin_contest" do
-    assert_difference('Admin::Contest.count') do
-      post admin_contests_url, params: { admin_contest: { description_en: @admin_contest.description_en, description_ja: @admin_contest.description_ja, end_at: @admin_contest.end_at, name_en: @admin_contest.name_en, name_ja: @admin_contest.name_ja, score_baseline: @admin_contest.score_baseline, start_at: @admin_contest.start_at } }
+    assert_difference('Contest.count') do
+      post admin_contests_url, params: { contest: { description_en: @admin_contest.description_en, description_ja: @admin_contest.description_ja, end_at: @admin_contest.end_at, name_en: @admin_contest.name_en, name_ja: @admin_contest.name_ja, score_baseline: @admin_contest.score_baseline, start_at: @admin_contest.start_at } }
     end
 
-    assert_redirected_to admin_contest_url(Admin::Contest.last)
+    assert_redirected_to admin_contest_url(Contest.last)
   end
 
   test "should show admin_contest" do
@@ -34,7 +34,7 @@ class Admin::ContestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update admin_contest" do
-    patch admin_contest_url(@admin_contest), params: { admin_contest: { description_en: @admin_contest.description_en, description_ja: @admin_contest.description_ja, end_at: @admin_contest.end_at, name_en: @admin_contest.name_en, name_ja: @admin_contest.name_ja, score_baseline: @admin_contest.score_baseline, start_at: @admin_contest.start_at } }
+    patch admin_contest_url(@admin_contest), params: { contest: { description_en: @admin_contest.description_en, description_ja: @admin_contest.description_ja, end_at: @admin_contest.end_at, name_en: @admin_contest.name_en, name_ja: @admin_contest.name_ja, score_baseline: @admin_contest.score_baseline, start_at: @admin_contest.start_at } }
     assert_redirected_to admin_contest_url(@admin_contest)
   end
 
