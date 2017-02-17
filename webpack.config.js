@@ -9,7 +9,11 @@ let config = {
     filename: "[name].js",
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".ts", ".tsx", ".js"],
+    modules: [
+      "node_modules",
+      path.resolve("./src"),
+    ],
   },
   module: {
     rules: [{
