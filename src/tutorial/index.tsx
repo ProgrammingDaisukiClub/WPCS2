@@ -11,7 +11,7 @@ ReactDOM.render(
   <Router history={ browserHistory }>
     <Route path='react_tutorial' component={ App }>
       <IndexRoute component={ ContestHome } />
-      <Route path='problems/:id' component={ Problem } />
+      <Route path='problems/:problemId' component={ Problem } />
       <Route path='ranking' component={ Ranking } />
     </Route>
   </Router>,
