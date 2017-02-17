@@ -1,2 +1,0 @@
-json.extract! admin_contest, :id, :description_en, :description_ja, :end_at, :name_en, :name_ja, :score_baseline, :start_at, :created_at, :updated_at
-json.url admin_contest_url(admin_contest, format: :json)

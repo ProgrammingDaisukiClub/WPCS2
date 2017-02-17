@@ -1,10 +1,10 @@
-<%= form_for(new_admin_contest_path) do |f| %>
-  <% if admin_contest.errors.any? %>
+<%= form_for([:admin, @contest]) do |f| %>
+  <% if contest.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(admin_contest.errors.count, "error") %> prohibited this admin_contest from being saved:</h2>
+      <h2><%= pluralize(contest.errors.count, "error") %> prohibited this contest from being saved:</h2>
 
       <ul>
-      <% admin_contest.errors.full_messages.each do |message| %>
+      <% contest.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

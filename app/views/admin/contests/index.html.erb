@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Admin Contests</h1>
+<h1>Contests</h1>
 
 <table>
   <thead>
@@ -17,18 +17,18 @@
   </thead>
 
   <tbody>
-    <% @admin_contests.each do |admin_contest| %>
+    <% @contests.each do |contest| %>
       <tr>
-        <td><%= admin_contest.description_en %></td>
-        <td><%= admin_contest.description_ja %></td>
-        <td><%= admin_contest.end_at %></td>
-        <td><%= admin_contest.name_en %></td>
-        <td><%= admin_contest.name_ja %></td>
-        <td><%= admin_contest.score_baseline %></td>
-        <td><%= admin_contest.start_at %></td>
-        <td><%= link_to 'Show', admin_contest_path(admin_contest) %></td>
-        <td><%= link_to 'Edit', edit_admin_contest_path(admin_contest) %></td>
-        <td><%= link_to 'Destroy', admin_contests_path(admin_contest), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= contest.description_en %></td>
+        <td><%= contest.description_ja %></td>
+        <td><%= contest.end_at %></td>
+        <td><%= contest.name_en %></td>
+        <td><%= contest.name_ja %></td>
+        <td><%= contest.score_baseline %></td>
+        <td><%= contest.start_at %></td>
+        <td><%= link_to 'Show', [:admin, contest] %></td>
+        <td><%= link_to 'Edit', edit_admin_contest_path(contest) %></td>
+        <td><%= link_to 'Destroy', [:admin, contest], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -36,4 +36,4 @@
 
 <br>
 
-<%= link_to 'New Admin Contest', new_admin_contest_path %>
+<%= link_to 'New Contest', new_admin_contest_path %>
