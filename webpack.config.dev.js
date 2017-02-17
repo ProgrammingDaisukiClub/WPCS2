@@ -10,14 +10,18 @@ module.exports = {
   },
   devtool: "source-map",
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".ts", ".tsx", ".js"],
+    modules: [
+      "node_modules",
+      path.resolve("./src"),
+    ],
   },
   module: {
     rules: [{
       test: /\.tsx?$/,
       use: [{
-        loader: "ts-loader"
-      }]
-    }]
-  }
+        loader: "ts-loader",
+      }],
+    }],
+  },
 };
