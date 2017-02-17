@@ -9,8 +9,7 @@ class Admin::ContestsController < ApplicationController
 
   # GET /contests/1
   # GET /contests/1.json
-  def show
-  end
+  def show; end
 
   # GET /contests/new
   def new
@@ -18,8 +17,7 @@ class Admin::ContestsController < ApplicationController
   end
 
   # GET /contests/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /contests
   # POST /contests.json
@@ -62,6 +60,7 @@ class Admin::ContestsController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_contest
     @contest = Contest.find(params[:id])
@@ -69,6 +68,7 @@ class Admin::ContestsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def contest_params
-    params.require(:contest).permit(:description_en, :description_ja, :end_at, :name_en, :name_ja, :score_baseline, :start_at)
+    params.require(:contest).permit(:description_en, :description_ja,
+                                    :end_at, :name_en, :name_ja, :score_baseline, :start_at)
   end
 end
