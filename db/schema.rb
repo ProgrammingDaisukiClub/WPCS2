@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214103526) do
+ActiveRecord::Schema.define(version: 20170217124715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20170214103526) do
   end
 
   create_table "data_sets", force: :cascade do |t|
-    t.integer  "problem_id"
+    t.integer  "problem_id",             null: false
     t.string   "label"
     t.text     "input",                  null: false
     t.text     "output",                 null: false
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20170214103526) do
   end
 
   create_table "problems", force: :cascade do |t|
-    t.integer  "contest_id"
+    t.integer  "contest_id",     null: false
     t.string   "name_ja",        null: false
     t.string   "name_en",        null: false
     t.string   "description_ja", null: false
@@ -82,8 +82,8 @@ ActiveRecord::Schema.define(version: 20170214103526) do
   end
 
   create_table "submissions", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "data_set_id"
+    t.integer  "user_id",         null: false
+    t.integer  "data_set_id",     null: false
     t.text     "answer",          null: false
     t.text     "code"
     t.integer  "language_id"
