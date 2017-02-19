@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Description en:</strong>
+  <%= @contest.description_en %>
+</p>
+
+<p>
+  <strong>Description ja:</strong>
+  <%= @contest.description_ja %>
+</p>
+
+<p>
+  <strong>End at:</strong>
+  <%= @contest.end_at %>
+</p>
+
+<p>
+  <strong>Name en:</strong>
+  <%= @contest.name_en %>
+</p>
+
+<p>
+  <strong>Name ja:</strong>
+  <%= @contest.name_ja %>
+</p>
+
+<p>
+  <strong>Score baseline:</strong>
+  <%= @contest.score_baseline %>
+</p>
+
+<p>
+  <strong>Start at:</strong>
+  <%= @contest.start_at %>
+</p>
+
+<%= link_to 'Edit', edit_admin_contest_path(@contest) %> |
+<%= link_to 'Back', admin_contests_path %>

@@ -7,4 +7,7 @@ Rails.application.routes.draw do
       sessions:      'admin/admins/sessions'
     }
   end
+  namespace :admin do
+    resources :contests
+  end
 end
