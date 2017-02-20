@@ -25,7 +25,7 @@ let config = {
   },
 };
 
-if(process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development") {
   Object.assign(config, {
     devtool: "source-map",
   });
