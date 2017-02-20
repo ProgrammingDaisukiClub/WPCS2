@@ -37,6 +37,10 @@ build:
       code: bundle exec rake test
 
     - script:
+      name: Run RSpec
+      code: bundle exec rspec
+
+    - script:
       name: Run lint tools
       code: |
         bundle exec rubocop

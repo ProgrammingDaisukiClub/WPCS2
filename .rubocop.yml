@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'db/**/*.rb'
+    - 'spec/*_helper.rb'
 
 Metrics/LineLength:
   Max: 120
