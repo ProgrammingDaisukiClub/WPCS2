@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Contests</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description en</th>
+      <th>Description ja</th>
+      <th>End at</th>
+      <th>Name en</th>
+      <th>Name ja</th>
+      <th>Score baseline</th>
+      <th>Start at</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contests.each do |contest| %>
+      <tr>
+        <td><%= contest.description_en %></td>
+        <td><%= contest.description_ja %></td>
+        <td><%= contest.end_at %></td>
+        <td><%= contest.name_en %></td>
+        <td><%= contest.name_ja %></td>
+        <td><%= contest.score_baseline %></td>
+        <td><%= contest.start_at %></td>
+        <td><%= link_to 'Show', [:admin, contest] %></td>
+        <td><%= link_to 'Edit', edit_admin_contest_path(contest) %></td>
+        <td><%= link_to 'Destroy', [:admin, contest], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Contest', new_admin_contest_path %>
