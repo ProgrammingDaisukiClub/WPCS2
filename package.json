@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/react": "^15.0.9",
     "@types/react-dom": "^0.14.23",
+    "@types/react-router": "^3.0.3",
     "ts-loader": "^2.0.0",
     "tslint": "^4.4.2",
     "tslint-microsoft-contrib": "^4.0.0",
@@ -36,6 +37,7 @@
   },
   "dependencies": {
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-router": "^3.0.2"
   }
 }
