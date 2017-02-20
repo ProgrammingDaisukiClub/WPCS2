@@ -19,10 +19,10 @@ let config = {
     rules: [{
       test: /\.tsx?$/,
       use: [{
-        loader: "ts-loader"
-      }]
-    }]
-  }
+        loader: "ts-loader",
+      }],
+    }],
+  },
 };
 
 if (process.env.NODE_ENV === "development") {
