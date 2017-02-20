@@ -46,7 +46,7 @@ bower.json
 node_modules/
 
 # Ignore webpack build file
-public/build/
+app/assets/javascripts/build
 
 # Ignore log files
 npm-debug.log
