@@ -8,6 +8,6 @@ Rails.application.routes.draw do
     }
   end
   namespace :admin do
-    resources :contests
+    resources :contests, :problems
   end
 end
