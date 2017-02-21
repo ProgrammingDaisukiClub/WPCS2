@@ -28,8 +28,8 @@ class Admin::ProblemsController < ApplicationController
 
     respond_to do |format|
       if @problem.save
-        format.html { redirect_to @problem, notice: 'Problem was successfully created.' }
-        format.json { render :show, status: :created, location: @problem }
+        format.html { redirect_to [:admin, @problem], notice: 'Problem was successfully created.' }
+        format.json { render :show, status: :created, location: [:admin, @problem] }
       else
         format.html { render :new }
         format.json { render json: @problem.errors, status: :unprocessable_entity }
@@ -42,8 +42,8 @@ class Admin::ProblemsController < ApplicationController
   def update
     respond_to do |format|
       if @problem.update(problem_params)
-        format.html { redirect_to @problem, notice: 'Problem was successfully updated.' }
-        format.json { render :show, status: :ok, location: @problem }
+        format.html { redirect_to [:admin, @problem], notice: 'Problem was successfully updated.' }
+        format.json { render :show, status: :ok, location: [:admin, @problem] }
       else
         format.html { render :edit }
         format.json { render json: @problem.errors, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class Admin::ProblemsController < ApplicationController
   def destroy
     @problem.destroy
     respond_to do |format|
-      format.html { redirect_to problems_url, notice: 'Problem was successfully destroyed.' }
+      format.html { redirect_to admin_problems_url, notice: 'Problem was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -69,6 +69,7 @@ class Admin::ProblemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def problem_params
-      params.fetch(:problem, {})
+      params.require(:problem).permit(
+        :name_en, :name_ja, :description_en, :description_ja, :order)
     end
 end

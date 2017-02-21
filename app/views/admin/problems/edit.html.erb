@@ -2,5 +2,5 @@
 
 <%= render 'form', problem: @problem %>
 
-<%= link_to 'Show', @problem %> |
-<%= link_to 'Back', problems_path %>
+<%= link_to 'Show', [:admin, @problem] %>
+<%= link_to 'Back', admin_problems_path %>
