@@ -9,7 +9,7 @@ class Admin::ProblemsController < ApplicationController
 
   # GET /problems/1
   # GET /problems/1.json
-  def show end
+  def show; end
 
   # GET /problems/new
   def new
@@ -17,7 +17,7 @@ class Admin::ProblemsController < ApplicationController
   end
 
   # GET /problems/1/edit
-  def edit end
+  def edit; end
 
   # POST /problems
   # POST /problems.json
