@@ -8,10 +8,10 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    options.merge(lang_param == I18n.default_locale ? { lang: lang_param } : {})
+    options.merge(lang_param != I18n.default_locale.to_s ? { lang: lang_param } : {})
   end
 
   def lang_param
-    params.fetch(:lang, I18n.default_locale)
+    params.fetch(:lang, I18n.default_locale.to_s)
   end
 end
