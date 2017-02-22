@@ -1,10 +1,14 @@
 require 'test_helper'
 
 class Admin::ContestsControllerTest < ActionDispatch::IntegrationTest
+  include Warden::Test::Helpers
+
   setup do
     @admin_contest = Contest.create!(name_ja: 'MyString', name_en: 'MyString',
                                      description_ja: 'MyString', description_en: 'MyString',
                                      start_at: Time.current, end_at: Time.current.next_month, score_baseline: 100)
+    @admin = admins(:one)
+    login_as(@admin)
   end
 
   test 'should get index' do
