@@ -37,6 +37,10 @@ build:
       code: bundle exec rake test
 
     - script:
+      name: Run RSpec
+      code: bundle exec rspec
+
+    - script:
       name: Run lint tools
       code: |
         bundle exec rubocop
@@ -47,3 +51,12 @@ build:
       code: |
         RAILS_ENV=test bundle exec rake erd
         mv erd.pdf ${WERCKER_OUTPUT_DIR}
+
+  after-steps:
+    - sherzberg/slack-notify:
+      subdomain: contestholics
+      token: $SLACK_TOKEN
+      channel: "#develop"
+      username: wercker
+      icon_url: https://avatars3.githubusercontent.com/u/1695193?s=140
+

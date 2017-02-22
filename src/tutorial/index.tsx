@@ -1,5 +1,19 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Hello from 'tutorial/Hello';
+import { browserHistory, IndexRoute, Route, Router } from 'react-router';
 
-ReactDOM.render(<Hello content='hello world'/>, document.getElementById('app'));
+import App from 'tutorial/App';
+import ContestHome from 'tutorial/ContestHome';
+import Problem from 'tutorial/Problem';
+import Ranking from 'tutorial/Ranking';
+
+ReactDOM.render(
+  <Router history={ browserHistory }>
+    <Route path='react_tutorial' component={ App }>
+      <IndexRoute component={ ContestHome } />
+      <Route path='problems/:problemId' component={ Problem } />
+      <Route path='ranking' component={ Ranking } />
+    </Route>
+  </Router>,
+  document.getElementById('app')
+);
