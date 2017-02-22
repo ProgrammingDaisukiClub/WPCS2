@@ -7,7 +7,9 @@
 one:
   email: one@test.com
   encrypted_password: <%= Admin.new.send(:password_digest, '1greetings') %>
+  confirmed_at: "2017-02-15 20:00:00 UTC"
 
 two:
   email: two@test.com
   encrypted_password: <%= Admin.new.send(:password_digest, '2greetings') %>
+  confirmed_at: "2017-02-15 20:00:00 UTC"
