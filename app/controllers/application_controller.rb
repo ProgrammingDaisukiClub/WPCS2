@@ -4,10 +4,14 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   def set_locale
-    I18n.locale = params[:lang] || I18n.default_locale
+    I18n.locale = lang_param
   end
 
   def default_url_options(options = {})
-    options.merge(params[:lang] == I18n.default_locale ? { lang: params[:lang] } : {})
+    options.merge(lang_param == I18n.default_locale ? { lang: lang_param } : {})
+  end
+
+  def lang_param
+    params.fetch(:lang, I18n.default_locale)
   end
 end
