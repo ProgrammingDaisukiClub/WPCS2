@@ -4,6 +4,8 @@ RSpec.describe Api::ContestsController, type: :controller do
   include Devise::Test::ControllerHelpers
 
   describe 'GET #show' do
+    # GET /api/contents/:id
+
     let(:params) do
       {
         id: contest.present? ? contest.id : Contest.pluck(:id).push(0).max.next,
@@ -43,91 +45,108 @@ RSpec.describe Api::ContestsController, type: :controller do
       sign_in(user) if user
     end
 
+    shared_examples 'return http not found' do
+      it 'return http not found' do
+        get :show, params: params
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    shared_examples 'return http success and json without problems' do
+      it 'return http success' do
+        get :show, params: params
+        expect(response).to have_http_status(:success)
+      end
+      it 'return json without problems' do
+        get :show, params: params
+        expect(JSON.parse(response.body)).to eq json_without_problems
+      end
+    end
+
+    shared_examples 'return http success and json with problems' do
+      it 'return http success' do
+        get :show, params: params
+        expect(response).to have_http_success(:success)
+      end
+      it 'return json with problems' do
+        get :show, params: params
+        expect(JSON.parse(response.body)).to eq json_with_problems
+      end
+    end
+
     ['ja', 'en'].each do |language|
       let(:lang) { language }
 
-      shared_examples 'return http not found' do
-        it 'return http not found' do
-          get :show, params: params
-          expect(response).to have_http_status(:not_found)
+      describe 'Case 1' do
+        context 'when the contest does not exist and the user does not login,' do
+          let(:contest) { nil }
+          let(:user)    { nil }
+          it_behaves_like 'return http not found'
         end
-      end
-      context 'when the contest does not exist and the user does not login,' do
-        let(:contest) { nil }
-        let(:user)    { nil }
-        it_behaves_like 'return http not found'
-      end
-      context 'when the contest does not exist and the user logins,' do
-        let(:contest) { nil }
-        let(:user)    { create(:user) }
-        it_behaves_like 'return http not found'
+
+        context 'when the contest does not exist and the user logins,' do
+          let(:contest) { nil }
+          let(:user)    { create(:user) }
+          it_behaves_like 'return http not found'
+        end
       end
 
-      shared_examples 'return http success and json without problems' do
-        it 'return http success' do
-          get :show, params: params
-          expect(response).to have_http_status(:success)
+      describe 'Case 2' do
+        context 'when the user does not login before the contest starts,' do
+          let(:contest) { create(:contest_preparing) }
+          let(:user)    { nil }
+          it_behaves_like 'return http success and json without problems'
         end
-        it 'return json without problems' do
-          get :show, params: params
-          expect(JSON.parse(response.body)).to eq json_without_problems
+
+        context 'when the user does not login during the contest,' do
+          let(:contest) { create(:contest_holding) }
+          let(:user)    { nil }
+          it_behaves_like 'return http success and json without problems'
         end
-      end
-      context 'when the user does not login before the contest starts,' do
-        let(:contest) { create(:contest_preparing) }
-        let(:user)    { nil }
-        it_behaves_like 'return http success and json without problems'
-      end
-      context 'when the user does not login during the contest,' do
-        let(:contest) { create(:contest_holding) }
-        let(:user)    { nil }
-        it_behaves_like 'return http success and json without problems'
-      end
-      context 'when the user does not joined before the contest starts,' do
-        let(:contest) { create(:contest_preparing) }
-        let(:user)    { create(:user) }
-        it_behaves_like 'return http success and json without problems'
-      end
-      context 'when the user does not joined during the contest,' do
-        let(:contest) { create(:contest_holding) }
-        let(:user)    { create(:user) }
-        it_behaves_like 'return http success and json without problems'
-      end
-      context 'when the user joins before the contest start,' do
-        let(:contest) { create(:contest_preparing) }
-        let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
-        it_behaves_like 'return http success and json without problems'
+
+        context 'when the user does not joined before the contest starts,' do
+          let(:contest) { create(:contest_preparing) }
+          let(:user)    { create(:user) }
+          it_behaves_like 'return http success and json without problems'
+        end
+
+        context 'when the user does not joined during the contest,' do
+          let(:contest) { create(:contest_holding) }
+          let(:user)    { create(:user) }
+          it_behaves_like 'return http success and json without problems'
+        end
+
+        context 'when the user joins before the contest start,' do
+          let(:contest) { create(:contest_preparing) }
+          let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
+          it_behaves_like 'return http success and json without problems'
+        end
       end
 
-      shared_examples 'return http success and json with problems' do
-        it 'return http success' do
-          get :show, params: params
-          expect(response).to have_http_success(:success)
+      describe 'Case 3' do
+        context 'when the user joins during the contest' do
+          let(:contest) { create(:contest_holding) }
+          let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
+          it_behaves_like 'return http success and json with problems'
         end
-        it 'return json with problems' do
-          get :show, params: params
-          expect(JSON.parse(response.body)).to eq json_with_problems
+
+        context 'when the user does not login after the contest' do
+          let(:contest) { create(:contest_ended) }
+          let(:user)    { nil }
+          it_behaves_like 'return http success and json with problems'
         end
-      end
-      context 'when the usre joins during the contest' do
-        let(:contest) { create(:contest_holding) }
-        let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
-        it_behaves_like 'return http success and json with problems'
-      end
-      context 'when the user does not login after the contest' do
-        let(:contest) { create(:contest_ended) }
-        let(:user)    { nil }
-        it_behaves_like 'return http success and json with problems'
-      end
-      context 'when the usre does not join after the contest' do
-        let(:contest) { create(:contest_ended) }
-        let(:user)    { create(:user) }
-        it_behaves_like 'return http success and json with problems'
-      end
-      context 'when the usre joins after the contest' do
-        let(:contest) { create(:contest_ended) }
-        let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
-        it_behaves_like 'return http success and json with problems'
+
+        context 'when the user does not join after the contest' do
+          let(:contest) { create(:contest_ended) }
+          let(:user)    { create(:user) }
+          it_behaves_like 'return http success and json with problems'
+        end
+
+        context 'when the user joins after the contest' do
+          let(:contest) { create(:contest_ended) }
+          let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
+          it_behaves_like 'return http success and json with problems'
+        end
       end
     end
   end
