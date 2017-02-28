@@ -4,11 +4,14 @@
     <title>WPCS2</title>
     <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= yield :styles %>
   </head>
 
   <body>
     <%= yield %>
+
+    <%= javascript_include_tag 'application' %>
+    <%= yield :scripts %>
   </body>
 </html>
