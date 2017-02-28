@@ -4,15 +4,17 @@ class Api::ContestsController < ApplicationController
       render(json: {}, status: 404) && return
     end
 
-    isUserRegistered = contest.registered_by(current_user)
-    if !signed_in? || (!contest.ended? && !isUserRegistered) || (!contest.started? && isUserRegistered)
-      render json: {
-        id: params[:id],
-        name: params[:lang] == 'ja' ? contest.name_ja : contest.name_en,
-        description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en,
-        joined: isUserRegistered
-      }, status: 404 and return
+    is_user_registered = contest.registered_by(current_user)
+
+    if !signed_in? || (!contest.ended? && !is_user_registered) || (!contest.started? && is_user_registered)
+      render(json: {
+               id: params[:id],
+               name: params[:lang] == 'ja' ? contest.name_ja : contest.name_en,
+               description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en,
+               joined: is_user_registered
+             }, status: 404) && return
     end
+    render json: {}
   end
 
   def entry

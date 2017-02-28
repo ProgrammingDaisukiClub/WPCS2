@@ -6,14 +6,14 @@ class Contest < ApplicationRecord
   has_many :users, through: :contest_registrations
 
   def started?
-    self.start_at < Time.now
+    start_at < Time.now
   end
 
   def ended?
-    self.end_at < Time.now
+    end_at < Time.now
   end
 
   def registered_by(user)
-    ContestRegistration.find_by(user_id: user.id, contest_id: self.id).present?
+    ContestRegistration.find_by(user_id: user.id, contest_id: id).present?
   end
 end
