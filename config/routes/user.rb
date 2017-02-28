@@ -8,6 +8,16 @@ Rails.application.routes.draw do
     sessions:      'users/sessions'
   }
 
+  namespace :api do
+    resources 'contests', only: %w(show) do
+      member do
+        post 'entry'
+        get  'ranking'
+      end
+      resources 'submissions', only: %w(index create)
+    end
+  end
+
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   # if Rails.env.development?
