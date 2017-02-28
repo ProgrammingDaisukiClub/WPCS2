@@ -20,7 +20,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   shared_examples 'return HTTP 404 Not Found' do
     it 'return HTTP 404 Not Found' do
-      pending 'now implementing'
       get :show, params: params
       expect(response).to have_http_status 404
     end
