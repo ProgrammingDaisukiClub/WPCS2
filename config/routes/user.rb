@@ -7,6 +7,12 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     sessions:      'users/sessions'
   }
+  resources 'contests', only: ['show'] do
+    resources 'problems', only: ['show']
+    member do
+      get 'ranking'
+    end
+  end
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
