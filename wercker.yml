@@ -2,6 +2,9 @@ box: ruby:2.4.0
 
 services:
   - postgres
+    env:
+      POSTGRES_PASSWORD: ourlittlesecret
+      POSTGRES_USER: myuser
 
 build:
   steps:
