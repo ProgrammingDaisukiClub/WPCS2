@@ -3,17 +3,21 @@ AllCops:
     - 'db/**/*.rb'
     - 'spec/*_helper.rb'
 
-Metrics/LineLength:
-  Max: 120
-  Exclude:
-    - 'config/**/*.rb'
+Style/ClassAndModuleChildren:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
 
-Style/ClassAndModuleChildren:
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/BlockLength:
   Exclude:
     - "**/*.rake"
+    - 'spec/**/*.rb'
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'config/**/*.rb'

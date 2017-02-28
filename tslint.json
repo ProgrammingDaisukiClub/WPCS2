@@ -3,7 +3,8 @@
   "rules": {
     "interface-name": false, // c.f. https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
     "missing-jsdoc": false,
-    "no-default-export": false // required to use react
+    "no-default-export": false, // required to use react
+    "no-use-before-declare": false // due to https://github.com/palantir/tslint/issues/1400
   },
   "jsRules": {
   },

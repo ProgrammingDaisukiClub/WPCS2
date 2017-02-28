@@ -6,13 +6,14 @@ services:
 build:
   steps:
     - bigtruedata/install-node:
-      version: 7.5.0
+      version: 7.6.0
 
     - script:
       name: Install dependencies
       code: |
         sudo apt-get update
         sudo apt-get install -y graphviz
+        gem update --system
 
     - npm-install
 
@@ -51,3 +52,12 @@ build:
       code: |
         RAILS_ENV=test bundle exec rake erd
         mv erd.pdf ${WERCKER_OUTPUT_DIR}
+
+  after-steps:
+    - sherzberg/slack-notify:
+      subdomain: contestholics
+      token: $SLACK_TOKEN
+      channel: "#develop"
+      username: wercker
+      icon_url: https://avatars3.githubusercontent.com/u/1695193?s=140
+
