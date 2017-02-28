@@ -89,7 +89,7 @@ RSpec.describe Api::ContestsController, type: :controller do
 
     shared_examples 'return http success and json with problems' do
       it 'return http success' do
-        pending 'now mplementing'
+        pending 'now implementing'
         get :show, params: params
         expect(response).to have_http_success(:success)
       end
