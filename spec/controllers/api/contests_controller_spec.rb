@@ -80,9 +80,8 @@ RSpec.describe Api::ContestsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
       it 'return json without problems' do
-        pending 'now implementing'
         get :show, params: params
-        expect(JSON.parse(response.body)).to eq json_without_problems
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq json_without_problems
       end
     end
 
@@ -95,7 +94,7 @@ RSpec.describe Api::ContestsController, type: :controller do
       it 'return json with problems' do
         pending 'now implementing'
         get :show, params: params
-        expect(JSON.parse(response.body)).to eq json_with_problems
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq json_with_problems
       end
     end
 
