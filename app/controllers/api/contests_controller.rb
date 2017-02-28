@@ -1,6 +1,10 @@
 class Api::ContestsController < ApplicationController
   def show
-    render json: {}
+    if !signed_in? && !Contest.exists?(id: params[:id])
+      render json: { error: '404 error' }, status: 404
+    else
+      render json: {}
+    end
   end
 
   def entry
