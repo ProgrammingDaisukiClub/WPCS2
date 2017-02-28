@@ -4,4 +4,16 @@ class Contest < ApplicationRecord
   has_many :submissions, through: :problems
   has_many :contest_registrations
   has_many :users, through: :contest_registrations
+
+  def started?
+    self.start_at < Time.now
+  end
+
+  def ended?
+    self.end_at < Time.now
+  end
+
+  def registered_by(user)
+    ContestRegistration.find_by(user_id: user.id).present?
+  end
 end
