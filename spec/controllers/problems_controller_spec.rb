@@ -7,7 +7,7 @@ RSpec.describe ProblemsController, type: :controller do
 
     shared_examples 'raise ActionController::RoutingError' do
       it 'raise ActionController::RoutingError' do
-        expect{ subject }.to raise_error(ActionController::RoutingError, 'Not Found')
+        expect { subject }.to raise_error(ActionController::RoutingError, 'Not Found')
       end
     end
 

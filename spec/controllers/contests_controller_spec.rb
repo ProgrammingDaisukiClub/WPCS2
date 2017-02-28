@@ -8,7 +8,7 @@ RSpec.describe ContestsController, type: :controller do
       let(:contest) { nil }
 
       it 'return http not found' do
-        expect{ subject }.to raise_error(ActionController::RoutingError, 'Not Found')
+        expect { subject }.to raise_error(ActionController::RoutingError, 'Not Found')
       end
     end
 
