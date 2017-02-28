@@ -43,7 +43,6 @@ RSpec.describe Api::ContestsController, type: :controller do
   end
 
   describe 'GET /api/contents/:id' do
-
     let(:json_without_problems) do
       {
         id: contest.id,
@@ -101,7 +100,7 @@ RSpec.describe Api::ContestsController, type: :controller do
       end
     end
 
-    ['ja', 'en'].each do |language|
+    %w(ja en).each do |language|
       let(:lang) { language }
 
       describe 'Case 1' do
@@ -145,7 +144,9 @@ RSpec.describe Api::ContestsController, type: :controller do
 
         context 'when the user joins before the contest start,' do
           let(:contest) { create(:contest_preparing) }
-          let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
+          let(:user) do
+            create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) }
+          end
           it_behaves_like 'return http success and json without problems'
         end
       end
@@ -153,7 +154,9 @@ RSpec.describe Api::ContestsController, type: :controller do
       describe 'Case 3' do
         context 'when the user joins during the contest' do
           let(:contest) { create(:contest_holding) }
-          let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
+          let(:user) do
+            create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) }
+          end
           it_behaves_like 'return http success and json with problems'
         end
 
@@ -171,7 +174,9 @@ RSpec.describe Api::ContestsController, type: :controller do
 
         context 'when the user joins after the contest' do
           let(:contest) { create(:contest_ended) }
-          let(:user)    { create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) } }
+          let(:user) do
+            create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) }
+          end
           it_behaves_like 'return http success and json with problems'
         end
       end
@@ -179,7 +184,7 @@ RSpec.describe Api::ContestsController, type: :controller do
   end
 
   describe 'POST /api/contests/:id/entry' do
-    ['ja', 'en'].each do |language|
+    %w(ja en).each do |language|
       let(:lang) { language }
 
       describe 'Case 1: contest NOT found' do
@@ -187,7 +192,7 @@ RSpec.describe Api::ContestsController, type: :controller do
           let(:contest) { nil }
 
           context 'NOT logged in' do
-            let(:user)    { nil }
+            let(:user) { nil }
             it_behaves_like 'return HTTP 404 Not Found'
           end
 
@@ -200,7 +205,7 @@ RSpec.describe Api::ContestsController, type: :controller do
 
       describe 'Case 2: NOT logged in or AFTER contest period' do
         context 'NOT logged in' do
-          let(:user)    { nil }
+          let(:user) { nil }
 
           context 'BEFORE contest period' do
             let(:contest) { create(:contest_preparing) }
@@ -229,7 +234,6 @@ RSpec.describe Api::ContestsController, type: :controller do
             it_behaves_like 'return HTTP 403 Forbidden'
           end
         end
-
       end
 
       describe 'Case 3: Already participated' do
@@ -267,7 +271,6 @@ RSpec.describe Api::ContestsController, type: :controller do
           let(:user)    { create(:user) }
 
           context 'NOT participated' do
-
             context 'BEFORE contest period' do
               let(:contest) { create(:contest_preparing) }
 
@@ -279,11 +282,9 @@ RSpec.describe Api::ContestsController, type: :controller do
 
               it_behaves_like 'return HTTP 201 Created'
             end
-
           end
         end
       end
-
     end
   end
 
