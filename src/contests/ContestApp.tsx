@@ -16,7 +16,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     super(props);
     this.state = {
       initialized: false
-    }
+    };
   }
 
   public render() {

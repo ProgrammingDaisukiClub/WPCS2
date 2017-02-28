@@ -1,7 +1,7 @@
 class ContestsController < ApplicationController
   def show; end
 
-  def ranking;
+  def ranking
     render action: :show
   end
 end
