@@ -30,6 +30,12 @@ build:
         echo -p "gem list: $(gem list)"
 
     - script:
+      name: Run lint tools
+      code: |
+        bundle exec rubocop
+        npm run lint
+
+    - script:
       name: Set up db
       code: RAILS_ENV=test bundle exec rake db:schema:load
 
@@ -40,12 +46,6 @@ build:
     - script:
       name: Run RSpec
       code: bundle exec rspec
-
-    - script:
-      name: Run lint tools
-      code: |
-        bundle exec rubocop
-        npm run lint
 
     - script:
       name: Generate erd
