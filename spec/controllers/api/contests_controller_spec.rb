@@ -10,36 +10,6 @@ RSpec.describe Api::ContestsController, type: :controller do
     }
   end
 
-  shared_examples 'return HTTP 200 OK' do
-    it 'return HTTP 200 OK' do
-      expect(response).to have_http_status 200
-    end
-  end
-
-  shared_examples 'return HTTP 201 Created' do
-    it 'return HTTP 201 Created' do
-      expect(response).to have_http_status 201
-    end
-  end
-
-  shared_examples 'return HTTP 404 Not Found' do
-    it 'return HTTP 404 Not Found' do
-      expect(response).to have_http_status 404
-    end
-  end
-
-  shared_examples 'return HTTP 403 Forbidden' do
-    it 'return HTTP 403 Forbidden' do
-      expect(response).to have_http_status 403
-    end
-  end
-
-  shared_examples 'return HTTP 409 Conflict' do
-    it 'return HTTP 409 Conflict' do
-      expect(response).to have_http_status 409
-    end
-  end
-
   describe 'GET /api/contents/:id' do
     before do
       sign_in(user) if user
@@ -220,7 +190,7 @@ RSpec.describe Api::ContestsController, type: :controller do
   describe 'POST /api/contests/:id/entry' do
     before do
       sign_in(user) if user
-      get :entry, params: params
+      post :entry, params: params
     end
 
     %w(ja en).each do |language|
