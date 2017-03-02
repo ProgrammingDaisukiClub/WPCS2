@@ -1,0 +1,11 @@
+ja:
+  layouts:
+    brand: WPCS2
+    header:
+      sign_up: "アカウント登録"
+      sign_in: "ログイン"
+      sign_out: "ログアウト"
+    footer:
+      terms_of_service: "利用規約"
+      privacy_policy: "プライバシーポリシー"
+      copyright: ©2017 Programing Daisuki Club
