@@ -13,7 +13,6 @@ RSpec.describe Api::ContestsController, type: :controller do
   shared_examples 'return HTTP 201 Created' do
     it 'return HTTP 201 Created' do
       pending 'now implementing'
-      get :show, params: params
       expect(response).to have_http_status 201
     end
   end
@@ -21,7 +20,6 @@ RSpec.describe Api::ContestsController, type: :controller do
   shared_examples 'return HTTP 404 Not Found' do
     it 'return HTTP 404 Not Found' do
       pending 'now implementing'
-      get :show, params: params
       expect(response).to have_http_status 404
     end
   end
@@ -29,7 +27,6 @@ RSpec.describe Api::ContestsController, type: :controller do
   shared_examples 'return HTTP 403 Forbidden' do
     it 'return HTTP 403 Forbidden' do
       pending 'now implementing'
-      get :show, params: params
       expect(response).to have_http_status 403
     end
   end
@@ -37,12 +34,16 @@ RSpec.describe Api::ContestsController, type: :controller do
   shared_examples 'return HTTP 409 Conflict' do
     it 'return HTTP 409 Conflict' do
       pending 'now implementing'
-      get :show, params: params
       expect(response).to have_http_status 409
     end
   end
 
   describe 'GET /api/contents/:id' do
+    before do
+      sign_in(user) if user
+      get :show, params: params
+    end
+
     let(:json_without_problems) do
       {
         id: contest.id,
@@ -69,10 +70,6 @@ RSpec.describe Api::ContestsController, type: :controller do
           }
         end
       )
-    end
-
-    before do
-      sign_in(user) if user
     end
 
     shared_examples 'return http success and json without problems' do
@@ -184,6 +181,11 @@ RSpec.describe Api::ContestsController, type: :controller do
   end
 
   describe 'POST /api/contests/:id/entry' do
+    before do
+      sign_in(user) if user
+      get :entry, params: params
+    end
+
     %w(ja en).each do |language|
       let(:lang) { language }
 
@@ -289,5 +291,28 @@ RSpec.describe Api::ContestsController, type: :controller do
   end
 
   describe 'GET /api/contests/:id/ranking' do
+    before do
+      sign_in(user) if user
+      get :ranking, params: params
+    end
+    %w(ja en).each do |language|
+      let(:lang) { language }
+
+      describe 'Case 1: contest NOT found' do
+        context 'contest NOT existed' do
+          let(:contest) { nil }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+            it_behaves_like 'return HTTP 404 Not Found'
+          end
+
+          context 'logged in' do
+            let(:user)    { create(:user) }
+            it_behaves_like 'return HTTP 404 Not Found'
+          end
+        end
+      end
+    end
   end
 end
