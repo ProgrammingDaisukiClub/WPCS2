@@ -22,3 +22,7 @@ Metrics/LineLength:
   Max: 120
   Exclude:
     - 'config/**/*.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/controllers/api/**/*.rb'
