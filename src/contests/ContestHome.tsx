@@ -2,9 +2,15 @@ import ContestShow from 'contests/ContestShow';
 import * as React from 'react';
 
 export default class ContestHome extends React.Component<{}, {}> {
+  constructor() {
+    super();
+    this.onJoinButtonClick = this.onJoinButtonClick.bind(this);
+  }
+
   private onJoinButtonClick() {
     return 'hello';
   }
+
   public render() {
     return (
       <div className='main clearfix'>
