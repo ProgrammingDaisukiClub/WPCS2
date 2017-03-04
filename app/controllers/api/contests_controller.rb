@@ -7,7 +7,7 @@ class Api::ContestsController < ApplicationController
     json_without_problems = contest.get_without_problems(params[:lang])
 
     unless signed_in?
-      json_without_problems = json_without_problems.merge(joined: false);
+      json_without_problems = json_without_problems.merge(joined: false)
       if contest.ended?
         json_with_problems = json_without_problems.merge(contest.get_problems(params[:lang]))
         render(json: json_with_problems, status: :ok) && return
@@ -25,7 +25,6 @@ class Api::ContestsController < ApplicationController
 
     if (contest.during? && is_user_registered) || contest.ended?
       json_with_problems = json_without_problems.merge(contest.get_problems(params[:lang]))
-      # binding.pry 
       render(json: json_with_problems, status: :ok) && return
     end
 
@@ -36,6 +35,19 @@ class Api::ContestsController < ApplicationController
     unless contest = Contest.find_by_id(params[:id])
       render(json: {}, status: 404) && return
     end
+
+    if !signed_in? || contest.ended?
+      render(json: {}, status: 403) && return
+    end
+    
+    if contest.registered_by(current_user)
+      render(json: {}, status: 409) && return
+    end
+
+    if contest.register(user)
+      render(json: {}, status: 201) && return 
+    end
+    
     render json: {}
   end
 

@@ -12,7 +12,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   shared_examples 'return HTTP 201 Created' do
     it 'return HTTP 201 Created' do
-      pending 'now implementing'
       get :show, params: params
       expect(response).to have_http_status 201
     end
@@ -27,7 +26,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   shared_examples 'return HTTP 403 Forbidden' do
     it 'return HTTP 403 Forbidden' do
-      pending 'now implementing'
       get :show, params: params
       expect(response).to have_http_status 403
     end
@@ -35,7 +33,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   shared_examples 'return HTTP 409 Conflict' do
     it 'return HTTP 409 Conflict' do
-      pending 'now implementing'
       get :show, params: params
       expect(response).to have_http_status 409
     end

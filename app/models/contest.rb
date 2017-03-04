@@ -45,4 +45,8 @@ class Contest < ApplicationRecord
   def registered_by(user)
     ContestRegistration.find_by(user_id: user.id, contest_id: id).present?
   end
+
+  def register(user)
+    ContestRegistration.create(user_id: user.id, contest_id: id)
+  end
 end
