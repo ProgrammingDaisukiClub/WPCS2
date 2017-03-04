@@ -1,23 +1,32 @@
 class Api::ContestsController < ApplicationController
   def show
-    unless contest = Contest.find_by_id(params[:id])
+    unless (contest = Contest.find_by_id(params[:id]))
       render(json: {}, status: :not_found) && return
     end
 
-    json_data = {
-      id: params[:id].to_i,
-      name: params[:lang] == 'ja' ? contest.name_ja : contest.name_en,
-      description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en
-    }
+    json_without_problems = contest.get_without_problems(params[:lang])
 
     unless signed_in?
-      render(json: json_data.merge(joined: false), status: :ok) && return
+      json_without_problems = json_without_problems.merge(joined: false);
+      if contest.ended?
+        json_with_problems = json_without_problems.merge(contest.get_problems(params[:lang]))
+        render(json: json_with_problems, status: :ok) && return
+      else
+        render(json: json_without_problems, status: :ok) && return
+      end
     end
 
     is_user_registered = contest.registered_by(current_user)
+    json_without_problems = json_without_problems.merge(joined: is_user_registered)
 
     if (!contest.ended? && !is_user_registered) || (!contest.started? && is_user_registered)
-      render(json: json_data.merge(joined: is_user_registered), status: :ok) && return
+      render(json: json_without_problems, status: :ok) && return
+    end
+
+    if (contest.during? && is_user_registered) || contest.ended?
+      json_with_problems = json_without_problems.merge(contest.get_problems(params[:lang]))
+      # binding.pry 
+      render(json: json_with_problems, status: :ok) && return
     end
 
     render json: {}
