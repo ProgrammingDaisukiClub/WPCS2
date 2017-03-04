@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WPCS2</title>
+    <title><%= t('layouts.brand') %></title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
@@ -9,7 +9,13 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="globalWrapper">
+      <%= render partial: 'layouts/header' %>
+      <div class="globalContents">
+        <%= yield %>
+      </div>
+      <%= render partial: 'layouts/footer' %>
+    </div>
 
     <%= javascript_include_tag 'application' %>
     <%= yield :scripts %>

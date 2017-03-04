@@ -1,0 +1,6 @@
+ja:
+  activerecord:
+    attributes:
+      contest:
+    models:
+      contest: "コンテスト"
