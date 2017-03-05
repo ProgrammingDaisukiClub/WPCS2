@@ -17,7 +17,7 @@ class Contest < ApplicationRecord
     started? && !ended?
   end
 
-  def get_without_problems(lang)
+  def name_and_description(lang)
     {
       id: id,
       name: lang == 'ja' ? name_ja : name_en,
@@ -25,22 +25,15 @@ class Contest < ApplicationRecord
     }
   end
 
-  def get_problems(lang)
+  def problems_to_show(lang)
     {
       problems: problems.map do |problem|
-        data_sets = problem.data_sets.map do |data_set|
-          {
-            id: data_set.id,
-            label: data_set.label,
-            score: data_set.score
-          }
-        end
         {
           id: problem.id,
           name: lang == 'ja' ? problem.name_ja : problem.name_en,
           description: lang == 'ja' ? problem.description_ja : problem.description_en,
           data_sets: data_sets
-        }
+        }.merge(problem.label_and_score)
       end
     }
   end

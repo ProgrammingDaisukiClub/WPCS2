@@ -5,12 +5,12 @@ class Api::ContestsController < ApplicationController
       return
     end
 
-    json_without_problems = contest.get_without_problems(params[:lang])
+    json_without_problems = contest.name_and_description(params[:lang])
 
     unless signed_in?
       json_without_problems = json_without_problems.merge(joined: false)
       if contest.ended?
-        json_with_problems = json_without_problems.merge(contest.get_problems(params[:lang]))
+        json_with_problems = json_without_problems.merge(contest.problems_to_show(params[:lang]))
         render(json: json_with_problems, status: :ok)
       else
         render(json: json_without_problems, status: :ok)
@@ -24,13 +24,13 @@ class Api::ContestsController < ApplicationController
     if !contest.started? || (!contest.ended? && !is_user_registered)
       render(json: json_without_problems, status: :ok)
     else
-      json_with_problems = json_without_problems.merge(contest.get_problems(params[:lang]))
+      json_with_problems = json_without_problems.merge(contest.problems_to_show(params[:lang]))
       render(json: json_with_problems, status: :ok)
     end
   end
 
   def entry
-    unless contest = Contest.find_by_id(params[:id])
+    unless (contest = Contest.find_by_id(params[:id]))
       render(json: {}, status: 404)
       return
     end

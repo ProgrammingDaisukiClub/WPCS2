@@ -54,3 +54,4 @@ logfile
 .idea/
 erd.pdf
 *.iml
+.vscode/
