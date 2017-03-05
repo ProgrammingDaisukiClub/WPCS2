@@ -12,11 +12,10 @@ class Api::ContestsController < ApplicationController
       if contest.ended?
         json_with_problems = json_without_problems.merge(contest.get_problems(params[:lang]))
         render(json: json_with_problems, status: :ok)
-        return
       else
         render(json: json_without_problems, status: :ok)
-        return
       end
+      return
     end
 
     is_user_registered = contest.registered_by?(current_user)
@@ -24,49 +23,10 @@ class Api::ContestsController < ApplicationController
 
     if !contest.started? || (!contest.ended? && !is_user_registered)
       render(json: json_without_problems, status: :ok)
-      return
     else
       json_with_problems = json_without_problems.merge(contest.get_problems(params[:lang]))
       render(json: json_with_problems, status: :ok)
-      return
     end
-
-    render json: {
-      name: 'コンテスト名',
-      description: 'コンテスト詳細説明',
-      start_at: DateTime.now,
-      end_at: DateTime.now.tomorrow,
-      joined: false,
-      problems: [
-        {
-          id: 1,
-          name: '問題名1',
-          description: '問題詳細2',
-          data_sets: [
-            {
-              id: 1,
-              label: 'Small',
-              max_score: 100
-            },
-            {
-              id: 2,
-              label: 'Large',
-              max_score: 200
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: '問題名2',
-          description: '問題詳細2',
-          data_sets: [
-            id: 1,
-            label: 'Medium',
-            max_score: 150
-          ]
-        }
-      ]
-    }
   end
 
   def entry
@@ -79,7 +39,7 @@ class Api::ContestsController < ApplicationController
       render(json: {}, status: 403)
       return
     end
-    
+
     if contest.registered_by?(current_user)
       render(json: {}, status: 409)
       return
@@ -87,9 +47,9 @@ class Api::ContestsController < ApplicationController
 
     if contest.register(user)
       render(json: {}, status: 201)
-      return 
+      return
     end
-    
+
     render json: {}
   end
 
