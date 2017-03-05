@@ -1,3 +1,146 @@
 // Place all the styles related to the problems controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+h1, h2, h3, h4 {
+    font-family: HiraginoSans-W7;
+}
+
+p {
+    font-family: HiraginoSans-W3;
+    line-height: 1.0em;
+    font-size: 14px;
+}
+
+.btn {
+    width: 120px;
+    height: 30px;
+    border-width: 0;
+    background-color: #5ba7ff;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    box-shadow: 0 0.5px 0.8px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.clearfix {
+  overflow: auto;
+}
+
+.main {
+    position: relative;
+    width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.problem-title {
+    color: black;
+    font-size: 20px;
+    font-family: HiraginoSans-W3;
+}
+
+.problem-header {
+    position: relative;
+    line-height: 40px;
+    background: #fff;
+}
+
+.problem-header:after {
+    background: linear-gradient(to right, #5ba7ff 20%, #d0d0d0 20%, #d0d0d0 80%);
+    position: absolute;
+    content: '';
+    height: 4px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.problem-body {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.problem-nav {
+    float: left;
+    width: 34%;
+}
+
+.problem-main {
+    float: right;
+    width: 60%;
+}
+
+.section {
+	margin-bottom: 10px;
+}
+
+.section-header {
+	font-family: HiraginoSans-W7;
+	margin-bottom: 5px;
+}
+
+.section-body {
+	margin-bottom: 10px;
+}
+
+.section-footer {
+	text-align: right;
+}
+
+.submit-form-block {
+  border: solid 1.5px #979797;
+  border-radius: 3.5px;
+}
+
+.submit-form-header, .submit-form-body {
+	border-bottom: solid 1.5px #979797;
+}
+
+.submit-form-body {
+	padding-left: 5px;
+}
+
+.input-answer {
+	border-width: 0;
+	width: 100%;
+	height: 100px;
+}
+
+.center {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.tabs {
+    margin: 0;
+    padding: 0;
+}
+
+.tabs li {
+    display: inline-block;
+}
+
+.tabs li a {
+    border-width: 0;
+    font-family: HiraginoSans-W3;
+    margin-left: 4px;
+    color: #9b9b9b;
+    font-size: 15px;
+    text-align: center;
+}
+
+.tabs li a.active {
+    color: #000000;
+    border-bottom: solid 3px #5ba7ff
+}

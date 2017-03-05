@@ -19,23 +19,27 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     };
   }
 
+  public renderHeader() {
+    return (
+      <div>
+        <div>Navigation</div>
+        <ul>
+          <li><Link to={ `/contests/${this.props.params.contestId}` }>Contest Home</Link></li>
+          <li>
+            <div>Problems</div>
+            <ul>
+            </ul>
+          </li>
+          <li><Link to={ `/contests/${this.props.params.contestId}/ranking` }>Ranking</Link></li>
+        </ul>
+      </div>
+      );
+  }
+
   public render() {
     return (
       <div>
         <div>
-          <div>Navigation</div>
-          <ul>
-            <li><Link to={ `/contests/${this.props.params.contestId}` }>Contest Home</Link></li>
-            <li>
-              <div>Problems</div>
-              <ul>
-              </ul>
-            </li>
-            <li><Link to={ `/contests/${this.props.params.contestId}/ranking` }>Ranking</Link></li>
-          </ul>
-        </div>
-        <div>
-          <div>Main Contents</div>
           { this.props.children }
         </div>
       </div>
