@@ -8,25 +8,11 @@ class Api::ContestsController < ApplicationController
     json_without_problems = contest.name_and_description(params[:lang])
 
     unless signed_in?
-      json_without_problems = json_without_problems.merge(joined: false)
-      if contest.ended?
-        json_with_problems = json_without_problems.merge(contest.problems_to_show(params[:lang]))
-        render(json: json_with_problems, status: :ok)
-      else
-        render(json: json_without_problems, status: :ok)
-      end
+      show_for_no_login_user(contest, json_without_problems)
       return
     end
 
-    is_user_registered = contest.registered_by?(current_user)
-    json_without_problems = json_without_problems.merge(joined: is_user_registered)
-
-    if !contest.started? || (!contest.ended? && !is_user_registered)
-      render(json: json_without_problems, status: :ok)
-    else
-      json_with_problems = json_without_problems.merge(contest.problems_to_show(params[:lang]))
-      render(json: json_with_problems, status: :ok)
-    end
+    show_for_login_user(contest, json_without_problems)
   end
 
   def entry
@@ -66,5 +52,29 @@ class Api::ContestsController < ApplicationController
         ]
       ]
     }
+  end
+
+  private
+
+  def show_for_no_login_user(contest, json_without_problems)
+    json_without_problems = json_without_problems.merge(joined: false)
+    if contest.ended?
+      json_with_problems = json_without_problems.merge(contest.problems_to_show(params[:lang]))
+      render(json: json_with_problems, status: :ok)
+    else
+      render(json: json_without_problems, status: :ok)
+    end
+  end
+
+  def show_for_login_user(contest, json_without_problems)
+    is_user_registered = contest.registered_by?(current_user)
+    json_without_problems = json_without_problems.merge(joined: is_user_registered)
+
+    if !contest.started? || (!contest.ended? && !is_user_registered)
+      render(json: json_without_problems, status: :ok)
+    else
+      json_with_problems = json_without_problems.merge(contest.problems_to_show(params[:lang]))
+      render(json: json_with_problems, status: :ok)
+    end
   end
 end
