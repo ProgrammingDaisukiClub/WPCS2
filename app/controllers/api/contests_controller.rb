@@ -32,25 +32,15 @@ class Api::ContestsController < ApplicationController
   def entry
     unless (contest = Contest.find_by_id(params[:id]))
       render(json: {}, status: 404)
-      return
     end
 
     if !signed_in? || contest.ended?
       render(json: {}, status: 403)
-      return
-    end
-
-    if contest.registered_by?(current_user)
+    elsif contest.registered_by?(current_user)
       render(json: {}, status: 409)
-      return
-    end
-
-    if contest.register(user)
+    elsif contest.register(user)
       render(json: {}, status: 201)
-      return
     end
-
-    render json: {}
   end
 
   def ranking
