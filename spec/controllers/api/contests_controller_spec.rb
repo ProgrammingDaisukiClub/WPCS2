@@ -362,6 +362,146 @@ RSpec.describe Api::ContestsController, type: :controller do
           end
         end
       end
+
+      describe 'Case 2: access not allowed' do
+        context 'BEFORE contest period' do
+          let(:contest) { create(:contest_preparing) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+
+            it 'returns 403' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+
+          context 'logged in' do
+            let(:user) { create(:user) }
+
+            context 'NOT participated' do
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+            context 'participated' do
+              before do
+                create(:contest_registration, user: user, contest_id: contest.id)
+              end
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+          end
+        end
+
+        context 'IN contest period' do
+          let(:contest) { create(:contest_holding) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+            it 'returns 404 Not Found' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+
+          context 'logged in' do
+            let(:user) { create(:user) }
+
+            context 'NOT participated' do
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+          end
+        end
+
+        context 'AFTER contest period' do
+          let(:contest) { create(:contest_ended) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+            it 'returns 404 Not Found' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+        end
+      end
+
+      describe 'Case 3: return json' do
+        context 'BEFORE contest period' do
+          let(:contest) { create(:contest_preparing) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+
+            it 'returns 403' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+
+          context 'logged in' do
+            let(:user) { create(:user) }
+
+            context 'NOT participated' do
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+            context 'participated' do
+              before do
+                create(:contest_registration, user: user, contest_id: contest.id)
+              end
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+          end
+        end
+
+        context 'IN contest period' do
+          let(:contest) { create(:contest_holding) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+            it 'returns 404 Not Found' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+
+          context 'logged in' do
+            let(:user) { create(:user) }
+
+            context 'NOT participated' do
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+          end
+        end
+
+        context 'AFTER contest period' do
+          let(:contest) { create(:contest_ended) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+            it 'returns 404 Not Found' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+        end
+      end
     end
   end
 end
