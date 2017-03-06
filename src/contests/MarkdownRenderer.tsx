@@ -6,7 +6,7 @@ export interface Props {
   text: string;
 }
 
-export default class MarkdownRender extends React.Component<Props, {}> {
+export default class MarkdownRenderer extends React.Component<Props, {}> {
   public componentDidMount() {
     MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
   }
