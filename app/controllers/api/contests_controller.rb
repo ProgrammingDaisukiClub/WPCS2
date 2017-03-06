@@ -1,7 +1,7 @@
 class Api::ContestsController < ApplicationController
   def show
     unless (contest = Contest.find_by_id(params[:id]))
-      render(json: {}, status: :not_found)
+      render(json: {}, status: 404)
       return
     end
 
@@ -18,6 +18,7 @@ class Api::ContestsController < ApplicationController
   def entry
     unless (contest = Contest.find_by_id(params[:id]))
       render(json: {}, status: 404)
+      return
     end
 
     if !signed_in? || contest.ended?
