@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Link } from 'react-router';
+
+import Navigation from 'contests/Navigation';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   params: {
@@ -7,33 +8,184 @@ export interface ContestAppProps extends React.Props<ContestApp> {
   };
 }
 
+interface DataSet {
+  id: number;
+  label: string;
+  maxScore: number;
+  correct: boolean;
+  score: number;
+};
+
+interface Problem {
+  id: number;
+  name: string;
+  description: string;
+  dataSets: [DataSet];
+};
+
+interface Contest {
+  name: string;
+  description: string;
+  problems?: [Problem];
+  joined: boolean;
+  startAt: string;
+  endAt: string;
+};
+
 export interface ContestAppState {
   initialized: boolean;
+  contest?: Contest;
 }
 
 export default class ContestApp extends React.Component<ContestAppProps, ContestAppState> {
+  private csrfParam: string;
+  private csrfToken: string;
+
   constructor(props: ContestAppProps) {
     super(props);
+
+    this.csrfParam = document.querySelector('meta[name=csrf-param]').getAttribute('content');
+    this.csrfToken = document.querySelector('meta[name=csrf-token]').getAttribute('content');
+
     this.state = {
       initialized: false
     };
   }
 
+  public componentWillMount() {
+    this.fetchContest();
+  }
+
+  public fetchContest() {
+    fetch(`/api/contests/${this.props.params.contestId}`, {
+      credentials: 'same-origin',
+    })
+    .then((response: Response) => {
+      switch(response.status) {
+        case 200: return response.json();
+        case 404:
+        default: throw new Error;
+      }
+    })
+    .then((json: any) => {
+      let state: ContestAppState = {
+        initialized: true,
+        contest: {
+          name: json.name,
+          description: json.description,
+          joined: json.joined,
+          startAt: json.start_at,
+          endAt: json.end_at
+        }
+      };
+      if(json.problems) {
+        Object.assign(state.contest, {
+          problems: json.problems.map((problem: any) => ({
+            id: problem.id,
+            name: problem.name,
+            dataSets: problem.data_sets.map((dataSet: any) => ({
+              id: dataSet.id,
+              label: dataSet.label,
+              maxScore: dataSet.max_score,
+              correct: false,
+              // correct: dataSet.correct,
+              score: 0
+              // score: dataSet.score
+            }))
+          }))
+        });
+      }
+      this.setState(state);
+    })
+    .catch((error: Error) => console.error(error));
+  }
+
+  public join() {
+    const formData: FormData = new FormData();
+    formData.append(this.csrfParam, this.csrfToken);
+    fetch(`/api/contests/${this.props.params.contestId}/entry`, {
+        method: "post",
+        credentials: 'same-origin',
+        body: formData
+      })
+    .then((response: Response) => {
+      switch(response.status) {
+        case 201: return response.json();
+        case 403:
+        case 404:
+        case 409:
+        default: throw new Error;
+      }
+    })
+    .then(() => {
+      this.fetchContest();
+    })
+    .catch((error: Error) => console.error(error));
+  }
+
+  public submit(problemId: number, dataSetId: number, answer: string) {
+    const formData: FormData = new FormData();
+    formData.append(this.csrfParam, this.csrfToken);
+    formData.append('answer', answer);
+    fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
+      method: 'post',
+      credentials: 'same-origin',
+      body: formData
+    })
+    .then((response: Response) => {
+      switch(response.status) {
+        case 201: return response.json();
+        case 403:
+          case 404:
+          default: throw new Error;
+      }
+    })
+    .then((json: any) => {
+      const contest: Contest = this.state.contest;
+      const problems: [Problem] = contest.problems;
+      const problemIndex: number = problems.findIndex((problem) => problem.id === problemId);
+      const problem: Problem = problems[problemIndex];
+      const dataSets: [DataSet] = problem.dataSets;
+      const dataSetIndex: number = dataSets.findIndex((dataSet) => dataSet.id === dataSetId);
+      const dataSet: DataSet = dataSets[dataSetIndex];
+
+      let state: ContestAppState = Object.assign({}, this.state);
+      if(!dataSet.correct && json.correct) {
+        Object.assign(state, {
+          contest: Object.assign({}, contest, {
+            problems: [
+              ...problems.slice(0, problemIndex),
+              Object.assign({}, problem, {
+                dataSets: [
+                  ...dataSets.slice(0, dataSetIndex),
+                  Object.assign({}, dataSet, {
+                    correct: true,
+                    score: json.score
+                  }),
+                  ...dataSets.slice(dataSetIndex + 1)
+                ]
+              }),
+              ...problems.slice(problemIndex + 1)
+            ]
+          })
+        })
+      }
+      this.setState(state);
+    })
+    .catch((error: Error) => console.error(error));
+  }
+
   public render() {
+    if(!this.state.initialized) {
+      return <div>now initializing...</div>
+    }
+
     return (
       <div>
-        <div>
-          <div>Navigation</div>
-          <ul>
-            <li><Link to={ `/contests/${this.props.params.contestId}` }>Contest Home</Link></li>
-            <li>
-              <div>Problems</div>
-              <ul>
-              </ul>
-            </li>
-            <li><Link to={ `/contests/${this.props.params.contestId}/ranking` }>Ranking</Link></li>
-          </ul>
-        </div>
+        <Navigation
+          contestId={ this.props.params.contestId }
+          problems={ this.state.contest.problems }
+        />
         <div>
           <div>Main Contents</div>
           { this.props.children }
