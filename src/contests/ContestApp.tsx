@@ -186,10 +186,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           contestId={ this.props.params.contestId }
           problems={ this.state.contest.problems }
         />
-        <div>
-          <div>Main Contents</div>
-          { this.props.children }
-        </div>
+        { this.props.children }
       </div>
     );
   }
