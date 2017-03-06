@@ -20,25 +20,25 @@ export default class ContestShow extends React.Component<ContestShowProps, {}> {
   private renderButton() {
     const now = new Date();
     if (!this.props.joined && now < this.props.endAt && now > this.props.startAt) {
-      return (<div className='center'><button className='btn'>参加する</button></div>);
+      return (<div className='contest__body--center'><button className='contest__body__btn'>参加する</button></div>);
     }
   }
 
   public render() {
     return (
-      <div className='contest-main'>
-        <div> 
-          <div className='contest-header'> <span className='contest-title'>{ this.props.name }</span> </div>
-          <div className='contest-body clearfix'>
-            { this.renderButton() }
-            { this.props.description }
-            <br />
-            <h4> プログラミングコンテストとは？</h4>
-            <p> プログラミングコンテストは〜 </p>
-            <h4> ルール </h4>
-            <h4> 問題 </h4>
-          </div>  
+      <div className='contest'>
+        <div className='contest__header'> 
+          <span className='contest__header__title'>{ this.props.name }</span> 
         </div>
+        <div className='contest__body contest--clearfix'>
+          { this.renderButton() }
+          { this.props.description }
+          <br />
+          <h4> プログラミングコンテストとは？</h4>
+          <p> プログラミングコンテストは〜 </p>
+          <h4> ルール </h4>
+          <h4> 問題 </h4>
+        </div>  
       </div>
     );
   }
