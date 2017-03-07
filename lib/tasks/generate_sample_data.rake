@@ -4,6 +4,7 @@ namespace :sample_data do
     user_ids = []
     20.times do |i|
       user = User.create(
+        name: "user #{i}",
         email: "sample-user-#{i}@example.com",
         password: 'password',
         password_confirmation: 'password'
