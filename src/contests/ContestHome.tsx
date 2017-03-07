@@ -13,8 +13,8 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
   }
 
   private renderButton() {
-    const now = new Date();
-    if(this.props.contest.joined || now > this.props.contest.endAt) {
+    const now: Date = new Date();
+    if(this.props.contest.joined || this.props.contest.endAt < now) {
       return null
     }
 
@@ -29,11 +29,11 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
 
   public render() {
     return (
-      <div className='contest'>
-        <div className='contest__header'>
-          <span className='contest__header__title'>{ this.props.contest.name }</span>
+      <div className='contestHome'>
+        <div className='contestHome__header'>
+          <span className='contestHome__header__title'>{ this.props.contest.name }</span>
         </div>
-        <div className='contest__body contest--clearfix'>
+        <div className='contestHome__body contestHome--clearfix'>
           { this.renderButton() }
           { this.props.contest.description }
         </div>

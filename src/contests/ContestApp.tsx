@@ -164,7 +164,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     }
 
     return (
-      <div>
+      <div className="container">
         <Navigation
           contest={ this.state.contest }
         />
