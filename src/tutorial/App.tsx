@@ -22,6 +22,7 @@ export default class App extends React.Component<{}, {}> {
               </ul>
             </li>
             <li><Link to='/react_tutorial/ranking'>Ranking</Link></li>
+            <li><Link to='/react_tutorial/statement_test'>Statement Parse Test</Link></li>
           </ul>
         </div>
         <div>
