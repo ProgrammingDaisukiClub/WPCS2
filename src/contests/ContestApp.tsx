@@ -78,10 +78,8 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
               id: dataSet.id,
               label: dataSet.label,
               maxScore: dataSet.max_score,
-              correct: false,
-              // correct: dataSet.correct,
-              score: 0
-              // score: dataSet.score
+              correct: dataSet.correct,
+              score: dataSet.score
             }))
           }))
         });
