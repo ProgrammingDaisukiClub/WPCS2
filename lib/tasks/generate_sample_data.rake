@@ -76,11 +76,13 @@ namespace :sample_data do
           )
           next unless ended || (started && registered)
           [*0..8].sample.times do |_k|
+            jstatus = rand(3)
             Submission.create(
               user_id: user.id,
               data_set_id: rand(2) == 1 ? data_set_small.id : data_set_large.id,
               answer: '1 2 3 4 5',
-              judge_status_id: 1
+              judge_status_id: jstatus,
+              score: jstatus == 2 ? rand(10_001) : nil
             )
           end
         end
