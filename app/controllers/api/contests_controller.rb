@@ -35,6 +35,11 @@ class Api::ContestsController < ApplicationController
       render(json: {}, status: 404)
       return
     end
+
+    if !signed_in? || !contest.started? || (contest.during? && !contest.registered_by?(current_user)) 
+      render(json: {}, status: 403)
+    end
+    
     render json: {
       users: [
         id: 1,
