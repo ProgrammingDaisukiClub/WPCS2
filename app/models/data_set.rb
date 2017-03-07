@@ -13,4 +13,14 @@ class DataSet < ApplicationRecord
     return 0 unless submission
     submission.score
   end
+
+  def to_json_hash(user_id)
+    {
+      id: id,
+      label: label,
+      max_score: score,
+      correct: solved_by?(user_id),
+      score: user_score(user_id)
+    }
+  end
 end

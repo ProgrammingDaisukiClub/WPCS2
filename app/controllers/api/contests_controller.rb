@@ -60,7 +60,7 @@ class Api::ContestsController < ApplicationController
   def show_for_no_login_user(contest, json_without_problems)
     json_without_problems = json_without_problems.merge(joined: false)
     if contest.ended?
-      json_with_problems = json_without_problems.merge(contest.problems_to_show(current_user.try(:id), params[:lang]))
+      json_with_problems = json_without_problems.merge(json_problems)
       render(json: json_with_problems, status: :ok)
     else
       render(json: json_without_problems, status: :ok)
@@ -74,8 +74,12 @@ class Api::ContestsController < ApplicationController
     if !contest.started? || (!contest.ended? && !is_user_registered)
       render(json: json_without_problems, status: :ok)
     else
-      json_with_problems = json_without_problems.merge(contest.problems_to_show(current_user.try(:id), params[:lang]))
+      json_with_problems = json_without_problems.merge(json_problems)
       render(json: json_with_problems, status: :ok)
     end
+  end
+
+  def json_problems(contest)
+    contest.problems_to_show(current_user.try(:id), params[:lang])
   end
 end

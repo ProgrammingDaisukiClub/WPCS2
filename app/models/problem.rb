@@ -5,15 +5,7 @@ class Problem < ApplicationRecord
 
   def label_and_score(user_id)
     {
-      data_sets: data_sets.map do |data_set|
-        {
-          id: data_set.id,
-          label: data_set.label,
-          max_score: data_set.score,
-          correct: data_set.solved_by?(user_id),
-          score: data_set.user_score(user_id)
-        }
-      end
+      data_sets: data_sets.map { |data_set| data_set.to_json_hash(user_id) }
     }
   end
 end

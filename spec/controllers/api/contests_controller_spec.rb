@@ -66,7 +66,7 @@ RSpec.describe Api::ContestsController, type: :controller do
                 label: data_set.label,
                 max_score: data_set.score,
                 correct: false,
-                score: 0,
+                score: 0
               }
             end
           }
