@@ -31,8 +31,7 @@ class Contest < ApplicationRecord
         {
           id: problem.id,
           name: lang == 'ja' ? problem.name_ja : problem.name_en,
-          description: lang == 'ja' ? problem.description_ja : problem.description_en,
-          data_sets: data_sets
+          description: lang == 'ja' ? problem.description_ja : problem.description_en
         }.merge(problem.label_and_score)
       end
     }
