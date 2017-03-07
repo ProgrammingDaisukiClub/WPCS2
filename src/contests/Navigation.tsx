@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
+import ContestObject from 'contests/ContestObject';
+
 export interface NavigationProps extends React.Props<Navigation> {
-  contestId: string;
-  problems?: [
-    {
-      id: number;
-      name: string;
-    }
-  ]
+  contest: ContestObject;
 }
 
 export default class Navigation extends React.Component<NavigationProps, {}> {
@@ -22,19 +18,19 @@ export default class Navigation extends React.Component<NavigationProps, {}> {
       <div>
         <div>Navigation</div>
         <ul>
-          <li><Link to={ `/contests/${this.props.contestId}` }>Contest Home</Link></li>
-          {this.props.problems &&
+          <li><Link to={ `/contests/${this.props.contest.id}` }>Contest Home</Link></li>
+          {this.props.contest.problems &&
             <li>
               <div>Problems</div>
               <ul>
-                {this.props.problems.map((problem) => (
-                  <li key={ problem.id }><Link to={ `/contests/${this.props.contestId}/problems/${problem.id}` }>{problem.name}</Link></li>
+                {this.props.contest.problems.map((problem) => (
+                  <li key={ problem.id }><Link to={ `/contests/${this.props.contest.id}/problems/${problem.id}` }>{problem.name}</Link></li>
                 ))}
               </ul>
             </li>
           }
-          {this.props.problems &&
-            <li><Link to={ `/contests/${this.props.contestId}/ranking` }>Ranking</Link></li>
+          {this.props.contest.problems &&
+            <li><Link to={ `/contests/${this.props.contest.id}/ranking` }>Ranking</Link></li>
           }
         </ul>
       </div>

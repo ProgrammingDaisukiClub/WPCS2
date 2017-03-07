@@ -1,40 +1,22 @@
 import * as React from 'react';
 
+import ContestObject from 'contests/ContestObject';
+import ProblemObject from 'contests/ProblemObject';
+import DataSetObject from 'contests/DataSetObject';
+
 import Navigation from 'contests/Navigation';
+import ContestHome from 'contests/ContestHome';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
+  children: React.ReactElement<any>;
   params: {
     contestId: string;
   };
 }
 
-interface DataSet {
-  id: number;
-  label: string;
-  maxScore: number;
-  correct: boolean;
-  score: number;
-};
-
-interface Problem {
-  id: number;
-  name: string;
-  description: string;
-  dataSets: [DataSet];
-};
-
-interface Contest {
-  name: string;
-  description: string;
-  problems?: [Problem];
-  joined: boolean;
-  startAt: string;
-  endAt: string;
-};
-
 export interface ContestAppState {
   initialized: boolean;
-  contest?: Contest;
+  contest?: ContestObject;
 }
 
 export default class ContestApp extends React.Component<ContestAppProps, ContestAppState> {
@@ -71,11 +53,12 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       let state: ContestAppState = {
         initialized: true,
         contest: {
+          id: json.id,
           name: json.name,
           description: json.description,
           joined: json.joined,
-          startAt: json.start_at,
-          endAt: json.end_at
+          startAt: new Date(json.start_at),
+          endAt: new Date(json.end_at)
         }
       };
       if(json.problems) {
@@ -136,18 +119,18 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       switch(response.status) {
         case 201: return response.json();
         case 403:
-          case 404:
-          default: throw new Error;
+        case 404:
+        default: throw new Error;
       }
     })
     .then((json: any) => {
-      const contest: Contest = this.state.contest;
-      const problems: [Problem] = contest.problems;
+      const contest: ContestObject = this.state.contest;
+      const problems: [ProblemObject] = contest.problems;
       const problemIndex: number = problems.findIndex((problem) => problem.id === problemId);
-      const problem: Problem = problems[problemIndex];
-      const dataSets: [DataSet] = problem.dataSets;
+      const problem: ProblemObject = problems[problemIndex];
+      const dataSets: [DataSetObject] = problem.dataSets;
       const dataSetIndex: number = dataSets.findIndex((dataSet) => dataSet.id === dataSetId);
-      const dataSet: DataSet = dataSets[dataSetIndex];
+      const dataSet: DataSetObject = dataSets[dataSetIndex];
 
       let state: ContestAppState = Object.assign({}, this.state);
       if(!dataSet.correct && json.correct) {
@@ -177,16 +160,20 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
   public render() {
     if(!this.state.initialized) {
-      return <div>now initializing...</div>
+      return <div>now initializing...</div>;
     }
 
     return (
       <div>
         <Navigation
-          contestId={ this.props.params.contestId }
-          problems={ this.state.contest.problems }
+          contest={ this.state.contest }
         />
-        { this.props.children }
+        { this.props.children && this.props.children.type === ContestHome &&
+          <ContestHome
+            contest= { this.state.contest }
+            join={ this.join.bind(this) }
+          />
+        }
       </div>
     );
   }

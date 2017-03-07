@@ -1,30 +1,42 @@
-import ContestShow from 'contests/ContestShow';
 import * as React from 'react';
 
-export default class ContestHome extends React.Component<{}, {}> {
-  constructor() {
-    super();
-    this.onJoinButtonClick = this.onJoinButtonClick.bind(this);
+import ContestObject from 'contests/ContestObject';
+
+export interface ContestHomeProps {
+  contest: ContestObject;
+  join: () => void;
+}
+
+export default class ContestHome extends React.Component<ContestHomeProps, {}> {
+  private onJoinButtonClick() {
+    this.props.join();
   }
 
-  private onJoinButtonClick() {
-    return 'hello';
+  private renderButton() {
+    const now = new Date();
+    if(this.props.contest.joined || now > this.props.contest.endAt) {
+      return null
+    }
+
+    return (
+      <div className='contest__body--center'>
+        <div className='contest__body__btn' onClick={ this.onJoinButtonClick.bind(this) }>
+          参加する
+        </div>
+      </div>
+    );
   }
 
   public render() {
     return (
-      <div className='main clearfix'>
-        <div className='contest-nav'>
-
+      <div className='contest'>
+        <div className='contest__header'>
+          <span className='contest__header__title'>{ this.props.contest.name }</span>
         </div>
-        <ContestShow
-          joined={ false }
-          description={ '早稲田大学情報理工学科2年生オリエンテーションで行うプログラミングコンテストです。2年生だけでなく3, 4年生の参加もお待ちしています。コンテスト上位者には商品が出る……かもしれない？' }
-          name={ '情理オリエンテーション' }
-          endAt={ new Date('2017/3/10') }
-          startAt={ new Date('2017/2/28') }
-          onJoinButtonClick={ this.onJoinButtonClick }
-          />
+        <div className='contest__body contest--clearfix'>
+          { this.renderButton() }
+          { this.props.contest.description }
+        </div>
       </div>
     );
   }
