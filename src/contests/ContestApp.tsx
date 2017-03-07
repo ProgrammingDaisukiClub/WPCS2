@@ -38,6 +38,14 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     this.fetchContest();
   }
 
+  public componentDidMount() {
+    this.setBorderHeight();
+  }
+
+  public componentDidUpdate() {
+    this.setBorderHeight();
+  }
+
   public fetchContest() {
     fetch(`/api/contests/${this.props.params.contestId}`, {
       credentials: 'same-origin',
@@ -158,6 +166,13 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     .catch((error: Error) => console.error(error));
   }
 
+  public setBorderHeight() {
+    const container: HTMLElement = document.querySelector('.container') as HTMLElement;
+    const border: HTMLElement = document.querySelector('.container--border') as HTMLElement;
+    if(!container || !border) return;
+    border.style.height = container.clientHeight + 'px';
+  }
+
   public render() {
     if(!this.state.initialized) {
       return <div>now initializing...</div>;
@@ -168,6 +183,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
         <Navigation
           contest={ this.state.contest }
         />
+        <div className="container--border"></div>
         { this.props.children && this.props.children.type === ContestHome &&
           <ContestHome
             contest= { this.state.contest }

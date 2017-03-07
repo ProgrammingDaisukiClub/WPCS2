@@ -12,30 +12,23 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
     this.props.join();
   }
 
-  private renderButton() {
-    const now: Date = new Date();
-    if(this.props.contest.joined || this.props.contest.endAt < now) {
-      return null
-    }
-
-    return (
-      <div className='contest__body--center'>
-        <div className='contest__body__btn' onClick={ this.onJoinButtonClick.bind(this) }>
-          参加する
-        </div>
-      </div>
-    );
-  }
-
   public render() {
     return (
-      <div className='contestHome'>
-        <div className='contestHome__header'>
-          <span className='contestHome__header__title'>{ this.props.contest.name }</span>
-        </div>
-        <div className='contestHome__body contestHome--clearfix'>
-          { this.renderButton() }
-          { this.props.contest.description }
+      <div className="contestHome">
+        <div className="contestHome--inner">
+          <h2 className="contestHome--header">{ this.props.contest.name }</h2>
+          <div className="contestHome--body">
+            { (!this.props.contest.joined && new Date() < this.props.contest.endAt) &&
+              <div className="contestHome--registrationButtonWrapper">
+                <span className="contestHome--registrationButton" onClick={ this.onJoinButtonClick.bind(this) }>
+                  参加する
+                </span>
+              </div>
+            }
+            <div className="contestHome--description">
+              { this.props.contest.description }
+            </div>
+          </div>
         </div>
       </div>
     );
