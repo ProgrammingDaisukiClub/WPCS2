@@ -36,32 +36,12 @@ class Api::ContestsController < ApplicationController
       return
     end
 
-    if !signed_in? || !contest.started? || (contest.during? && !contest.registered_by?(current_user)) 
+    if !signed_in? || !contest.started? || (contest.during? && !contest.registered_by?(current_user))
       render(json: {}, status: 403)
+      return
     end
-    
-    render json: {
-      users: [
-        id: 1,
-        name: 'ユーザー名',
-        problems: [
-          {
-            id: 1,
-            data_sets: [
-              { id: 1, label: 'small', solved_at: DateTime.now, score: 85 },
-              { id: 2, label: 'large' }
-            ]
-          },
-          {
-            id: 2,
-            data_sets: [
-              { id: 3, label: 'small', solved_at: DateTime.now.tomorrow, score: 97 },
-              { id: 4, label: 'small', solved_at: DateTime.now.yesterday, score: 63 }
-            ]
-          }
-        ]
-      ]
-    }
+
+    ranking_for_login_user(contest)
   end
 
   private
@@ -86,5 +66,33 @@ class Api::ContestsController < ApplicationController
       json_with_problems = json_without_problems.merge(contest.problems_to_show(params[:lang]))
       render(json: json_with_problems, status: :ok)
     end
+  end
+
+  def ranking_for_login_user(contest)
+    unless contest.ended? || (contest.during? && contest.registered_by?(current_user))
+      return
+    end
+    render json: {
+      users: [
+        id: 1,
+        name: 'ユーザー名',
+        problems: [
+          {
+            id: 1,
+            data_sets: [
+              { id: 1, label: 'small', solved_at: DateTime.now, score: 85 },
+              { id: 2, label: 'large' }
+            ]
+          },
+          {
+            id: 2,
+            data_sets: [
+              { id: 3, label: 'small', solved_at: DateTime.now.tomorrow, score: 97 },
+              { id: 4, label: 'small', solved_at: DateTime.now.yesterday, score: 63 }
+            ]
+          }
+        ]
+      ]
+    }
   end
 end
