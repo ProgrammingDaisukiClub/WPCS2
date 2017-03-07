@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Api::ContestsController, type: :controller do
   include Devise::Test::ControllerHelpers
+  before do
+    sign_in(user) if user
+  end
 
   let(:params) do
     {
@@ -12,7 +15,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   describe 'GET /api/contents/:id' do
     before do
-      sign_in(user) if user
       get :show, params: params
     end
 
@@ -189,7 +191,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   describe 'POST /api/contests/:id/entry' do
     before do
-      sign_in(user) if user
       post :entry, params: params
     end
 
@@ -332,7 +333,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   describe 'GET /api/contests/:id/ranking' do
     before do
-      sign_in(user) if user
       get :ranking, params: params
     end
 
@@ -432,76 +432,55 @@ RSpec.describe Api::ContestsController, type: :controller do
           end
         end
       end
-
+=begin
       describe 'Case 3: return json' do
-        context 'BEFORE contest period' do
-          let(:contest) { create(:contest_preparing) }
-
-          context 'NOT logged in' do
-            let(:user) { nil }
-
-            it 'returns 403' do
-              pending 'implementing now'
-              expect(response).to have_http_status 403
+        let(:json_ranking) do
+          {
+            problems: contest.users.map do |user|
+              {
+                id: user.id,
+                name: user.name,
+                problems: contest.problems.map do |prob|
+                  {
+                    id: prob.id,
+                  }
+                end
+              }
             end
-          end
+          }
+        end
+        context 'logged in' do
+          let(:user) { create(:user) }
 
-          context 'logged in' do
-            let(:user) { create(:user) }
+          context 'IN contest period' do
+            let(:contest) { create(:contest_holding) }
 
-            context 'NOT participated' do
-              it 'returns 403' do
-                pending 'implementing now'
-                expect(response).to have_http_status 403
-              end
-            end
-            context 'participated' do
+            context 'participted' do
               before do
                 create(:contest_registration, user: user, contest_id: contest.id)
               end
-              it 'returns 403' do
-                pending 'implementing now'
-                expect(response).to have_http_status 403
+
+              it 'returns 200' do
+                # pending 'implementing now'
+                expect(response).to have_http_status 200
+              end            
+              it 'has valid JSON' do
+                expect(JSON.parse(response.body)).to eq json_ranking
               end
             end
           end
-        end
 
-        context 'IN contest period' do
-          let(:contest) { create(:contest_holding) }
+          context 'AFTER contest period' do
+            let(:contest) { create(:contest_ended) }
 
-          context 'NOT logged in' do
-            let(:user) { nil }
-            it 'returns 404 Not Found' do
-              pending 'implementing now'
-              expect(response).to have_http_status 403
-            end
-          end
-
-          context 'logged in' do
-            let(:user) { create(:user) }
-
-            context 'NOT participated' do
-              it 'returns 403' do
-                pending 'implementing now'
-                expect(response).to have_http_status 403
-              end
-            end
-          end
-        end
-
-        context 'AFTER contest period' do
-          let(:contest) { create(:contest_ended) }
-
-          context 'NOT logged in' do
-            let(:user) { nil }
-            it 'returns 404 Not Found' do
-              pending 'implementing now'
-              expect(response).to have_http_status 403
+            it 'returns 200' do
+              # pending 'implementing now'
+              expect(response).to have_http_status 200
             end
           end
         end
       end
+=end
     end
   end
 end
