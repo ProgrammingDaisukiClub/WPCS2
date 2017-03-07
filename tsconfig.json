@@ -12,5 +12,8 @@
   "exclude": [
     ".tscache",
     "node_modules"
+  ],
+  "files": [
+    "src/contests/renderHTML.d.ts"
   ]
 }
