@@ -432,53 +432,70 @@ RSpec.describe Api::ContestsController, type: :controller do
           end
         end
       end
-      #       describe 'Case 3: return json' do
-      #         let(:json_ranking) do
-      #           {
-      #             problems: contest.users.map do |user|
-      #               {
-      #                 id: user.id,
-      #                 name: user.name,
-      #                 problems: contest.problems.map do |prob|
-      #                   {
-      #                     id: prob.id,
-      #                   }
-      #                 end
-      #               }
-      #             end
-      #           }
-      #         end
-      #         context 'logged in' do
-      #           let(:user) { create(:user) }
-      #
-      #           context 'IN contest period' do
-      #             let(:contest) { create(:contest_holding) }
-      #
-      #             context 'participted' do
-      #               before do
-      #                 create(:contest_registration, user: user, contest_id: contest.id)
-      #               end
-      #
-      #               it 'returns 200' do
-      #                 # pending 'implementing now'
-      #                 expect(response).to have_http_status 200
-      #               end
-      #               it 'has valid JSON' do
-      #                 expect(JSON.parse(response.body)).to eq json_ranking
-      #               end
-      #             end
-      #           end
-      #
-      #           context 'AFTER contest period' do
-      #             let(:contest) { create(:contest_ended) }
-      #
-      #             it 'returns 200' do
-      #               # pending 'implementing now'
-      #               expect(response).to have_http_status 200
-      #             end
-      #           end
-      #         end
-      #       end
+      describe 'Case 3: return json' do
+        let(:json_ranking) do
+          {
+            users: contest.users.map do |user|
+              {
+                id: user.id,
+                name: user.name,
+                problems: contest.problems.map do |prob|
+                  {
+                    id: prob.id,
+                    data_sets: prob.data_sets.map do |ds|
+                      sub = ds.submissions.find{
+                          |sub| sub.user == user && sub.judge_status_id == 2}
+                      if sub != nil then
+                      {
+                        id: ds.id,
+                        label: ds.label,
+                        solved_at: sub.created_at,
+                        score: sub.score
+                      }
+                      else
+                      {
+                        id: ds.id,
+                        label: ds.label,
+                      } 
+                      end
+                    end
+                  }
+                end
+              }
+            end
+          }
+        end
+        context 'logged in' do
+          let(:user) { create(:user) }
+
+          context 'IN contest period' do
+            let(:contest) { create(:contest_holding) }
+
+            context 'participted' do
+              before do
+                create(:contest_registration, user: user, contest_id: contest.id)
+              end
+
+              it 'returns 200' do
+                # pending 'implementing now'
+                expect(response).to have_http_status 200
+              end
+              it 'has valid JSON' do
+                expect(JSON.parse(response.body)).to eq json_ranking
+              end
+            end
+          end
+
+          context 'AFTER contest period' do
+            let(:contest) { create(:contest_ended) }
+
+            it 'returns 200' do
+              # pending 'implementing now'
+              expect(response).to have_http_status 200
+            end
+          end
+        end
+      end
     end
   end
 end
