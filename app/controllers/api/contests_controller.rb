@@ -72,27 +72,36 @@ class Api::ContestsController < ApplicationController
     unless contest.ended? || (contest.during? && contest.registered_by?(current_user))
       return
     end
+    users = contest.ranking
     render json: {
-      users: [
-        id: 1,
-        name: 'ユーザー名',
-        problems: [
-          {
-            id: 1,
-            data_sets: [
-              { id: 1, label: 'small', solved_at: DateTime.now, score: 85 },
-              { id: 2, label: 'large' }
-            ]
-          },
-          {
-            id: 2,
-            data_sets: [
-              { id: 3, label: 'small', solved_at: DateTime.now.tomorrow, score: 97 },
-              { id: 4, label: 'small', solved_at: DateTime.now.yesterday, score: 63 }
-            ]
-          }
-        ]
-      ]
+      users: users.map do |user|
+        {
+          id: user.id,
+          name: user.name
+        }.merge(contest.problems_for_ranking)
+      end
     }
+    # render json: {
+    #   users: [
+    #     id: 1,
+    #     name: 'ユーザー名',
+    #     problems: [
+    #       {
+    #         id: 1,
+    #         data_sets: [
+    #           { id: 1, label: 'small', solved_at: DateTime.now, score: 85 },
+    #           { id: 2, label: 'large' }
+    #         ]
+    #       },
+    #       {
+    #         id: 2,
+    #         data_sets: [
+    #           { id: 3, label: 'small', solved_at: DateTime.now.tomorrow, score: 97 },
+    #           { id: 4, label: 'small', solved_at: DateTime.now.yesterday, score: 63 }
+    #         ]
+    #       }
+    #     ]
+    #   ]
+    # }
   end
 end

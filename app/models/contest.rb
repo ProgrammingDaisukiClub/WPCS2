@@ -5,6 +5,8 @@ class Contest < ApplicationRecord
   has_many :contest_registrations
   has_many :users, through: :contest_registrations
 
+  scope :id_is, ->(id) { where(id: id) }
+
   def started?
     start_at < Time.now
   end
@@ -37,11 +39,25 @@ class Contest < ApplicationRecord
     }
   end
 
+  def problems_for_ranking
+    {
+      problems: problems.map do |problem|
+        {
+          id: problem.id
+        }.merge(problem.label_score_solvedat)
+      end
+    }
+  end
+
   def registered_by?(user)
     ContestRegistration.find_by(user_id: user.id, contest_id: id).present?
   end
 
   def register(user)
     ContestRegistration.create(user_id: user.id, contest_id: id)
+  end
+
+  def ranking
+    users = User.registered_contest_id(id)
   end
 end
