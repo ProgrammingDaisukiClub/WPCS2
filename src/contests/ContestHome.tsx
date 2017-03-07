@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import ContestObject from 'contests/ContestObject';
 
+import MarkdownRenderer from 'contests/MarkdownRenderer';
+
 export interface ContestHomeProps {
   contest: ContestObject;
   join: () => void;
@@ -25,9 +27,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
                 </span>
               </div>
             }
-            <div className="contestHome--description">
-              { this.props.contest.description }
-            </div>
+            <MarkdownRenderer text={ this.props.contest.description } />
           </div>
         </div>
       </div>
