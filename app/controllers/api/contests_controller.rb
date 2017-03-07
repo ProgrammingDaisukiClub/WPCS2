@@ -31,6 +31,10 @@ class Api::ContestsController < ApplicationController
   end
 
   def ranking
+    unless (contest = Contest.find_by_id(params[:id]))
+      render(json: {}, status: 404)
+      return
+    end
     render json: {
       users: [
         id: 1,
