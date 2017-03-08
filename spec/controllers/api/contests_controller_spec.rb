@@ -47,6 +47,8 @@ RSpec.describe Api::ContestsController, type: :controller do
         id: contest.id,
         name: params[:lang] == 'ja' ? contest.name_ja : contest.name_en,
         description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en,
+        start_at: JSON.parse(contest.start_at.to_json),
+        end_at: JSON.parse(contest.end_at.to_json),
         joined: user.present? && ContestRegistration.find_by(user_id: user.id).present?
       }
     end
@@ -62,7 +64,9 @@ RSpec.describe Api::ContestsController, type: :controller do
               {
                 id: data_set.id,
                 label: data_set.label,
-                score: data_set.score
+                max_score: data_set.score,
+                correct: false,
+                score: 0
               }
             end
           }
