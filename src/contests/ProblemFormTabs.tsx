@@ -41,7 +41,6 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
     const answer = this.state.answer;
     answer[this.state.selected] = input.value;
     this.setState({ answer : answer });
-    console.log(this.state.answer);
   }
 
   private onClick(index: number, event: React.MouseEvent<HTMLElement>) {
@@ -55,7 +54,7 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
     const activeClass = (this.state.selected === index ? 'active' : '');
     return (
       <li key={ index }>
-        <a href='#' role='main' className= { activeClass } onClick= { this.onClick.bind(this, index) }>
+        <a href='' role='main' className= { activeClass } onClick= { this.onClick.bind(this, index) }>
           { child.label }
         </a>
       </li>
@@ -64,8 +63,8 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
 
   private renderTitles() {
     return (
-      <div className='submit-form-header'>
-        <ul className='tabs'>  
+      <div className='problem__form__header'>
+        <ul className='problem__tabs'>  
           { this.props.dataSets.map(this.renderLabels.bind(this)) }
         </ul>
       </div>
@@ -74,7 +73,7 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
 
   private renderContents() {
     return (
-      <div className='submit-form-body'>
+      <div className='problem__form__body'>
         { this.props.dataSets[this.state.selected].testCase }
       </div>
     );
@@ -84,8 +83,8 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
     let value = this.state.answer[this.state.selected];
     value = value ? value : '';
     return (
-      <div className='submit-form-footer'>
-        <textarea name='answer' className='input-answer' value={ value } placeholder='Enter your answers here please...'></textarea>
+      <div className='problem__form__footer'>
+        <textarea name='answer' className='problem__form__input' value={ value } placeholder='Enter your answers here please...'></textarea>
       </div>
     );
   }
@@ -93,15 +92,15 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
   public render() {
     return (
       <form onSubmit= { this.onSubmit } onChange= { this.onChange } >
-        <div className='section-body'>
-          <div className='submit-form-block'>
+        <div className='problem__section__body'>
+          <div className='problem__form'>
             { this.renderTitles() }
             { this.renderContents() }
             { this.renderInput() }
           </div>
         </div>
-        <div className='section-footer'>
-          <button className='btn' type='submit'> 提出する </button>
+        <div className='problem__section__footer'>
+          <button className='problem__form__btn' type='submit'> 提出する </button>
         </div>
       </form>
     );
