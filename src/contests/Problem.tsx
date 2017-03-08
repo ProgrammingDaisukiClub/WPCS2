@@ -8,8 +8,8 @@ export default class Problem extends React.Component<{}, {}> {
     this.submit = this.submit.bind(this);
   }
 
-  public submit(id: number, answer: string, typeId: number) {
-    console.log(id, answer, typeId);
+  public submit(id: number, answer: string) {
+    console.log(id, answer);
 
   }
 

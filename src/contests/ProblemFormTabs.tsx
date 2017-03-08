@@ -10,11 +10,11 @@ export interface Props {
       testCase: string;
     }
   ];
-  submit: (id: number, answer: string, typeId: number) => void;
+  submit: (id: number, answer: string) => void;
 }
 
 export interface State {
-  answer: string[];
+  answer: string;
   selected: number;
 }
 
@@ -26,21 +26,19 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
     this.state = {
-      answer : [],
+      answer : '',
       selected : 0
     };
   }
 
   private onSubmit(event: React.FormEvent<HTMLElement>) {
     event.preventDefault();
-    this.props.submit(this.props.problemId, this.state.answer[this.state.selected], this.state.selected);
+    this.props.submit(this.props.problemId, this.state.answer);
   }
 
   private onChange(event: React.FormEvent<HTMLElement> ) {
     const input : any = event.target;
-    const answer = this.state.answer;
-    answer[this.state.selected] = input.value;
-    this.setState({ answer : answer });
+    this.setState({ answer : input.value });
   }
 
   private onClick(index: number, event: React.MouseEvent<HTMLElement>) {
@@ -79,16 +77,6 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
     );
   }
 
-  private renderInput() {
-    let value = this.state.answer[this.state.selected];
-    value = value ? value : '';
-    return (
-      <div className='problem__form__footer'>
-        <textarea name='answer' className='problem__form__input' value={ value } placeholder='Enter your answers here please...'></textarea>
-      </div>
-    );
-  }
-
   public render() {
     return (
       <form onSubmit= { this.onSubmit } onChange= { this.onChange } >
@@ -96,7 +84,9 @@ export default class ProblemFormTabs extends React.Component<Props, State> {
           <div className='problem__form'>
             { this.renderTitles() }
             { this.renderContents() }
-            { this.renderInput() }
+            <div className='problem__form__footer'>
+              <textarea name='answer' className='problem__form__input' value={ this.state.answer } placeholder='Type Answer...'></textarea>
+            </div>
           </div>
         </div>
         <div className='problem__section__footer'>

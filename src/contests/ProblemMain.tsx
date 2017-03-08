@@ -13,7 +13,7 @@ export interface Props {
       testCase: string;
     }
   ];
-  submit: (id: number, answer: string, typeId: number) => void;
+  submit: (id: number, answer: string) => void;
 }
 
 export interface State {
