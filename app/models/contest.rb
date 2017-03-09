@@ -60,6 +60,6 @@ class Contest < ApplicationRecord
   end
 
   def ranking
-    users = User.registered_contest_id(id)
+    User.registered_contest_id(id)
   end
 end

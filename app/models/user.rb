@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :contests, through: :contest_registrations
   has_many :submissions
 
-  scope :registered_contest_id, ->(contest_id) {
+  scope :registered_contest_id, lambda { |contest_id|
     joins(:contests).merge(Contest.id_is(contest_id))
   }
 end

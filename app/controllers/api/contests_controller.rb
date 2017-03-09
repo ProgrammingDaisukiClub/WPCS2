@@ -84,7 +84,7 @@ class Api::ContestsController < ApplicationController
     # render json: {
     #   users: [
     #     id: 1,
-    #     name: 'ユーザー名',
+    #     name: 'user name',
     #     problems: [
     #       {
     #         id: 1,
@@ -104,6 +104,7 @@ class Api::ContestsController < ApplicationController
     #   ]
     # }
   end
+
   def json_problems(contest)
     contest.problems_to_show(current_user.try(:id), params[:lang])
   end
