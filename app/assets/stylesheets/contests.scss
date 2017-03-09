@@ -1,7 +1,144 @@
 // Place all the styles related to the contests controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "variables";
+@import "mixins";
 
+.problem {
+  float: left;
+  width: 75%;
+  &--inner {
+    padding: 16px;
+  }
+  &--header {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    font-weight: normal;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background-color: $brand-color;
+    }
+  }
+  &--body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  &--score {
+    margin-bottom: 8px;
+  }
+  &--scoreHeader {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &--scoreBody {
+    font-size: 14px;
+  }
+  &--description {
+    margin-bottom: 8px;
+  }
+  &--descriptionHeader {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &--descriptionBody {
+    font-size: 14px;
+  }
+  &--submission {
+    margin-bottom: 8px;
+  }
+  &--submissionHeader {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  &--submissionForm {
+    border: 1px solid #979797;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  &--submissionDataSets {
+    @include clearfix;
+    border-bottom: 1px solid #979797;
+  }
+  &--dataSetTabs {
+    float: left;
+  }
+  &--dataSetTab,
+  &--dataSetTab__active {
+    display: inline-block;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 1px;
+    border-bottom: 3px solid transparent;
+    margin-right: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  &--dataSetTab:hover,
+  &--dataSetTab__active {
+    border-bottom: 3px solid $brand-color;
+  }
+  &--dataSetDownloadLink {
+    display: block;
+    float: right;
+    padding: 4px 8px;
+    cursor: pointer;
+    color: inherit;
+    &:visited {
+      color: inherit;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &--answer {
+    @include clear-form-input-style;
+    display: block;
+    width: 100%;
+    padding: 4px;
+    line-height: 1.5;
+    resize: none;
+    font-size: 14px;
+  }
+  &--submitWrapper {
+    text-align: right;
+  }
+  &--submit {
+    @include clear-form-input-style;
+    position: relative;
+    top: 0;
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    background-color: $brand-color;
+    box-shadow: 0 0.5px 0.8px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.15s background-color ease-in, 0.15s box-shadow ease-in;
+    &:hover {
+      text-decoration: none;
+      background-color: lighten($brand-color, 5%);
+      box-shadow: 0 0.5px 8px 0 rgba(0, 0, 0, 0.08), 0 0.5px 4px 0 rgba(0, 0, 0, 0.18);
+      color: #fff;
+    }
+    &:active {
+      top: 2px;
+    }
+  }
+}
 
 .main {
     position: relative;
@@ -71,5 +208,3 @@
         }
     }
 }
-
-
