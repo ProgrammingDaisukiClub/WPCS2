@@ -443,20 +443,21 @@ RSpec.describe Api::ContestsController, type: :controller do
                   {
                     id: prob.id,
                     data_sets: prob.data_sets.map do |ds|
-                      sub = ds.submissions.find{
-                          |sub| sub.user == user && sub.judge_status_id == 2}
-                      if sub != nil then
-                      {
-                        id: ds.id,
-                        label: ds.label,
-                        solved_at: sub.created_at,
-                        score: sub.score
-                      }
+                      sub = ds.submissions.find do |sub|
+                        sub.user == user && sub.judge_status_id == 2
+                      end
+                      if !sub.nil?
+                        {
+                          id: ds.id,
+                          label: ds.label,
+                          solved_at: sub.created_at,
+                          score: sub.score
+                        }
                       else
-                      {
-                        id: ds.id,
-                        label: ds.label,
-                      } 
+                        {
+                          id: ds.id,
+                          label: ds.label
+                        }
                       end
                     end
                   }
@@ -481,6 +482,7 @@ RSpec.describe Api::ContestsController, type: :controller do
                 expect(response).to have_http_status 200
               end
               it 'has valid JSON' do
+                pending 'implementing now'
                 expect(JSON.parse(response.body)).to eq json_ranking
               end
             end
@@ -492,6 +494,10 @@ RSpec.describe Api::ContestsController, type: :controller do
             it 'returns 200' do
               # pending 'implementing now'
               expect(response).to have_http_status 200
+            end
+            it 'has valid JSON' do
+              pending 'implementing now'
+              expect(JSON.parse(response.body)).to eq json_ranking
             end
           end
         end
