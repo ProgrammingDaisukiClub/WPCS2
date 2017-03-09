@@ -14,7 +14,9 @@ class User < ApplicationRecord
     contest = Contest.find(contest_id)
     return 0 if contest.nil?
     return 0 unless contest.registered_by?(self)
-    userid = id
-    contest.data_sets.map { |ds| ds.user_score(userid) }.inject(:+)
+    user_id = id
+    scores = contest.data_sets.map{ |data_set| data_set.user_score(user_id) }
+    return scores.inject(:+) unless scores.nil? 
+    0
   end
 end

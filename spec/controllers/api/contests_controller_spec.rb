@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::ContestsController, type: :controller do
   include Devise::Test::ControllerHelpers
+
   before do
     sign_in(user) if user
   end
@@ -327,6 +328,27 @@ RSpec.describe Api::ContestsController, type: :controller do
   end
 
   describe 'GET /api/contests/:id/ranking' do
+
+    before do
+      if !contest.nil? then
+        5.times do |_k|
+          user = create(:user);
+          create(:contest_registration, contest: contest, user: user)
+          contest.problems.each do |problem|
+            problem.data_sets.each do |data_set|
+              create(:submission,
+                  data_set: data_set, user: user, judge_status: :wrong, score: nil)
+              create(:submission,
+                  data_set: data_set, user: user, judge_status: :accepted, score: 123 * _k)
+              create(:submission,
+                  data_set: data_set, user: user, judge_status: :waiting, score: nil)
+            
+            end
+          end
+        end
+      end
+    end
+
     before do
       get :ranking, params: params
     end
@@ -435,35 +457,35 @@ RSpec.describe Api::ContestsController, type: :controller do
           end
           {
             users: sorted_users.map do |user|
-                     {
-                       id: user.id,
-                       name: user.name,
-                       total_score: user.score_for_contest(contest.id),
-                       problems: contest.problems.map do |prob|
+               {
+                 id: user.id,
+                 name: user.name,
+                 total_score: user.score_for_contest(contest.id),
+                 problems: contest.problems.map do |prob|
+                   {
+                     id: prob.id,
+                     data_sets: prob.data_sets.map do |ds|
+                       solved_sub = ds.submissions.find do |sub|
+                         sub.user == user && sub.judge_status == 2
+                       end
+                       if !solved_sub.nil?
                          {
-                           id: prob.id,
-                           data_sets: prob.data_sets.map do |ds|
-                             solved_sub = ds.submissions.find do |sub|
-                               sub.user == user && sub.judge_status == 2
-                             end
-                             if !solved_sub.nil?
-                               {
-                                 id: ds.id,
-                                 label: ds.label,
-                                 solved_at: solved_sub.created_at,
-                                 score: solved_sub.score
-                               }
-                             else
-                               {
-                                 id: ds.id,
-                                 label: ds.label
-                               }
-                             end
-                           end
+                           id: ds.id,
+                           label: ds.label,
+                           solved_at: solved_sub.created_at,
+                           score: solved_sub.score
+                         }
+                       else
+                         {
+                           id: ds.id,
+                           label: ds.label
                          }
                        end
-                     }
-                   end
+                     end
+                   }
+                 end
+               }
+             end
           }
         end
         context 'logged in' do
@@ -472,8 +494,9 @@ RSpec.describe Api::ContestsController, type: :controller do
           before do
             # inject test users to contest
             8.times do |_k|
-              u = create(:user)
-              create(:contest_registration, user_id: u.id, contest_id: contest.id)
+              user = create(:user)
+              create(:contest_registration,
+                  user_id: user.id, contest_id: contest.id)
             end
           end
 
