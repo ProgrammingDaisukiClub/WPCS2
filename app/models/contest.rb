@@ -23,18 +23,20 @@ class Contest < ApplicationRecord
     {
       id: id,
       name: lang == 'ja' ? name_ja : name_en,
-      description: lang == 'ja' ? description_ja : description_en
+      description: lang == 'ja' ? description_ja : description_en,
+      start_at: start_at,
+      end_at: end_at
     }
   end
 
-  def problems_to_show(lang)
+  def problems_to_show(user_id, lang)
     {
       problems: problems.map do |problem|
         {
           id: problem.id,
           name: lang == 'ja' ? problem.name_ja : problem.name_en,
           description: lang == 'ja' ? problem.description_ja : problem.description_en
-        }.merge(problem.label_and_score)
+        }.merge(problem.label_and_score(user_id))
       end
     }
   end

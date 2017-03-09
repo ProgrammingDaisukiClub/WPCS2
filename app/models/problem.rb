@@ -3,15 +3,9 @@ class Problem < ApplicationRecord
   has_many :data_sets
   has_many :submissions, through: :data_sets
 
-  def label_and_score
+  def label_and_score(user_id)
     {
-      data_sets: data_sets.map do |data_set|
-        {
-          id: data_set.id,
-          label: data_set.label,
-          score: data_set.score
-        }
-      end
+      data_sets: data_sets.map { |data_set| data_set.to_json_hash(user_id) }
     }
   end
 
