@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe Api::ContestsController, type: :controller do
   include Devise::Test::ControllerHelpers
 
+  before do
+    sign_in(user) if user
+  end
+
   let(:params) do
     {
       id: contest.present? ? contest.id : Contest.pluck(:id).push(0).max.next,
@@ -10,38 +14,11 @@ RSpec.describe Api::ContestsController, type: :controller do
     }
   end
 
-  shared_examples 'return HTTP 201 Created' do
-    it 'return HTTP 201 Created' do
-      pending 'wait for fixing test code'
-      get :show, params: params
-      expect(response).to have_http_status 201
-    end
-  end
-
-  shared_examples 'return HTTP 404 Not Found' do
-    it 'return HTTP 404 Not Found' do
-      get :show, params: params
-      expect(response).to have_http_status 404
-    end
-  end
-
-  shared_examples 'return HTTP 403 Forbidden' do
-    it 'return HTTP 403 Forbidden' do
-      pending 'wait for fixing test code'
-      get :show, params: params
-      expect(response).to have_http_status 403
-    end
-  end
-
-  shared_examples 'return HTTP 409 Conflict' do
-    it 'return HTTP 409 Conflict' do
-      pending 'wait for fixing test code'
-      get :show, params: params
-      expect(response).to have_http_status 409
-    end
-  end
-
   describe 'GET /api/contents/:id' do
+    before do
+      get :show, params: params
+    end
+
     let(:json_without_problems) do
       {
         id: contest.id,
@@ -65,8 +42,8 @@ RSpec.describe Api::ContestsController, type: :controller do
                 id: data_set.id,
                 label: data_set.label,
                 max_score: data_set.score,
-                correct: false,
-                score: 0
+                correct: user.nil? ? false : data_set.solved_by?(user.id),
+                score: user.nil? ? 0 : data_set.user_score(user.id)
               }
             end
           }
@@ -74,26 +51,14 @@ RSpec.describe Api::ContestsController, type: :controller do
       )
     end
 
-    before do
-      sign_in(user) if user
-    end
-
-    shared_examples 'return http success and json without problems' do
-      it 'return http success' do
-        get :show, params: params
-        expect(response).to have_http_status(:success)
-      end
+    shared_examples 'json without problems' do
       it 'return json without problems' do
         get :show, params: params
         expect(JSON.parse(response.body, symbolize_names: true)).to eq json_without_problems
       end
     end
 
-    shared_examples 'return http success and json with problems' do
-      it 'return http success' do
-        get :show, params: params
-        expect(response).to have_http_status(:success)
-      end
+    shared_examples 'json with problems' do
       it 'return json with problems' do
         get :show, params: params
         expect(JSON.parse(response.body, symbolize_names: true)).to eq json_with_problems
@@ -103,43 +68,65 @@ RSpec.describe Api::ContestsController, type: :controller do
     %w(ja en).each do |language|
       let(:lang) { language }
 
-      describe 'Case 1' do
-        context 'when the contest does not exist and the user does not login,' do
+      describe 'Case 1: contest NOT found' do
+        context 'contest NOT existed' do
           let(:contest) { nil }
-          let(:user)    { nil }
-          it_behaves_like 'return HTTP 404 Not Found'
-        end
 
-        context 'when the contest does not exist and the user logins,' do
-          let(:contest) { nil }
-          let(:user)    { create(:user) }
-          it_behaves_like 'return HTTP 404 Not Found'
+          context 'NOT logged in' do
+            let(:user) { nil }
+            it 'returns 404 Not Found' do
+              expect(response).to have_http_status 404
+            end
+          end
+
+          context 'logged in' do
+            let(:user)    { create(:user) }
+            it 'returns 404 Not Found' do
+              expect(response).to have_http_status 404
+            end
+          end
         end
       end
 
-      describe 'Case 2' do
+      describe 'Case 2: contest existed but problems are hidden' do
         context 'when the user does not login before the contest starts,' do
           let(:contest) { create(:contest_preparing) }
           let(:user)    { nil }
-          it_behaves_like 'return http success and json without problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json without problems'
         end
 
         context 'when the user does not login during the contest,' do
           let(:contest) { create(:contest_holding) }
           let(:user)    { nil }
-          it_behaves_like 'return http success and json without problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json without problems'
         end
 
         context 'when the user does not joined before the contest starts,' do
           let(:contest) { create(:contest_preparing) }
           let(:user)    { create(:user) }
-          it_behaves_like 'return http success and json without problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json without problems'
         end
 
         context 'when the user does not joined during the contest,' do
           let(:contest) { create(:contest_holding) }
           let(:user)    { create(:user) }
-          it_behaves_like 'return http success and json without problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json without problems'
         end
 
         context 'when the user joins before the contest start,' do
@@ -147,7 +134,11 @@ RSpec.describe Api::ContestsController, type: :controller do
           let(:user) do
             create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) }
           end
-          it_behaves_like 'return http success and json without problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json without problems'
         end
       end
 
@@ -157,33 +148,56 @@ RSpec.describe Api::ContestsController, type: :controller do
           let(:user) do
             create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) }
           end
-          it_behaves_like 'return http success and json with problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json with problems'
         end
 
         context 'when the user does not login after the contest' do
           let(:contest) { create(:contest_ended) }
           let(:user)    { nil }
-          it_behaves_like 'return http success and json with problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json with problems'
         end
 
         context 'when the user does not join after the contest' do
           let(:contest) { create(:contest_ended) }
           let(:user)    { create(:user) }
-          it_behaves_like 'return http success and json with problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json with problems'
         end
 
         context 'when the user joins after the contest' do
           let(:contest) { create(:contest_ended) }
           let(:user) do
-            create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) }
+            create(:user) do |user|
+              create(:contest_registration,
+                     user_id: user.id, contest_id: contest.id)
+            end
           end
-          it_behaves_like 'return http success and json with problems'
+
+          it 'returns 200 OK' do
+            expect(response).to have_http_status 200
+          end
+          it_behaves_like 'json with problems'
         end
       end
     end
   end
 
   describe 'POST /api/contests/:id/entry' do
+    before do
+      post :entry, params: params
+    end
+
     %w(ja en).each do |language|
       let(:lang) { language }
 
@@ -193,12 +207,16 @@ RSpec.describe Api::ContestsController, type: :controller do
 
           context 'NOT logged in' do
             let(:user) { nil }
-            it_behaves_like 'return HTTP 404 Not Found'
+            it 'returns 404 Not Found' do
+              expect(response).to have_http_status 404
+            end
           end
 
           context 'logged in' do
             let(:user)    { create(:user) }
-            it_behaves_like 'return HTTP 404 Not Found'
+            it 'returns 404 Not Found' do
+              expect(response).to have_http_status 404
+            end
           end
         end
       end
@@ -210,19 +228,25 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'BEFORE contest period' do
             let(:contest) { create(:contest_preparing) }
 
-            it_behaves_like 'return HTTP 403 Forbidden'
+            it 'returns 403 Forbidden' do
+              expect(response).to have_http_status 403
+            end
           end
 
           context 'IN contest period' do
             let(:contest) { create(:contest_holding) }
 
-            it_behaves_like 'return HTTP 403 Forbidden'
+            it 'returns 403 Forbidden' do
+              expect(response).to have_http_status 403
+            end
           end
 
           context 'AFTER contest period' do
             let(:contest) { create(:contest_ended) }
 
-            it_behaves_like 'return HTTP 403 Forbidden'
+            it 'returns 403 Forbidden' do
+              expect(response).to have_http_status 403
+            end
           end
         end
         context 'logged in' do
@@ -231,7 +255,9 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'AFTER contest period' do
             let(:contest) { create(:contest_ended) }
 
-            it_behaves_like 'return HTTP 403 Forbidden'
+            it 'returns 403 Forbidden' do
+              expect(response).to have_http_status 403
+            end
           end
         end
       end
@@ -248,19 +274,28 @@ RSpec.describe Api::ContestsController, type: :controller do
             context 'BEFORE contest period' do
               let(:contest) { create(:contest_preparing) }
 
-              it_behaves_like 'return HTTP 409 Conflict'
+              it 'returns 409 Conflict' do
+                pending 'implementing now'
+                expect(response).to have_http_status 409
+              end
             end
 
             context 'logged in, participated,  IN contest period' do
               let(:contest) { create(:contest_holding) }
 
-              it_behaves_like 'return HTTP 409 Conflict'
+              it 'returns 409 Conflict' do
+                pending 'implementing now'
+                expect(response).to have_http_status 409
+              end
             end
 
             context 'logged in, participated,  AFTER contest period' do
               let(:contest) { create(:contest_ended) }
 
-              it_behaves_like 'return HTTP 409 Conflict'
+              it 'returns 409 Conflict' do
+                pending 'implementing now'
+                expect(response).to have_http_status 409
+              end
             end
           end
         end
@@ -274,13 +309,17 @@ RSpec.describe Api::ContestsController, type: :controller do
             context 'BEFORE contest period' do
               let(:contest) { create(:contest_preparing) }
 
-              it_behaves_like 'return HTTP 201 Created'
+              it 'returns 201 Created' do
+                expect(response).to have_http_status 201
+              end
             end
 
             context 'IN contest period' do
               let(:contest) { create(:contest_holding) }
 
-              it_behaves_like 'return HTTP 201 Created'
+              it 'returns 201 Created' do
+                expect(response).to have_http_status 201
+              end
             end
           end
         end
@@ -289,5 +328,205 @@ RSpec.describe Api::ContestsController, type: :controller do
   end
 
   describe 'GET /api/contests/:id/ranking' do
+    before do
+      unless contest.nil?
+        5.times do |k|
+          user = create(:user)
+          create(:contest_registration, contest: contest, user: user)
+          contest.problems.each do |problem|
+            problem.data_sets.each do |data_set|
+              create(:submission,
+                     data_set: data_set, user: user, judge_status: :wrong, score: nil)
+              create(:submission,
+                     data_set: data_set, user: user, judge_status: :accepted, score: 123 * k)
+              create(:submission,
+                     data_set: data_set, user: user, judge_status: :waiting, score: nil)
+            end
+          end
+        end
+      end
+    end
+
+    before do
+      get :ranking, params: params
+    end
+
+    %w(ja en).each do |language|
+      let(:lang) { language }
+
+      describe 'Case 1: contest NOT found' do
+        context 'contest NOT existed' do
+          let(:contest) { nil }
+
+          context 'NOT logged in' do
+            pending 'implementing now'
+            let(:user) { nil }
+            it 'returns 404 Not Found' do
+              pending 'implementing now'
+              expect(response).to have_http_status 404
+            end
+          end
+
+          context 'logged in' do
+            pending 'implementing now'
+            let(:user) { create(:user) }
+            it 'returns 404 Not Found' do
+              pending 'implementing now'
+              expect(response).to have_http_status 404
+            end
+          end
+        end
+      end
+
+      describe 'Case 2: access not allowed' do
+        context 'BEFORE contest period' do
+          let(:contest) { create(:contest_preparing) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+
+            it 'returns 403' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+
+          context 'logged in' do
+            let(:user) { create(:user) }
+
+            context 'NOT participated' do
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+            context 'participated' do
+              before do
+                create(:contest_registration, user: user, contest_id: contest.id)
+              end
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+          end
+        end
+
+        context 'IN contest period' do
+          let(:contest) { create(:contest_holding) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+            it 'returns 404 Not Found' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+
+          context 'logged in' do
+            let(:user) { create(:user) }
+
+            context 'NOT participated' do
+              it 'returns 403' do
+                pending 'implementing now'
+                expect(response).to have_http_status 403
+              end
+            end
+          end
+        end
+
+        context 'AFTER contest period' do
+          let(:contest) { create(:contest_ended) }
+
+          context 'NOT logged in' do
+            let(:user) { nil }
+            it 'returns 404 Not Found' do
+              pending 'implementing now'
+              expect(response).to have_http_status 403
+            end
+          end
+        end
+      end
+      describe 'Case 3: return json' do
+        let(:json_ranking) do
+          sorted_users = contest.users.sort do |a, b|
+            a.score_for_contest(contest.id) <=>
+              b.score_for_contest(contest.id)
+          end
+          {
+            users: sorted_users.map do |user|
+                     {
+                       id: user.id,
+                       name: user.name,
+                       total_score: user.score_for_contest(contest.id),
+                       problems: contest.problems.map do |prob|
+                         {
+                           id: prob.id,
+                           data_sets: prob.data_sets.map do |ds|
+                             solved_sub = ds.submissions.find do |sub|
+                               sub.user == user && sub.judge_status == 2
+                             end
+                             if !solved_sub.nil?
+                               {
+                                 id: ds.id,
+                                 label: ds.label,
+                                 solved_at: solved_sub.created_at,
+                                 score: solved_sub.score
+                               }
+                             else
+                               {
+                                 id: ds.id,
+                                 label: ds.label
+                               }
+                             end
+                           end
+                         }
+                       end
+                     }
+                   end
+          }
+        end
+        context 'logged in' do
+          let(:user) { create(:user) }
+
+          before do
+            # inject test users to contest
+            8.times do
+              user = create(:user)
+              create(:contest_registration,
+                     user_id: user.id, contest_id: contest.id)
+            end
+          end
+
+          context 'IN contest period' do
+            let(:contest) { create(:contest_holding) }
+
+            context 'participted' do
+              it 'returns 200' do
+                # pending 'implementing now'
+                expect(response).to have_http_status 200
+              end
+              it 'has valid JSON' do
+                pending 'implementing now'
+                expect(JSON.parse(response.body)).to eq json_ranking
+              end
+            end
+          end
+
+          context 'AFTER contest period' do
+            let(:contest) { create(:contest_ended) }
+
+            it 'returns 200' do
+              # pending 'implementing now'
+              expect(response).to have_http_status 200
+            end
+            it 'has valid JSON' do
+              pending 'implementing now'
+              expect(JSON.parse(response.body)).to eq json_ranking
+            end
+          end
+        end
+      end
+    end
   end
 end
