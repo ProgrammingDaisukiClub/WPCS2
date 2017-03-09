@@ -23,6 +23,8 @@ RSpec.describe Api::ContestsController, type: :controller do
         id: contest.id,
         name: params[:lang] == 'ja' ? contest.name_ja : contest.name_en,
         description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en,
+        start_at: JSON.parse(contest.start_at.to_json),
+        end_at: JSON.parse(contest.end_at.to_json),
         joined: user.present? && ContestRegistration.find_by(user_id: user.id).present?
       }
     end
@@ -38,7 +40,9 @@ RSpec.describe Api::ContestsController, type: :controller do
               {
                 id: data_set.id,
                 label: data_set.label,
-                score: data_set.score
+                max_score: data_set.score,
+                correct: false,
+                score: 0
               }
             end
           }
@@ -48,17 +52,15 @@ RSpec.describe Api::ContestsController, type: :controller do
 
     shared_examples 'json without problems' do
       it 'return json without problems' do
-        pending 'implementing now'
         get :show, params: params
-        expect(JSON.parse(response.body)).to eq json_without_problems
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq json_without_problems
       end
     end
 
     shared_examples 'json with problems' do
       it 'return json with problems' do
-        pending 'implementing now'
         get :show, params: params
-        expect(JSON.parse(response.body)).to eq json_with_problems
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq json_with_problems
       end
     end
 
@@ -72,7 +74,6 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'NOT logged in' do
             let(:user) { nil }
             it 'returns 404 Not Found' do
-              pending 'implementing now'
               expect(response).to have_http_status 404
             end
           end
@@ -80,7 +81,6 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'logged in' do
             let(:user)    { create(:user) }
             it 'returns 404 Not Found' do
-              pending 'implementing now'
               expect(response).to have_http_status 404
             end
           end
@@ -177,7 +177,10 @@ RSpec.describe Api::ContestsController, type: :controller do
         context 'when the user joins after the contest' do
           let(:contest) { create(:contest_ended) }
           let(:user) do
-            create(:user) { |user| create(:contest_registration, user_id: user.id, contest_id: contest.id) }
+            create(:user) do |user|
+              create(:contest_registration,
+                     user_id: user.id, contest_id: contest.id)
+            end
           end
 
           it 'returns 200 OK' do
@@ -204,7 +207,6 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'NOT logged in' do
             let(:user) { nil }
             it 'returns 404 Not Found' do
-              pending 'implementing now'
               expect(response).to have_http_status 404
             end
           end
@@ -212,7 +214,6 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'logged in' do
             let(:user)    { create(:user) }
             it 'returns 404 Not Found' do
-              pending 'implementing now'
               expect(response).to have_http_status 404
             end
           end
@@ -227,7 +228,6 @@ RSpec.describe Api::ContestsController, type: :controller do
             let(:contest) { create(:contest_preparing) }
 
             it 'returns 403 Forbidden' do
-              pending 'implementing now'
               expect(response).to have_http_status 403
             end
           end
@@ -236,7 +236,6 @@ RSpec.describe Api::ContestsController, type: :controller do
             let(:contest) { create(:contest_holding) }
 
             it 'returns 403 Forbidden' do
-              pending 'implementing now'
               expect(response).to have_http_status 403
             end
           end
@@ -245,7 +244,6 @@ RSpec.describe Api::ContestsController, type: :controller do
             let(:contest) { create(:contest_ended) }
 
             it 'returns 403 Forbidden' do
-              pending 'implementing now'
               expect(response).to have_http_status 403
             end
           end
@@ -257,7 +255,6 @@ RSpec.describe Api::ContestsController, type: :controller do
             let(:contest) { create(:contest_ended) }
 
             it 'returns 403 Forbidden' do
-              pending 'implementing now'
               expect(response).to have_http_status 403
             end
           end
@@ -312,7 +309,6 @@ RSpec.describe Api::ContestsController, type: :controller do
               let(:contest) { create(:contest_preparing) }
 
               it 'returns 201 Created' do
-                pending 'implementing now'
                 expect(response).to have_http_status 201
               end
             end
@@ -321,7 +317,6 @@ RSpec.describe Api::ContestsController, type: :controller do
               let(:contest) { create(:contest_holding) }
 
               it 'returns 201 Created' do
-                pending 'implementing now'
                 expect(response).to have_http_status 201
               end
             end
@@ -443,15 +438,15 @@ RSpec.describe Api::ContestsController, type: :controller do
                   {
                     id: prob.id,
                     data_sets: prob.data_sets.map do |ds|
-                      sub = ds.submissions.find do |sub|
+                      solved_sub = ds.submissions.find do |sub|
                         sub.user == user && sub.judge_status_id == 2
                       end
-                      if !sub.nil?
+                      if !solved.nil?
                         {
                           id: ds.id,
                           label: ds.label,
-                          solved_at: sub.created_at,
-                          score: sub.score
+                          solved_at: solved_sub.created_at,
+                          score: solved_sub.score
                         }
                       else
                         {
