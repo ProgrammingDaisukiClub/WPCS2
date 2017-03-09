@@ -179,6 +179,9 @@
   }
   &--descriptionBody {
     font-size: 14px;
+    .markdown-body {
+      font-size: 14px;
+    }
   }
   &--submission {
     margin-bottom: 8px;

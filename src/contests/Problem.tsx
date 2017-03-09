@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import ProblemObject from 'contests/ProblemObject';
+import MarkdownRenderer from 'contests/MarkdownRenderer';
 
 export interface ProblemProps {
   problem: ProblemObject;
@@ -52,7 +53,9 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
             </div>
             <div className="problem--description">
               <div className="problem--descriptionHeader">問題</div>
-              <div className="problem--descriptionBody">{ this.props.problem.description }</div>
+              <div className="problem--descriptionBody">
+                <MarkdownRenderer text= { this.props.problem.description } />
+              </div>
             </div>
             <div className="problem--submission">
               <div className="problem--submissionHeader">提出</div>

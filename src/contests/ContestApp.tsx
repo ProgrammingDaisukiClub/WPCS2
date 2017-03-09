@@ -76,6 +76,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           problems: json.problems.map((problem: any) => ({
             id: problem.id,
             name: problem.name,
+            description: problem.description,
             dataSets: problem.data_sets.map((dataSet: any) => ({
               id: dataSet.id,
               label: dataSet.label,
