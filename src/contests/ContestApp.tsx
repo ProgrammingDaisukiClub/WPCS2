@@ -6,11 +6,13 @@ import DataSetObject from 'contests/DataSetObject';
 
 import Navigation from 'contests/Navigation';
 import ContestHome from 'contests/ContestHome';
+import Problem from 'contests/Problem';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   children: React.ReactElement<any>;
   params: {
     contestId: string;
+    problemId: string;
   };
 }
 
@@ -184,8 +186,14 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
         <div className="container--border"></div>
         { this.props.children && this.props.children.type === ContestHome &&
           <ContestHome
-            contest= { this.state.contest }
+            contest={ this.state.contest }
             join={ this.join.bind(this) }
+          />
+        }
+        { this.props.children && this.props.children.type === Problem &&
+          <Problem
+            problem={ this.state.contest.problems.find((problem) => problem.id === +this.props.params.problemId) }
+            submit={ this.submit.bind(this) }
           />
         }
       </div>
