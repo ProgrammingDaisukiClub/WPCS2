@@ -1,4 +1,4 @@
-class Admin::ProblemsController < ApplicationController
+class Admin::ProblemsController < Admin::AdminControllerBase
   before_action :set_problem, only: [:show, :edit, :update, :destroy]
 
   # GET /problems

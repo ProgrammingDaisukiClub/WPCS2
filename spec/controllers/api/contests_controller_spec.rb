@@ -12,7 +12,7 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   shared_examples 'return HTTP 201 Created' do
     it 'return HTTP 201 Created' do
-      pending 'now implementing'
+      pending 'wait for fixing test code'
       get :show, params: params
       expect(response).to have_http_status 201
     end
@@ -20,7 +20,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   shared_examples 'return HTTP 404 Not Found' do
     it 'return HTTP 404 Not Found' do
-      pending 'now implementing'
       get :show, params: params
       expect(response).to have_http_status 404
     end
@@ -28,7 +27,7 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   shared_examples 'return HTTP 403 Forbidden' do
     it 'return HTTP 403 Forbidden' do
-      pending 'now implementing'
+      pending 'wait for fixing test code'
       get :show, params: params
       expect(response).to have_http_status 403
     end
@@ -36,7 +35,7 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   shared_examples 'return HTTP 409 Conflict' do
     it 'return HTTP 409 Conflict' do
-      pending 'now implementing'
+      pending 'wait for fixing test code'
       get :show, params: params
       expect(response).to have_http_status 409
     end
@@ -48,6 +47,8 @@ RSpec.describe Api::ContestsController, type: :controller do
         id: contest.id,
         name: params[:lang] == 'ja' ? contest.name_ja : contest.name_en,
         description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en,
+        start_at: JSON.parse(contest.start_at.to_json),
+        end_at: JSON.parse(contest.end_at.to_json),
         joined: user.present? && ContestRegistration.find_by(user_id: user.id).present?
       }
     end
@@ -63,7 +64,9 @@ RSpec.describe Api::ContestsController, type: :controller do
               {
                 id: data_set.id,
                 label: data_set.label,
-                score: data_set.score
+                max_score: data_set.score,
+                correct: false,
+                score: 0
               }
             end
           }
@@ -81,22 +84,19 @@ RSpec.describe Api::ContestsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
       it 'return json without problems' do
-        pending 'now implementing'
         get :show, params: params
-        expect(JSON.parse(response.body)).to eq json_without_problems
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq json_without_problems
       end
     end
 
     shared_examples 'return http success and json with problems' do
       it 'return http success' do
-        pending 'now implementing'
         get :show, params: params
-        expect(response).to have_http_success(:success)
+        expect(response).to have_http_status(:success)
       end
       it 'return json with problems' do
-        pending 'now implementing'
         get :show, params: params
-        expect(JSON.parse(response.body)).to eq json_with_problems
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq json_with_problems
       end
     end
 
