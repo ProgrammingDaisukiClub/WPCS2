@@ -13,37 +13,55 @@ Waseda Programming Contest System 2
 * npm: 4.1.2
 
 ## How to deploy
-1. Make sure you have been installed gems: `rails`, `railties` and `bundler`
+
+1. Make sure you have been installed following gems
+  - `rails`
+  - `railties`
+  - `bundler`
 
 1. Install nodejs and npm
 
-1. `bundler install`
+1. Install webpack using npm
+  ```
+  sudo npm install webpack -g
+  ```
 
-1. `$ npm install`
+1. Install gems using bundler
+  ```
+  bundle install
+  ```
 
- * build (for development)
-  `$ npm run dev-build`
- * watch (for development)
-  `$ npm run dev-watch`
- * build (for production)
-  `$ npm run prod`
+1. Install nodejs packages
+  ```
+  npm install
+  ```
   
-1. `rails server`
+1. Build JavaScripts
+  ```
+  npm run dev-build    # for development
+  npm run prod         # for production
+  ```
 
-* ...
+1. Run db migration
+  ```
+  rake db:migrate
+  ```
 
-* System dependencies
+1. Run rails server
+  ```
+  bundle exec rails s -b 0.0.0.0
+  ```
 
-* Configuration
+## For developers
+You may need to run following commands after pulling some changes.
+```
+bundle install
+rake db:migrate
+npm install
+npm run dev-build
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* TypeScript Installation and Usage
+Following command is useful for front-end developer. (auto building Javascript)
+```
+npm run dev-watch
+```
