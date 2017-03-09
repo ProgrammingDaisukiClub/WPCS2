@@ -38,7 +38,8 @@ Waseda Programming Contest System 2
   
 1. Build JavaScripts
   ```
-  npm run dev-build    # for development
+  npm run dev-build    # for development (build)
+  npm run dev-watch    # for development (watch)
   npm run prod         # for production
   ```
 
