@@ -5,13 +5,13 @@ one:
   data_set: one
   answer: MyText
   code: MyText
-  language_id: 1
-  judge_status_id: 1
+  language: 1
+  judge_status: 1
 
 two:
   user: two
   data_set: two
   answer: MyText
   code: MyText
-  language_id: 1
-  judge_status_id: 1
+  language: 1
+  judge_status: 1
