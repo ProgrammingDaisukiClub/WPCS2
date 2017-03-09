@@ -7,6 +7,7 @@ import DataSetObject from 'contests/DataSetObject';
 import Navigation from 'contests/Navigation';
 import ContestHome from 'contests/ContestHome';
 import Problem from 'contests/Problem';
+import Ranking from 'contests/Ranking';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   children: React.ReactElement<any>;
@@ -196,6 +197,9 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             problem={ this.state.contest.problems.find((problem) => problem.id === +this.props.params.problemId) }
             submit={ this.submit.bind(this) }
           />
+        }
+        { this.props.children && this.props.children.type === Ranking &&
+          this.props.children
         }
       </div>
     );
