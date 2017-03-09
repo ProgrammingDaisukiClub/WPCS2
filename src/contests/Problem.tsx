@@ -1,16 +1,10 @@
 import * as React from 'react';
 
+import ProblemObject from 'contests/ProblemObject';
+import MarkdownRenderer from 'contests/MarkdownRenderer';
+
 export interface ProblemProps {
-  id: number;
-  name: string;
-  description: string;
-  dataSets: [
-    {
-      id: number;
-      label: string;
-      maxScore: number;
-    }
-  ];
+  problem: ProblemObject;
   submit: (problemId: number, dataSetId: number, answer: string) => void;
 }
 
@@ -20,38 +14,26 @@ export interface ProblemState {
 }
 
 export default class Problem extends React.Component<ProblemProps, ProblemState> {
-  public static defaultProps: Partial<ProblemProps> = {
-    id: 1,
-    name: "problem name is",
-    description: "description",
-    dataSets: [
-      {
-        id: 1,
-        label: 'small',
-        maxScore: 100
-      }, {
-        id: 2,
-        label: 'large',
-        maxScore: 200
-      }
-    ],
-    submit: (problemId: number, dataSetId: number, answer: string) => {
-      console.log("submited", problemId, dataSetId, answer);
-    }
-  };
-
   constructor(props: ProblemProps) {
     super();
 
     this.state = {
-      dataSetTabId: props.dataSets[0].id,
+      dataSetTabId: props.problem.dataSets[0].id,
       answer: ""
+    }
+  }
+
+  public componentWillReceiveProps(props: ProblemProps) {
+    if(this.props.problem.id !== props.problem.id) {
+      this.setState({
+        dataSetTabId: props.problem.dataSets[0].id,
+      })
     }
   }
 
   public onFormSubmit(event: React.FormEvent<HTMLElement>) {
     event.preventDefault();
-    this.props.submit(this.props.id, this.state.dataSetTabId, this.state.answer);
+    this.props.submit(this.props.problem.id, this.state.dataSetTabId, this.state.answer);
   }
 
   public onAnswerChange(event: React.FormEvent<HTMLElement> ) {
@@ -67,11 +49,11 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
     return (
       <div className="problem">
         <div className="problem--inner">
-          <h2 className="problem--header">{ this.props.name }</h2>
+          <h2 className="problem--header">{ this.props.problem.name }</h2>
           <div className="problem--body">
             <div className="problem--score">
               <div className="problem--scoreHeader">配点</div>
-              { this.props.dataSets.map((dataSet) => (
+              { this.props.problem.dataSets.map((dataSet) => (
                 <div className="problem--scoreBody" key={ dataSet.id }>
                   { dataSet.label }: { dataSet.maxScore } points
                 </div>
@@ -79,7 +61,9 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
             </div>
             <div className="problem--description">
               <div className="problem--descriptionHeader">問題</div>
-              <div className="problem--descriptionBody">{ this.props.description }</div>
+              <div className="problem--descriptionBody">
+                <MarkdownRenderer text= { this.props.problem.description } />
+              </div>
             </div>
             <div className="problem--submission">
               <div className="problem--submissionHeader">提出</div>
@@ -87,7 +71,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
                 <div className="problem--submissionForm">
                   <div className="problem--submissionDataSets">
                     <ul className="problem--dataSetTabs">
-                      { this.props.dataSets.map((dataSet) => (
+                      { this.props.problem.dataSets.map((dataSet) => (
                         <li
                           key={ dataSet.id }
                           className={ `problem--dataSetTab${ dataSet.id === this.state.dataSetTabId ? '__active' : '' }` }

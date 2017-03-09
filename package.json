@@ -38,10 +38,12 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "@types/core-js": "^0.9.35",
     "marked": "^0.3.6",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-render-html": "^0.1.6",
-    "react-router": "^3.0.2"
+    "react-router": "^3.0.2",
+    "whatwg-fetch": "^2.0.2"
   }
 }

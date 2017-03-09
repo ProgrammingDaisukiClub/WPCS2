@@ -4,6 +4,133 @@
 @import "variables";
 @import "mixins";
 
+.container {
+  @include clearfix;
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  &--border {
+    width: 1px;
+    background-color: #979797;
+    float: left;
+  }
+}
+
+.contestNavigation {
+  float: left;
+  width: calc(25% - 1px);
+  &--inner {
+    padding: 16px;
+  }
+  &--header {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  &--homeLink {
+    display: block;
+    font-size: 14px;
+    color: $link-color;
+    &:hover {
+      color: $link-color;
+    }
+  }
+  &--problemList {
+    display: block;
+  }
+  &--problemListHeader {
+    display: block;
+    font-size: 12px;
+    color: #545454;
+  }
+  &--problem {
+    display: block;
+  }
+  &--problemLink {
+    display: block;
+    font-size: 14px;
+    color: $link-color;
+    &:hover {
+      color: $link-color;
+    }
+  }
+  &--dataSet {
+    display: block;
+    font-size: 12px;
+    padding-left: 16px;
+    color: #545454;
+  }
+  &--rankingLink {
+    display: block;
+    font-size: 14px;
+    color: $link-color;
+    &:hover {
+      color: $link-color;
+    }
+  }
+}
+
+.contestHome {
+  float: left;
+  width: 75%;
+  &--inner {
+    padding: 16px;
+  }
+  &--header {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    font-weight: normal;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background-color: $brand-color;
+    }
+  }
+  &--body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  &--registrationButtonWrapper {
+    text-align: center;
+  }
+  &--registrationButton {
+    position: relative;
+    top: 0;
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    background-color: $brand-color;
+    box-shadow: 0 0.5px 0.8px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.15s background-color ease-in, 0.15s box-shadow ease-in;
+    &:hover {
+      text-decoration: none;
+      background-color: lighten($brand-color, 5%);
+      box-shadow: 0 0.5px 8px 0 rgba(0, 0, 0, 0.08), 0 0.5px 4px 0 rgba(0, 0, 0, 0.18);
+      color: #fff;
+    }
+    &:active {
+      top: 2px;
+    }
+  }
+  .markdown-body {
+    font-size: 14px;
+  }
+}
+
 .problem {
   float: left;
   width: 75%;
@@ -52,6 +179,9 @@
   }
   &--descriptionBody {
     font-size: 14px;
+    .markdown-body {
+      font-size: 14px;
+    }
   }
   &--submission {
     margin-bottom: 8px;
@@ -100,6 +230,7 @@
     }
     &:hover {
       text-decoration: none;
+      color: #777;
     }
   }
   &--answer {
@@ -138,73 +269,4 @@
       top: 2px;
     }
   }
-}
-
-.main {
-    position: relative;
-    width: 1080px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.contest-nav {
-    float: left;
-    width: 34%;
-}
-
-.contest {
-    float: right;
-    width: 60%;
-
-    &--clearfix {
-      overflow: auto;
-    }
-
-    &__header {
-        position: relative;
-        line-height: 40px;
-        background: #fff;
-    }
-
-    &__header:after {
-        background: linear-gradient(to right, #5ba7ff 20%, #d0d0d0 20%, #d0d0d0 80%);
-        position: absolute;
-        content: '';
-        height: 4px;
-        right: 0;
-        left: 0;
-        bottom: 0;
-
-        &__title {
-            color: black;
-            font-size: 20px;
-            font-family: HiraginoSans-W3;
-        }
-    }
-
-    &__body {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-right: 10px;
-        margin-left: 10px;
-        font-size: 16px;
-        font-family: HiraginoSans-W3;
-
-        &--center {
-            text-align: center;
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
-
-        &__btn {
-            width: 120px;
-            height: 30px;
-            border-width: 0;
-            background-color: #5ba7ff;
-            text-align: center;
-            color: white;
-            font-size: 14px;
-            box-shadow: 0 0.5px 0.8px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
-        }
-    }
 }
