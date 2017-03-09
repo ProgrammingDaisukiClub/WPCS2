@@ -1,30 +1,117 @@
-import ProblemMain from 'contests/ProblemMain';
 import * as React from 'react';
 
-export default class Problem extends React.Component<{}, {}> {
+export interface ProblemProps {
+  id: number;
+  name: string;
+  description: string;
+  dataSets: [
+    {
+      id: number;
+      label: string;
+      maxScore: number;
+    }
+  ];
+  submit: (problemId: number, dataSetId: number, answer: string) => void;
+}
 
-  constructor() {
+export interface ProblemState {
+  dataSetTabId: number;
+  answer: string;
+}
+
+export default class Problem extends React.Component<ProblemProps, ProblemState> {
+  public static defaultProps: Partial<ProblemProps> = {
+    id: 1,
+    name: "problem name is",
+    description: "description",
+    dataSets: [
+      {
+        id: 1,
+        label: 'small',
+        maxScore: 100
+      }, {
+        id: 2,
+        label: 'large',
+        maxScore: 200
+      }
+    ],
+    submit: (problemId: number, dataSetId: number, answer: string) => {
+      console.log("submited", problemId, dataSetId, answer);
+    }
+  };
+
+  constructor(props: ProblemProps) {
     super();
-    this.submit = this.submit.bind(this);
+
+    this.state = {
+      dataSetTabId: props.dataSets[0].id,
+      answer: ""
+    }
   }
 
-  public submit(id: number, answer: string) {
-    console.log(id, answer);
+  public onFormSubmit(event: React.FormEvent<HTMLElement>) {
+    event.preventDefault();
+    this.props.submit(this.props.id, this.state.dataSetTabId, this.state.answer);
+  }
 
+  public onAnswerChange(event: React.FormEvent<HTMLElement> ) {
+    const input: HTMLInputElement = event.target as HTMLInputElement;
+    this.setState({ answer: input.value });
+  }
+
+  public onTabClick(id: number) {
+    this.setState({ dataSetTabId: id });
   }
 
   public render() {
-    const dataSets : [{ id: number; label: string; score: number; testCase: string; }] = [
-      { id: 1, label: 'Small', score: 10, testCase: 'test-small'},
-      { id: 2, label: 'Large', score: 10, testCase: 'test-large'},
-      { id: 3, label: 'Super Large', score: 30, testCase: 'test-super-large'}
-    ];
     return (
-      <div className='main'>
-        <div className='problem-nav'>
-            
+      <div className="problem">
+        <div className="problem--inner">
+          <h2 className="problem--header">{ this.props.name }</h2>
+          <div className="problem--body">
+            <div className="problem--score">
+              <div className="problem--scoreHeader">配点</div>
+              { this.props.dataSets.map((dataSet) => (
+                <div className="problem--scoreBody" key={ dataSet.id }>
+                  { dataSet.label }: { dataSet.maxScore } points
+                </div>
+              )) }
+            </div>
+            <div className="problem--description">
+              <div className="problem--descriptionHeader">問題</div>
+              <div className="problem--descriptionBody">{ this.props.description }</div>
+            </div>
+            <div className="problem--submission">
+              <div className="problem--submissionHeader">提出</div>
+              <form onSubmit={ (e) => this.onFormSubmit(e) }>
+                <div className="problem--submissionForm">
+                  <div className="problem--submissionDataSets">
+                    <ul className="problem--dataSetTabs">
+                      { this.props.dataSets.map((dataSet) => (
+                        <li
+                          key={ dataSet.id }
+                          className={ `problem--dataSetTab${ dataSet.id === this.state.dataSetTabId ? '__active' : '' }` }
+                          onClick={ () => this.onTabClick(dataSet.id) }>
+                          { dataSet.label }
+                        </li>
+                      )) }
+                    </ul>
+                    <a className="problem--dataSetDownloadLink" href="#">Download</a>
+                  </div>
+                  <textarea
+                    className="problem--answer"
+                    name="answer" placeholder="Type Answer ..." value={ this.state.answer }
+                    rows={ Math.max(6, Math.min(18, this.state.answer.split("\n").length))}
+                    onChange={ (e) => this.onAnswerChange(e) }
+                  />
+                </div>
+                <div className="problem--submitWrapper">
+                  <input className="problem--submit" type="submit" value="提出する" />
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-        <ProblemMain problemId={ 1 } name='A 鉛筆リサイクルの最新技術' description='hahaha' dataSets={ dataSets } submit= { this.submit } />
       </div>
     );
   }
