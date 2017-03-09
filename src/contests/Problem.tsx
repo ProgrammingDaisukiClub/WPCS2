@@ -23,6 +23,14 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
     }
   }
 
+  public componentWillReceiveProps(props: ProblemProps) {
+    if(this.props.problem.id !== props.problem.id) {
+      this.setState({
+        dataSetTabId: props.problem.dataSets[0].id,
+      })
+    }
+  }
+
   public onFormSubmit(event: React.FormEvent<HTMLElement>) {
     event.preventDefault();
     this.props.submit(this.props.problem.id, this.state.dataSetTabId, this.state.answer);
