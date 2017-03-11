@@ -19,36 +19,35 @@ class Api::SubmissionsController < ApplicationController
       return
     end
 
-    unless signed_in?
-      render json: {}, status: 403
-      return
-    end
-
-    unless contest.started?
-      render json: {}, status: 403
-      return
-    end
-
-    if contest.during? && !contest.registered_by?(current_user)
+    if prevent_submission?(contest)
       render json: {}, status: 403
       return
     end
 
     # FIXME: Fix this and test cases when judge method is implemented
-
     submission = Submission.create(
       user: current_user,
-      data_set: DataSet.find_by_id(params[:data_set_id]),
+      data_set_id: params[:data_set_id],
       judge_status: 0,
       answer: params[:answer]
     )
 
-    render json: {
+    render json: json_create(submission), status: 201
+  end
+
+  private
+
+  def json_create(submission)
+    {
       id: submission.id,
-      problem_id: submission.data_set.problem.id,
-      data_set_id: submission.data_set.id,
+      problem_id: submission.problem_id,
+      data_set_id: submission.data_set_id,
       judge_status: submission.judge_status.to_i,
       created_at: submission.created_at.to_s
-    }, status: 201
+    }
+  end
+
+  def prevent_submission?(contest)
+    !signed_in? || !contest.started? || (contest.during? && !contest.registered_by?(current_user))
   end
 end
