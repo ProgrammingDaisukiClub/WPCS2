@@ -5,8 +5,6 @@ class Contest < ApplicationRecord
   has_many :contest_registrations
   has_many :users, through: :contest_registrations
 
-  scope :id_is, ->(id) { where(id: id) }
-
   def preparing?
     start_at > Time.now
   end
@@ -64,9 +62,6 @@ class Contest < ApplicationRecord
   end
 
   def users_sorted_by_rank
-    users.sort do |a, b|
-      b.score_for_contest(self) <=>
-        a.score_for_contest(self)
-    end
+    users.sort { |a, b| b.score_for_contest(self) <=> a.score_for_contest(self) }
   end
 end

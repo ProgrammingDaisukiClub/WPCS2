@@ -81,15 +81,18 @@ class Api::ContestsController < ApplicationController
 
   def ranking_for_login_user(contest)
     users = contest.users_sorted_by_rank
-    render(json: {
-             users: users.map do |user|
-               {
-                 id: user.id,
-                 name: user.name,
-                 total_score: user.score_for_contest(contest)
-               }.merge(contest.problems_for_ranking(user.id))
-             end
-           }, status: :ok)
+    render(
+      json: {
+        users: users.map do |user|
+          {
+            id: user.id,
+            name: user.name,
+            total_score: user.score_for_contest(contest)
+          }.merge(contest.problems_for_ranking(user.id))
+        end
+      },
+      status: :ok
+    )
   end
 
   def json_problems(contest)

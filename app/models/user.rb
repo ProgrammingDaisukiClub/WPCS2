@@ -9,10 +9,6 @@ class User < ApplicationRecord
   has_many :contests, through: :contest_registrations
   has_many :submissions
 
-  scope :registered_contest_id, lambda { |contest_id|
-    joins(:contests).merge(Contest.id_is(contest_id))
-  }
-
   def score_for_contest(contest)
     return 0 if contest.nil?
     return 0 unless contest.registered_by?(self)
