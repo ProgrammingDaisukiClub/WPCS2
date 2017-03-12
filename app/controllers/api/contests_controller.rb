@@ -31,13 +31,29 @@ class Api::ContestsController < ApplicationController
   end
 
   def ranking
-    unless (contest = Contest.find_by_id(params[:id]))
+    contest = Contest.find_by_id(params[:id])
+
+    if contest.nil?
       render(json: {}, status: 404)
+      logger.debug 'Contest not found'
       return
     end
 
-    if !signed_in? || !contest.started? || (contest.during? && !contest.registered_by?(current_user))
-      render(json: {}, status: 403)
+    unless signed_in?
+      render(json: { reason: 'NOT signed in' }, status: 403)
+      logger.debug 'NOT signed in'
+      return
+    end
+
+    if contest.preparing?
+      render(json: { reason: 'Preparing contest' }, status: 403)
+      logger.debug 'Preparing contest'
+      return
+    end
+
+    if contest.during? && !contest.registered_by?(current_user)
+      render(json: { reason: 'User not registered' }, status: 403)
+      logger.debug "User not registered: #{current_user.name}(#{current_user.id})"
       return
     end
 
@@ -69,40 +85,16 @@ class Api::ContestsController < ApplicationController
   end
 
   def ranking_for_login_user(contest)
-    unless contest.ended? || (contest.during? && contest.registered_by?(current_user))
-      return
-    end
-    users = contest.ranking
-    render json: {
-      users: users.map do |user|
-        {
-          id: user.id,
-          name: user.name
-        }.merge(contest.problems_for_ranking)
-      end
-    }
-    # render json: {
-    #   users: [
-    #     id: 1,
-    #     name: 'user name',
-    #     problems: [
-    #       {
-    #         id: 1,
-    #         data_sets: [
-    #           { id: 1, label: 'small', solved_at: DateTime.now, score: 85 },
-    #           { id: 2, label: 'large' }
-    #         ]
-    #       },
-    #       {
-    #         id: 2,
-    #         data_sets: [
-    #           { id: 3, label: 'small', solved_at: DateTime.now.tomorrow, score: 97 },
-    #           { id: 4, label: 'small', solved_at: DateTime.now.yesterday, score: 63 }
-    #         ]
-    #       }
-    #     ]
-    #   ]
-    # }
+    users = contest.users_sorted_by_rank
+    render(json: {
+             users: users.map do |user|
+               {
+                 id: user.id,
+                 name: user.name,
+                 total_score: user.score_for_contest(contest)
+               }.merge(contest.problems_for_ranking(user.id))
+             end
+           }, status: :ok)
   end
 
   def json_problems(contest)

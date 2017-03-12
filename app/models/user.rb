@@ -13,14 +13,12 @@ class User < ApplicationRecord
     joins(:contests).merge(Contest.id_is(contest_id))
   }
 
-  def score_for_contest(contest_id)
-    return 0 unless contest_id
-    contest = Contest.find(contest_id)
+  def score_for_contest(contest)
     return 0 if contest.nil?
     return 0 unless contest.registered_by?(self)
     user_id = id
     scores = contest.data_sets.map { |data_set| data_set.user_score(user_id) }
-    return scores.inject(:+) unless scores.nil?
-    0
+    return 0 if scores.nil?
+    scores.inject(:+)
   end
 end

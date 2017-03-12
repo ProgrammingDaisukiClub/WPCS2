@@ -7,6 +7,10 @@ class Contest < ApplicationRecord
 
   scope :id_is, ->(id) { where(id: id) }
 
+  def preparing?
+    start_at > Time.now
+  end
+
   def started?
     start_at < Time.now
   end
@@ -41,12 +45,12 @@ class Contest < ApplicationRecord
     }
   end
 
-  def problems_for_ranking
+  def problems_for_ranking(user_id)
     {
       problems: problems.map do |problem|
         {
           id: problem.id
-        }.merge(problem.label_score_solvedat)
+        }.merge(problem.label_score_solved_at(user_id))
       end
     }
   end
@@ -59,7 +63,10 @@ class Contest < ApplicationRecord
     ContestRegistration.create(user_id: user.id, contest_id: id)
   end
 
-  def ranking
-    User.registered_contest_id(id)
+  def users_sorted_by_rank
+    users.sort do |a, b|
+      b.score_for_contest(self) <=>
+        a.score_for_contest(self)
+    end
   end
 end
