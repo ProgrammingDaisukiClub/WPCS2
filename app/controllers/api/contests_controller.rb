@@ -33,34 +33,29 @@ class Api::ContestsController < ApplicationController
   def ranking
     contest = Contest.find_by_id(params[:id])
 
+    generate_ranking_response(contest)
+  end
+
+  private
+
+  def generate_ranking_response(contest)
     if contest.nil?
       render(json: {}, status: 404)
-      logger.debug 'Contest not found'
       return
     end
 
-    unless signed_in?
-      render(json: { reason: 'NOT signed in' }, status: 403)
-      logger.debug 'NOT signed in'
-      return
-    end
-
-    if contest.preparing?
-      render(json: { reason: 'Preparing contest' }, status: 403)
-      logger.debug 'Preparing contest'
+    if !signed_in? || contest.preparing?
+      render(json: {}, status: 403)
       return
     end
 
     if contest.during? && !contest.registered_by?(current_user)
-      render(json: { reason: 'User not registered' }, status: 403)
-      logger.debug "User not registered: #{current_user.name}(#{current_user.id})"
+      render(json: {}, status: 403)
       return
     end
 
     ranking_for_login_user(contest)
   end
-
-  private
 
   def show_for_no_login_user(contest, json_without_problems)
     json_without_problems = json_without_problems.merge(joined: false)

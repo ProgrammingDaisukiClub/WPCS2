@@ -12,15 +12,11 @@ class Problem < ApplicationRecord
   def label_score_solved_at(user_id)
     {
       data_sets: data_sets.map do |data_set|
-        data = {
-          id: data_set.id,
-          label: data_set.label
-        }
+        data = { id: data_set.id, label: data_set.label }
         if data_set.solved_by?(user_id)
           data.merge(score: data_set.user_score(user_id),
                      solved_at: data_set.user_solved_at(user_id))
         end
-        data
       end
     }
   end
