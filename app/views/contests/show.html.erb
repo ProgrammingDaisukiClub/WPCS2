@@ -1,7 +1,11 @@
 <% content_for :styles do %>
+  <%= stylesheet_link_tag 'github-markdown' %>
   <%= stylesheet_link_tag 'contests' %>
 <% end %>
 
 <div id="contests-app"></div>
 
-<%= javascript_include_tag "build/contests" %>
+<% content_for :scripts do %>
+  <%= javascript_include_tag 'build/contests' %>
+  <%= render partial: 'contests/import_mathjax' %>
+<% end %>
