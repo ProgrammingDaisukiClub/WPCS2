@@ -63,15 +63,9 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
   }
 
   public async fetchContest() {
-    const requestContests: Promise<Response> = fetch(`/api/contests/${this.props.params.contestId}`, {
+    const responseContest: Response = await fetch(`/api/contests/${this.props.params.contestId}`, {
       credentials: 'same-origin',
     });
-    const requestSubmissions: Promise<Response> = fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
-      credentials: 'same-origin',
-    });
-    const responses: [ Response ] = await Promise.all([requestContests, requestSubmissions]);
-    const responseContest: Response = responses[0];
-    const responseSubmissions: Response = responses[1];
 
     let contest: ContestObject;
     switch(responseContest.status) {
@@ -107,23 +101,29 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       default: throw new Error('unexpected http status');
     }
 
-    let submissions: [ SubmissionObject ];
-    switch(responseSubmissions.status) {
-      case 200:
-        const json: any = await responseSubmissions.json();
-        submissions = json.map((submission: any) => ({
-          id: submission.id,
-          problemId: submission.problem_id,
-          dataSetId: submission.data_set_id,
-          judgeStatus: submission.judge_status,
-          score: submission.score || 0,
-          createdAt: new Date(submission.created_at)
-        }))
-        break;
+    let submissions: [ SubmissionObject ] = [] as [ SubmissionObject ];
+    if(contest.problems) {
+      const responseSubmissions: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
+        credentials: 'same-origin',
+      });
 
-      case 403: throw new Error('403 forbidden');
-      case 404: throw new Error('404 not found');
-      default: throw new Error('unexpected http status');
+      switch(responseSubmissions.status) {
+        case 200:
+          const json: any = await responseSubmissions.json();
+          submissions = json.map((submission: any) => ({
+            id: submission.id,
+            problemId: submission.problem_id,
+            dataSetId: submission.data_set_id,
+            judgeStatus: submission.judge_status,
+            score: submission.score || 0,
+            createdAt: new Date(submission.created_at)
+          }))
+          break;
+
+        case 403: throw new Error('403 forbidden');
+        case 404: throw new Error('404 not found');
+        default: throw new Error('unexpected http status');
+      }
     }
 
     this.setState({
