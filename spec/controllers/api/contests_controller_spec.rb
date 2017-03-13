@@ -9,9 +9,9 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   let(:params) do
     {
-      id: contest.present? ? contest.id : Contest.pluck(:id).push(0).max.next,
+      id: contest.present? ? contest.id : Contest.pluck(:id).push(0).max.next
     }.tap do |params|
-      params.merge({ lang: lang }) if lang != 'ja'
+      params.merge(lang: lang) if lang != 'ja'
     end
   end
 
