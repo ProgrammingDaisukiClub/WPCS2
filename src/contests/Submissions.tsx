@@ -12,45 +12,10 @@ export interface SubmissionsProps extends React.Props<Submissions> {
 }
 
 export default class Submissions extends React.Component<SubmissionsProps, {}> {
-  public static defaultProps: Partial<SubmissionsProps> = {
-    contest: {
-      id: 1,
-      name: 'contest name is ...',
-      description: 'contest description',
-      joined: true,
-      startAt: new Date,
-      endAt: new Date,
-      problems: [
-        {
-          id: 1,
-          name: 'problem name',
-          description: 'problem description',
-          dataSets: [
-            {
-              id: 1,
-              label: 'Small',
-              maxScore: 1000,
-              correct: false,
-              score: 100
-            }, {
-              id: 2,
-              label: 'Large',
-              maxScore: 1000,
-              correct: false,
-              score: 100
-            }
-          ]
-        }
-      ]
-    },
-    submissions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((sid) => ({
-      id: sid,
-      problemId: 1,
-      dataSetId: Math.floor(Math.random() * 2) + 1,
-      judgeStatus: Math.floor(Math.random() * 2) + 1,
-      score: Math.floor(Math.random() * 1000),
-      createdAt: new Date()
-    })) as [ SubmissionObject ]
+  constructor() {
+    super();
+
+    this.state = {};
   }
 
   public createdAt(date: Date) {

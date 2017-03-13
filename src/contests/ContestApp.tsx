@@ -3,6 +3,7 @@ import * as React from 'react';
 import ContestObject from 'contests/ContestObject';
 import ProblemObject from 'contests/ProblemObject';
 import DataSetObject from 'contests/DataSetObject';
+import SubmissionObject from 'contests/SubmissionObject';
 
 import Navigation from 'contests/Navigation';
 import ContestHome from 'contests/ContestHome';
@@ -21,7 +22,7 @@ export interface ContestAppProps extends React.Props<ContestApp> {
 export interface ContestAppState {
   initialized: boolean;
   contest?: ContestObject;
-  // submissions: [ SubmissionObject ];
+  submissions?: [ SubmissionObject ];
 }
 
 export default class ContestApp extends React.Component<ContestAppProps, ContestAppState> {
@@ -106,10 +107,18 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       default: throw new Error('unexpected http status');
     }
 
-    // let submissions: [ SubmissionObject ];
+    let submissions: [ SubmissionObject ];
     switch(responseSubmissions.status) {
       case 200:
-        // TODO
+        const json: any = await responseSubmissions.json();
+        submissions = json.map((submission: any) => ({
+          id: submission.id,
+          problemId: submission.problem_id,
+          dataSetId: submission.data_set_id,
+          judgeStatus: submission.judge_status,
+          score: submission.score || 0,
+          createdAt: new Date(submission.created_at)
+        }))
         break;
 
       case 403: throw new Error('403 forbidden');
@@ -120,7 +129,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     this.setState({
       initialized: true,
       contest,
-      // submissions,
+      submissions,
     });
   }
 
@@ -244,7 +253,10 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           />
         }
         { this.props.children && this.props.children.type === Submissions &&
-          this.props.children
+          <Submissions
+            contest={ this.state.contest }
+            submissions={ this.state.submissions }
+          />
         }
         { this.props.children && this.props.children.type === Ranking &&
           this.props.children
