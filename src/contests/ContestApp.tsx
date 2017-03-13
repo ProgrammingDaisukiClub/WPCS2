@@ -100,7 +100,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       default: throw new Error('unexpected http status');
     }
 
-    let submissions: [ SubmissionObject ] = [] as [ SubmissionObject ];
+    let submissions: [ SubmissionObject ];
     if(contest.problems) {
       const responseSubmissions: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
         credentials: 'same-origin',
@@ -270,7 +270,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             join={ this.join.bind(this) }
           />
         }
-        { this.props.children && this.props.children.type === Problem &&
+        { this.props.children && this.props.children.type === Problem && this.state.contest.problems &&
           <Problem
             problem={ this.state.contest.problems.find((problem) => problem.id === +this.props.params.problemId) }
             submit={ this.submit.bind(this) }
