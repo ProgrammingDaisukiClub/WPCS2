@@ -348,6 +348,9 @@ RSpec.describe Api::ContestsController, type: :controller do
     end
 
     before do
+      if (defined? participated) && participated
+        create(:contest_registration, user: user, contest_id: contest.id)
+      end
       get :ranking, params: params
     end
 
@@ -359,19 +362,15 @@ RSpec.describe Api::ContestsController, type: :controller do
           let(:contest) { nil }
 
           context 'NOT logged in' do
-            pending 'implementing now'
             let(:user) { nil }
             it 'returns 404 Not Found' do
-              pending 'implementing now'
               expect(response).to have_http_status 404
             end
           end
 
           context 'logged in' do
-            pending 'implementing now'
             let(:user) { create(:user) }
             it 'returns 404 Not Found' do
-              pending 'implementing now'
               expect(response).to have_http_status 404
             end
           end
@@ -386,7 +385,6 @@ RSpec.describe Api::ContestsController, type: :controller do
             let(:user) { nil }
 
             it 'returns 403' do
-              pending 'implementing now'
               expect(response).to have_http_status 403
             end
           end
@@ -396,7 +394,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
             context 'NOT participated' do
               it 'returns 403' do
-                pending 'implementing now'
                 expect(response).to have_http_status 403
               end
             end
@@ -405,7 +402,6 @@ RSpec.describe Api::ContestsController, type: :controller do
                 create(:contest_registration, user: user, contest_id: contest.id)
               end
               it 'returns 403' do
-                pending 'implementing now'
                 expect(response).to have_http_status 403
               end
             end
@@ -418,7 +414,6 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'NOT logged in' do
             let(:user) { nil }
             it 'returns 404 Not Found' do
-              pending 'implementing now'
               expect(response).to have_http_status 403
             end
           end
@@ -428,7 +423,6 @@ RSpec.describe Api::ContestsController, type: :controller do
 
             context 'NOT participated' do
               it 'returns 403' do
-                pending 'implementing now'
                 expect(response).to have_http_status 403
               end
             end
@@ -441,7 +435,6 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'NOT logged in' do
             let(:user) { nil }
             it 'returns 404 Not Found' do
-              pending 'implementing now'
               expect(response).to have_http_status 403
             end
           end
@@ -450,65 +443,33 @@ RSpec.describe Api::ContestsController, type: :controller do
       describe 'Case 3: return json' do
         let(:json_ranking) do
           sorted_users = contest.users.sort do |a, b|
-            a.score_for_contest(contest.id) <=>
-              b.score_for_contest(contest.id)
+            b.score_for_contest(contest) <=>
+              a.score_for_contest(contest)
           end
           {
             users: sorted_users.map do |user|
                      {
                        id: user.id,
                        name: user.name,
-                       total_score: user.score_for_contest(contest.id),
-                       problems: contest.problems.map do |prob|
-                         {
-                           id: prob.id,
-                           data_sets: prob.data_sets.map do |ds|
-                             solved_sub = ds.submissions.find do |sub|
-                               sub.user == user && sub.judge_status == 2
-                             end
-                             if !solved_sub.nil?
-                               {
-                                 id: ds.id,
-                                 label: ds.label,
-                                 solved_at: solved_sub.created_at,
-                                 score: solved_sub.score
-                               }
-                             else
-                               {
-                                 id: ds.id,
-                                 label: ds.label
-                               }
-                             end
-                           end
-                         }
-                       end
-                     }
+                       total_score: user.score_for_contest(contest)
+                     }.merge(contest.problems_for_ranking(user.id))
                    end
           }
         end
         context 'logged in' do
-          let(:user) { create(:user) }
-
-          before do
-            # inject test users to contest
-            8.times do
-              user = create(:user)
-              create(:contest_registration,
-                     user_id: user.id, contest_id: contest.id)
-            end
-          end
+          let(:user) { create(:user, name: 'rspec test user') }
 
           context 'IN contest period' do
             let(:contest) { create(:contest_holding) }
 
             context 'participted' do
+              let(:participated) { true }
+
               it 'returns 200' do
-                # pending 'implementing now'
                 expect(response).to have_http_status 200
               end
               it 'has valid JSON' do
-                pending 'implementing now'
-                expect(JSON.parse(response.body)).to eq json_ranking
+                expect(JSON.parse(response.body, symbolize_names: true)).to eq json_ranking
               end
             end
           end
@@ -517,12 +478,10 @@ RSpec.describe Api::ContestsController, type: :controller do
             let(:contest) { create(:contest_ended) }
 
             it 'returns 200' do
-              # pending 'implementing now'
               expect(response).to have_http_status 200
             end
             it 'has valid JSON' do
-              pending 'implementing now'
-              expect(JSON.parse(response.body)).to eq json_ranking
+              expect(JSON.parse(response.body, symbolize_names: true)).to eq json_ranking
             end
           end
         end
