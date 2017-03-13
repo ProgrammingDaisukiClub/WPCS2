@@ -36,6 +36,9 @@ export default class Navigation extends React.Component<NavigationProps, {}> {
             ))
           }
           { this.props.contest.problems &&
+            <Link className="contestNavigation--submissionsLink" to={ `/contests/${this.props.contest.id}/submissions` }>Submissions</Link>
+          }
+          { this.props.contest.problems &&
             <Link className="contestNavigation--rankingLink" to={ `/contests/${this.props.contest.id}/ranking` }>Ranking</Link>
           }
         </nav>
