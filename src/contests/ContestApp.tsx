@@ -8,6 +8,7 @@ import Navigation from 'contests/Navigation';
 import ContestHome from 'contests/ContestHome';
 import Problem from 'contests/Problem';
 import Submissions from 'contests/Submissions';
+import Ranking from 'contests/Ranking';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   children: React.ReactElement<any>;
@@ -199,6 +200,9 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           />
         }
         { this.props.children && this.props.children.type === Submissions &&
+          this.props.children
+        }
+        { this.props.children && this.props.children.type === Ranking &&
           this.props.children
         }
       </div>
