@@ -1,16 +1,29 @@
 class Api::SubmissionsController < ApplicationController
   def index
-    render json: [
-      {
-        id: 1,
-        correct: true,
-        score: 82
-      },
-      {
-        id: 2,
-        correct: false
+    unless (contest = Contest.find_by_id(params[:contest_id]))
+      render json: {}, status: 404
+      return
+    end
+
+    if prevent_show?(contest)
+      render json: {}, status: 403
+      return
+    end
+
+    submission_list = contest.submissions.where(user: current_user).map do |submission|
+      data = {
+        id: submission.id,
+        problem_id: submission.problem_id,
+        data_set_id: submission.data_set_id,
+        judge_status: submission.judge_status_before_type_cast,
+        created_at: submission.created_at,
       }
-    ]
+      if (!submission.judge_status_accepted?) then
+        next data
+      end
+      data.merge({ score: submission.score })
+    end
+    render json: submission_list, status: 200
   end
 
   def create
@@ -49,5 +62,9 @@ class Api::SubmissionsController < ApplicationController
 
   def prevent_submission?(contest)
     !signed_in? || !contest.started? || (contest.during? && !contest.registered_by?(current_user))
+  end
+
+  def prevent_show?(contest)
+    !signed_in? || !contest.registered_by?(current_user)
   end
 end
