@@ -10,20 +10,7 @@ class Api::SubmissionsController < ApplicationController
       return
     end
 
-    submission_list = contest.submissions.where(user: current_user).map do |submission|
-      data = {
-        id: submission.id,
-        problem_id: submission.problem_id,
-        data_set_id: submission.data_set_id,
-        judge_status: submission.judge_status_before_type_cast,
-        created_at: submission.created_at,
-      }
-      if (!submission.judge_status_accepted?) then
-        next data
-      end
-      data.merge({ score: submission.score })
-    end
-    render json: submission_list, status: 200
+    render json: json_create_for_index(contest.submissions.where(user: current_user)), status: 200
   end
 
   def create
@@ -49,6 +36,20 @@ class Api::SubmissionsController < ApplicationController
   end
 
   private
+
+  def json_create_for_index(submissions)
+    submissions.map do |submission|
+      data = {
+        id: submission.id,
+        problem_id: submission.problem_id,
+        data_set_id: submission.data_set_id,
+        judge_status: submission.judge_status_before_type_cast,
+        created_at: submission.created_at
+      }
+      next data unless submission.judge_status_accepted?
+      data.merge(score: submission.score)
+    end
+  end
 
   def json_create(submission)
     {

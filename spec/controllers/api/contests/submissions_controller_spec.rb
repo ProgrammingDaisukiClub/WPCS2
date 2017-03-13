@@ -54,12 +54,10 @@ RSpec.describe Api::SubmissionsController do
             problem_id: submission.problem_id,
             data_set_id: submission.data_set_id,
             judge_status: submission.judge_status_before_type_cast,
-            created_at: submission.created_at.iso8601(3),
+            created_at: submission.created_at.iso8601(3)
           }
-          if(!submission.judge_status_accepted?) then
-            next data
-          end
-          data.merge({ score: submission.score })
+          next data unless submission.judge_status_accepted?
+          data.merge(score: submission.score)
         end
       end
 
