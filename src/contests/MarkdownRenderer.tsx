@@ -10,6 +10,9 @@ export default class MarkdownRenderer extends React.Component<Props, {}> {
   public componentDidMount() {
     MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
   }
+  public componentDidUpdate() {
+    MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+  }
   public render() {
     return (
       <div className='markdown-body'>
