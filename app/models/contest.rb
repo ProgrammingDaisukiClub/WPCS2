@@ -5,6 +5,10 @@ class Contest < ApplicationRecord
   has_many :contest_registrations
   has_many :users, through: :contest_registrations
 
+  def preparing?
+    start_at > Time.now
+  end
+
   def started?
     start_at < Time.now
   end
@@ -21,18 +25,30 @@ class Contest < ApplicationRecord
     {
       id: id,
       name: lang == 'ja' ? name_ja : name_en,
-      description: lang == 'ja' ? description_ja : description_en
+      description: lang == 'ja' ? description_ja : description_en,
+      start_at: start_at,
+      end_at: end_at
     }
   end
 
-  def problems_to_show(lang)
+  def problems_to_show(user_id, lang)
     {
       problems: problems.map do |problem|
         {
           id: problem.id,
           name: lang == 'ja' ? problem.name_ja : problem.name_en,
           description: lang == 'ja' ? problem.description_ja : problem.description_en
-        }.merge(problem.label_and_score)
+        }.merge(problem.label_and_score(user_id))
+      end
+    }
+  end
+
+  def problems_for_ranking(user_id)
+    {
+      problems: problems.map do |problem|
+        {
+          id: problem.id
+        }.merge(problem.label_score_solved_at(user_id))
       end
     }
   end
@@ -43,5 +59,9 @@ class Contest < ApplicationRecord
 
   def register(user)
     ContestRegistration.create(user_id: user.id, contest_id: id)
+  end
+
+  def users_sorted_by_rank
+    users.sort { |a, b| b.score_for_contest(self) <=> a.score_for_contest(self) }
   end
 end
