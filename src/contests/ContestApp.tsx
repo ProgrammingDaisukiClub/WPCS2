@@ -4,6 +4,7 @@ import ContestObject from 'contests/ContestObject';
 import ProblemObject from 'contests/ProblemObject';
 import DataSetObject from 'contests/DataSetObject';
 import SubmissionObject from 'contests/SubmissionObject';
+import UserScoreObject from 'contests/UserScoreObject';
 
 import Navigation from 'contests/Navigation';
 import ContestHome from 'contests/ContestHome';
@@ -23,6 +24,7 @@ export interface ContestAppState {
   initialized: boolean;
   contest?: ContestObject;
   submissions?: [ SubmissionObject ];
+  users?: [ UserScoreObject ];
 }
 
 export default class ContestApp extends React.Component<ContestAppProps, ContestAppState> {
@@ -43,12 +45,9 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
   public componentWillMount() {
     this.fetchContest();
-    this.fetchRanking();
   }
 
   public componentDidMount() {
-    this.rankingRequestTimerId = setInterval(this.fetchRanking.bind(this), 60 * 1000);
-
     this.setBorderHeight();
   }
 
@@ -131,6 +130,10 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       contest,
       submissions,
     });
+
+    if(contest.problems) {
+      this.fetchRanking();
+    }
   }
 
   public async join() {
@@ -212,13 +215,34 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       credentials: 'same-origin'
     });
 
+    let users: [ UserScoreObject ];
     switch(response.status) {
       case 200:
-        // TODO
+        const json: any = await response.json();
+        users = json.users.map((user: any) => ({
+          id: user.id,
+          totalScore: user.total_score,
+          name: user.name,
+          problems: user.problems.map((problem: any) => ({
+            id: problem.id,
+            dataSets: problem.data_sets.map((dataSet: any) => ({
+              id: dataSet.id,
+              label: dataSet.label,
+              score: dataSet.score ? dataSet.score : undefined,
+              solvedAt: dataSet.solved_at ? new Date(dataSet.solved_at) : undefined
+            }))
+          }))
+        }))
         break;
 
       case 403: throw new Error('403 forbidden');
       case 404: throw new Error('404 not found');
+    }
+
+    this.setState({ users })
+
+    if(!this.rankingRequestTimerId) {
+      this.rankingRequestTimerId = setInterval(this.fetchRanking.bind(this), 60 * 1000);
     }
   }
 
@@ -258,8 +282,11 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             submissions={ this.state.submissions }
           />
         }
-        { this.props.children && this.props.children.type === Ranking &&
-          this.props.children
+        { this.props.children && this.props.children.type === Ranking && this.state.users &&
+          <Ranking
+            contest={ this.state.contest }
+            users={ this.state.users }
+          />
         }
       </div>
     );
