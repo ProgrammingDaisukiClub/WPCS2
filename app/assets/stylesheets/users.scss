@@ -1,0 +1,102 @@
+@import "variables";
+@import "mixins";
+
+.usersAuth {
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  &--inner {
+    padding: 16px;
+  }
+  &--title {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    font-weight: normal;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background-color: $brand-color;
+    }
+  }
+  &--body {
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-bottom: 8px;
+  }
+  &--errors {
+    margin-bottom: 8px;
+  }
+  &--error {
+    padding: 8px;
+    background: lighten($error-color, 30%);
+    border: 1px solid $error-color;
+    border-radius: 4px;
+    color: darken($error-color, 15%);
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+  &--formTable {
+    width: 100%;
+    border-spacing: 0;
+    margin-bottom: 8px;
+  }
+  &--row {
+    vertical-align: middle;
+  }
+  &--cell {
+    padding: 8px;
+    border-bottom: 1px solid #979797;
+    vertical-align: middle;
+  }
+  &--input {
+    @include clear-form-input-style;
+    display: inline-block;
+    width: 100%;
+    padding: 6px 4px;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    box-shadow: 0 0.5px 0.8px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
+    font-size: 16px;
+    transition: border 0.15s ease-in, box-shadow 0.15s ease-in;
+    &:focus {
+      border: 1px solid #979797;
+      box-shadow: 0 0.5px 8px 0 rgba(0, 0, 0, 0.08), 0 0.5px 4px 0 rgba(0, 0, 0, 0.18);
+    }
+  }
+  &--actions {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  &--actionButton {
+    @include clear-form-input-style;
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 8px;
+    background-color: $brand-color;
+    box-shadow: 0 0.5px 0.8px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
+    color: #fff;
+    font-size: 14px;
+    font-weight: normal;
+    cursor: pointer;
+    transition: 0.15s background-color ease-in, 0.15s box-shadow ease-in;
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      background-color: lighten($brand-color, 5%);
+      box-shadow: 0 0.5px 8px 0 rgba(0, 0, 0, 0.08), 0 0.5px 4px 0 rgba(0, 0, 0, 0.18);
+      color: #fff;
+    }
+  }
+}

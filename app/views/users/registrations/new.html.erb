@@ -1,31 +1,54 @@
-<h2><%= t('.sign_up') %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t('.sign_up') %>
-  </div>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'users' %>
 <% end %>
 
-<%= render "users/shared/links" %>
+<div class="usersAuth">
+  <div class="usersAuth--inner">
+    <h2 class="usersAuth--title"><%= t('.sign_up') %></h2>
+    <div class="usersAuth--body">
+      <%= render "users/shared/errors" %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <table class="usersAuth--formTable">
+          <tbody>
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell">
+                <%= f.label :name %>
+              </td>
+              <td class="usersAuth--cell">
+                <%= f.text_field :name, autofocus: true, class: 'usersAuth--input' %>
+              </td>
+            </tr>
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell">
+                <%= f.label :email %>
+              </td>
+              <td class="usersAuth--cell">
+                <%= f.email_field :email, class: 'usersAuth--input' %>
+              </td>
+            </tr>
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell">
+                <%= f.label :password %>
+              </td>
+              <td class="usersAuth--cell">
+                <%= f.password_field :password, autocomplete: "off", class: 'usersAuth--input' %>
+              </td>
+            </tr>
+            <tr class="usresAuth--row">
+              <td class="usersAuth--cell">
+                <%= f.label :password_confirmation %>
+              </td>
+              <td class="usersAuth--cell">
+                <%= f.password_field :password_confirmation, autocomplete: "off", class: 'usersAuth--input' %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="usersAuth--actions">
+          <%= f.submit t('.sign_up'), class: 'usersAuth--actionButton' %>
+        </div>
+      <% end %>
+    </div>
+    <%= render "users/shared/links" %>
+  </div>
+</div>

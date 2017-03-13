@@ -1,0 +1,9 @@
+<% if resource.errors.present? %>
+  <div class="usersAuth--errors">
+    <% resource.errors.full_messages.each do |message| %>
+      <div class="usersAuth--error">
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
