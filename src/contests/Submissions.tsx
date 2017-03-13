@@ -14,13 +14,12 @@ export interface SubmissionsProps extends React.Props<Submissions> {
 export default class Submissions extends React.Component<SubmissionsProps, {}> {
   constructor() {
     super();
-
     this.state = {};
   }
 
   public createdAt(date: Date) {
     const yyyy: number = date.getFullYear();
-    const mm: number = date.getMonth();
+    const mm: number = date.getMonth() + 1;
     const dd: number = date.getDate();
     const HH: number = date.getHours();
     const MM: number = date.getMinutes();

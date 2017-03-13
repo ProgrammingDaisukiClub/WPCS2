@@ -161,6 +161,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
   public async submit(problemId: number, dataSetId: number, answer: string) {
     const formData: FormData = new FormData();
     formData.append(this.csrfParam, this.csrfToken);
+    formData.append('data_set_id', dataSetId);
     formData.append('answer', answer);
 
     const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
@@ -180,7 +181,16 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
         const dataSetIndex: number = dataSets.findIndex((dataSet) => dataSet.id === dataSetId);
         const dataSet: DataSetObject = dataSets[ dataSetIndex ];
 
-        let state: ContestAppState = Object.assign({}, this.state);
+        let state: ContestAppState = Object.assign({}, this.state, {
+          submissions: this.state.submissions.concat({
+            id: json.id,
+            problemId: json.problem_id,
+            dataSetId: json.data_set_id,
+            judgeStatus: json.judge_status,
+            score: json.score || 0,
+            createdAt: new Date(json.created_at)
+          })
+        });
         if(!dataSet.correct && json.correct) {
           Object.assign(state, {
             contest: Object.assign({}, contest, {
