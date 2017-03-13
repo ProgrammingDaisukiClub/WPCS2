@@ -22,7 +22,7 @@ RSpec.describe Api::ContestsController, type: :controller do
     let(:json_without_problems) do
       {
         id: contest.id,
-        name: params[:lang] == 'ja' ? contest.name_ja : contest.name_en,
+        name: params[:lang] == :ja ? contest.name_ja : contest.name_en,
         description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en,
         start_at: JSON.parse(contest.start_at.to_json),
         end_at: JSON.parse(contest.end_at.to_json),
