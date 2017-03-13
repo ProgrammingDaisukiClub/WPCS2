@@ -2,15 +2,22 @@
   "compilerOptions": {
     "jsx": "react",
     "module": "es6",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "es7"
+    ],
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "public/build",
-    "sourceMap": true,
-    "target": "es5"
+    "sourceMap": true
   },
   "exclude": [
     ".tscache",
     "node_modules"
+  ],
+  "files": [
+    "src/contests/renderHTML.d.ts"
   ]
 }

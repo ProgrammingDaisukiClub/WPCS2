@@ -1,3 +1,4 @@
+import 'whatwg-fetch';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { browserHistory, IndexRoute, Route, Router } from 'react-router';

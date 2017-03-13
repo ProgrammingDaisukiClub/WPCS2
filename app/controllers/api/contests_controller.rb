@@ -1,69 +1,101 @@
 class Api::ContestsController < ApplicationController
   def show
-    render json: {
-      name: 'コンテスト名',
-      description: 'コンテスト詳細説明',
-      start_at: DateTime.now,
-      end_at: DateTime.now.tomorrow,
-      joined: false,
-      problems: [
-        {
-          id: 1,
-          name: '問題名1',
-          description: '問題詳細2',
-          data_sets: [
-            {
-              id: 1,
-              label: 'Small',
-              max_score: 100
-            },
-            {
-              id: 2,
-              label: 'Large',
-              max_score: 200
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: '問題名2',
-          description: '問題詳細2',
-          data_sets: [
-            id: 1,
-            label: 'Medium',
-            max_score: 150
-          ]
-        }
-      ]
-    }
+    unless (contest = Contest.find_by_id(params[:id]))
+      render(json: {}, status: 404)
+      return
+    end
+
+    json_without_problems = contest.name_and_description(params[:lang])
+
+    unless signed_in?
+      show_for_no_login_user(contest, json_without_problems)
+      return
+    end
+
+    show_for_login_user(contest, json_without_problems)
   end
 
   def entry
-    render json: {}
+    unless (contest = Contest.find_by_id(params[:id]))
+      render(json: {}, status: 404)
+      return
+    end
+
+    if !signed_in? || contest.ended?
+      render(json: {}, status: 403)
+    elsif contest.registered_by?(current_user)
+      render(json: {}, status: 409)
+    elsif contest.register(current_user)
+      render(json: {}, status: 201)
+    end
   end
 
   def ranking
-    render json: {
-      users: [
-        id: 1,
-        name: 'ユーザー名',
-        problems: [
+    contest = Contest.find_by_id(params[:id])
+
+    generate_ranking_response(contest)
+  end
+
+  private
+
+  def generate_ranking_response(contest)
+    if contest.nil?
+      render(json: {}, status: 404)
+      return
+    end
+
+    if !signed_in? || contest.preparing?
+      render(json: {}, status: 403)
+      return
+    end
+
+    if contest.during? && !contest.registered_by?(current_user)
+      render(json: {}, status: 403)
+      return
+    end
+
+    ranking_for_login_user(contest)
+  end
+
+  def show_for_no_login_user(contest, json_without_problems)
+    json_without_problems = json_without_problems.merge(joined: false)
+    if contest.ended?
+      json_with_problems = json_without_problems.merge(json_problems(contest))
+      render(json: json_with_problems, status: :ok)
+    else
+      render(json: json_without_problems, status: :ok)
+    end
+  end
+
+  def show_for_login_user(contest, json_without_problems)
+    is_user_registered = contest.registered_by?(current_user)
+    json_without_problems = json_without_problems.merge(joined: is_user_registered)
+
+    if !contest.started? || (!contest.ended? && !is_user_registered)
+      render(json: json_without_problems, status: :ok)
+    else
+      json_with_problems = json_without_problems.merge(json_problems(contest))
+      render(json: json_with_problems, status: :ok)
+    end
+  end
+
+  def ranking_for_login_user(contest)
+    users = contest.users_sorted_by_rank
+    render(
+      json: {
+        users: users.map do |user|
           {
-            id: 1,
-            data_sets: [
-              { id: 1, label: 'small', solved_at: DateTime.now, score: 85 },
-              { id: 2, label: 'large' }
-            ]
-          },
-          {
-            id: 2,
-            data_sets: [
-              { id: 3, label: 'small', solved_at: DateTime.now.tomorrow, score: 97 },
-              { id: 4, label: 'small', solved_at: DateTime.now.yesterday, score: 63 }
-            ]
-          }
-        ]
-      ]
-    }
+            id: user.id,
+            name: user.name,
+            total_score: user.score_for_contest(contest)
+          }.merge(contest.problems_for_ranking(user.id))
+        end
+      },
+      status: :ok
+    )
+  end
+
+  def json_problems(contest)
+    contest.problems_to_show(current_user.try(:id), params[:lang])
   end
 end

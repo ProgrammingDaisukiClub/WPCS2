@@ -1,12 +1,36 @@
 import * as React from 'react';
 
-/**
- * A class of sample react application root component.
- */
-export default class ContestHome extends React.Component<{}, {}> {
+import ContestObject from 'contests/ContestObject';
+
+import MarkdownRenderer from 'contests/MarkdownRenderer';
+
+export interface ContestHomeProps {
+  contest: ContestObject;
+  join: () => void;
+}
+
+export default class ContestHome extends React.Component<ContestHomeProps, {}> {
+  private onJoinButtonClick() {
+    this.props.join();
+  }
+
   public render() {
     return (
-      <div>Hello World</div>
+      <div className="contestHome">
+        <div className="contestHome--inner">
+          <h2 className="contestHome--header">{ this.props.contest.name }</h2>
+          <div className="contestHome--body">
+            { (!this.props.contest.joined && new Date() < this.props.contest.endAt) &&
+              <div className="contestHome--registrationButtonWrapper">
+                <span className="contestHome--registrationButton" onClick={ this.onJoinButtonClick.bind(this) }>
+                  参加する
+                </span>
+              </div>
+            }
+            <MarkdownRenderer text={ this.props.contest.description } />
+          </div>
+        </div>
+      </div>
     );
   }
 }

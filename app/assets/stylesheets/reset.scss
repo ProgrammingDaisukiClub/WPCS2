@@ -1,3 +1,5 @@
+@import "variables";
+
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -39,8 +41,10 @@ li {
 
 a {
   text-decoration: none;
+  color: $link-color;
 }
 
 a:hover {
   text-decoration: underline;
+  color: $link-visited-color;
 }
