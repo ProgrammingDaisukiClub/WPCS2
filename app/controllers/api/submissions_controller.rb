@@ -24,13 +24,7 @@ class Api::SubmissionsController < ApplicationController
       return
     end
 
-    # FIXME: Fix this and test cases when judge method is implemented
-    submission = Submission.create(
-      user: current_user,
-      data_set_id: params[:data_set_id],
-      judge_status: 0,
-      answer: params[:answer]
-    )
+    submission = create_and_judge_submission
 
     render json: json_create(submission), status: 201
   end
@@ -56,7 +50,8 @@ class Api::SubmissionsController < ApplicationController
       id: submission.id,
       problem_id: submission.problem_id,
       data_set_id: submission.data_set_id,
-      judge_status: submission.judge_status.to_i,
+      judge_status: submission.judge_status_before_type_cast,
+      score: submission.score,
       created_at: submission.created_at
     }
   end
@@ -67,5 +62,20 @@ class Api::SubmissionsController < ApplicationController
 
   def prevent_show?(contest)
     !signed_in? || !contest.registered_by?(current_user)
+  end
+
+  def create_and_judge_submission
+    data_set = DataSet.find_by_id(params.required(:data_set_id))
+    answer = params.required(:answer)
+
+    submission = Submission.create(
+      user: current_user,
+      data_set: data_set,
+      judge_status: :waiting,
+      answer: answer
+    )
+
+    submission.judge
+    submission
   end
 end
