@@ -191,7 +191,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             createdAt: new Date(json.created_at)
           })
         });
-        if(!dataSet.correct && json.correct) {
+        if(json.judge_status === 2) {
           Object.assign(state, {
             contest: Object.assign({}, contest, {
               problems: [
@@ -201,7 +201,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
                     ...dataSets.slice(0, dataSetIndex),
                     Object.assign({}, dataSet, {
                       correct: true,
-                      score: json.score
+                      score: Math.max(json.score, dataSet.score)
                     }),
                     ...dataSets.slice(dataSetIndex + 1)
                   ]
