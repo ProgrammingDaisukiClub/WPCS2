@@ -10,8 +10,9 @@ RSpec.describe Api::ContestsController, type: :controller do
   let(:params) do
     {
       id: contest.present? ? contest.id : Contest.pluck(:id).push(0).max.next,
-      lang: lang
-    }
+    }.tap do |params|
+      params.merge({ lang: lang }) if lang != 'ja'
+    end
   end
 
   describe 'GET /api/contents/:id' do
@@ -22,8 +23,8 @@ RSpec.describe Api::ContestsController, type: :controller do
     let(:json_without_problems) do
       {
         id: contest.id,
-        name: params[:lang] == :ja ? contest.name_ja : contest.name_en,
-        description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en,
+        name: params[:lang] == 'en' ? contest.name_en : contest.name_ja,
+        description: params[:lang] == 'en' ? contest.description_en : contest.description_ja,
         start_at: JSON.parse(contest.start_at.to_json),
         end_at: JSON.parse(contest.end_at.to_json),
         joined: user.present? && ContestRegistration.find_by(user_id: user.id).present?
@@ -35,8 +36,8 @@ RSpec.describe Api::ContestsController, type: :controller do
         problems: contest.problems.map do |problem|
           {
             id: problem.id,
-            name: params[:lang] == 'ja' ? problem.name_ja : problem.name_en,
-            description: params[:lang] == 'ja' ? problem.description_ja : problem.description_en,
+            name: params[:lang] == 'en' ? problem.name_en : problem.name_ja,
+            description: params[:lang] == 'en' ? problem.description_en : problem.description_ja,
             data_sets: problem.data_sets.map do |data_set|
               {
                 id: data_set.id,
