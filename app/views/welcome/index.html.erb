@@ -4,40 +4,31 @@
 
 <div class='main clearfix'>
   <div class='contests'>
+    <% @top_contest.each do |contest| %>
     <div class='contests__item'> 
       <div class='contests__item__header'> 
-        <span class='contests__item__header__title'>About WPCS</span> 
-      </div>
-      <div class='contests__item__body'>このサイトは競技プログラミングコンテストの〜</div>
-    </div>
-
-    <div class='contests__item'> 
-      <div class='contests__item__header'> 
-        <span class='contests__item__header__title'>情理オリエンテーション</span> 
+        <span class='contests__item__header__title'><%= contest[:name]%></span> 
       </div>
       <div class='contests__item__body clearfix'>
-        早稲田大学情報理工学科2年生オリエンテーションで行うプログラミングコンテストです。2年生だけでなく3, 4年生の参加もお待ちしています。コンテスト上位者には商品が出る……かもしれない？
-        <br />
-        <div class='contests__item__body__left'> 
-          <p>開始時間: 4/29(土) 14:00</p>
-          <p>コンテスト時間: 100分</p>
-          <p>問題数: 8問 </p>
-        </div>
-        <div class='contests__item__body__right'> 
-          <br />
-          <br />
-          <button class='contests__item__body__btn'>参加する</button>
-        </div>
+        <%= contest[:description]%>
       </div>  
+      <div class='contests__item__body__right'>
+        <button class='contests__item__body__btn'>参加する</button>
+      </div>
     </div>
+    <% end %>
   </div>
 
   <div class='side-nav'>
     <div class='side-nav__header'> 
-      <span class='side-nav__header__title'>過去に開催されたコンテスト</span>
+      <span class='side-nav__header__title'>Contests</span>
     </div>
-    <div class='side-nav__item'>
-      <span class='side-nav__item__title'>プログラミングコンテスト</span>
-    </div>
+    <ul>
+      <% @all_contest.each do |contest| %>
+      <li class='contests__item'>
+         <a><%= contest[:name]%></a>
+      </li>
+      <% end %>
+    </ul>    
   </div>
 </div>
