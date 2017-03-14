@@ -1,22 +1,32 @@
-<h2><%= t('.change_your_password') %></h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
-
-  <div class="field">
-    <%= f.label :password, t('.new_password') %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, t('.confirm_new_password') %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t('.change_my_password') %>
-  </div>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'users' %>
 <% end %>
 
-<%= render "users/shared/links" %>
+<div class="usersAuth">
+  <div class="usersAuth--inner">
+    <h2 class="usersAuth--title"><%= t('.change_your_password') %></h2>
+    <div class="usersAuth--body">
+      <%= render "users/shared/errors" %>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+        <%= f.hidden_field :reset_password_token %>
+        <table class="usersAuth--formTable">
+          <tbody>
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell"><%= f.label :password, t('.new_password') %></td>
+              <td class="usersAuth--cell"><%= f.password_field :password, autocomplete: "off" %></td>
+            </div>
+
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell"><%= f.label :password_confirmation, t('.confirm_new_password') %></td>
+              <td class="usersAuth--cell"><%= f.password_field :password_confirmation, autocomplete: "off" %></td>
+            </div>
+          </tbody>
+        </table>
+        <div class="usersAuth--actions">
+          <%= f.submit t('.change_my_password'), class: 'usersAuth--actionButton' %>
+        </div>
+      <% end %>
+    </div>
+    <%= render "users/shared/links" %>
+  </div>
+</div>
