@@ -443,17 +443,32 @@ RSpec.describe Api::ContestsController, type: :controller do
       describe 'Case 3: return json' do
         let(:json_ranking) do
           sorted_users = contest.users.sort do |a, b|
-            b.score_for_contest(contest) <=>
-              a.score_for_contest(contest)
+            b.score_for_contest(contest) <=> a.score_for_contest(contest)
           end
           {
             users: sorted_users.map do |user|
-                     {
-                       id: user.id,
-                       name: user.name,
-                       total_score: user.score_for_contest(contest)
-                     }.merge(contest.problems_for_ranking(user.id))
-                   end
+              {
+                id: user.id,
+                name: user.name,
+                total_score: user.score_for_contest(contest),
+                problems: contest.problems.map do |problem|
+                  {
+                    id: problem.id,
+                    data_sets: problem.data_sets.map do |data_set|
+                      {
+                        id: data_set.id,
+                        label: data_set.label
+                      }.tap do |hash|
+                        if data_set.solved_by?(user.id)
+                          hash.merge!(score: data_set.user_score(user.id),
+                                      solved_at: JSON.parse(data_set.user_solved_at(user.id).to_json))
+                        end
+                      end
+                    end
+                  }
+                end
+              }
+            end
           }
         end
         context 'logged in' do

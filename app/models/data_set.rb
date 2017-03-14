@@ -18,7 +18,7 @@ class DataSet < ApplicationRecord
     return 0 if user_id.nil?
     submission = submissions.where(user: user_id, judge_status: :accepted).order(score: :desc).limit(1).first
     return 0 if submission.nil?
-    submission.created_at.iso8601(9).to_json
+    submission.created_at
   end
 
   def to_json_hash(user_id)

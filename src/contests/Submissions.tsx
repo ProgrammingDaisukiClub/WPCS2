@@ -6,56 +6,22 @@ import ProblemObject from 'contests/ProblemObject';
 import DataSetObject from 'contests/DataSetObject';
 import SubmissionObject from 'contests/SubmissionObject';
 
+import JUDGE_STATUS from 'contests/JUDGE_STATUS';
+
 export interface SubmissionsProps extends React.Props<Submissions> {
   contest: ContestObject;
   submissions: [ SubmissionObject ];
 }
 
 export default class Submissions extends React.Component<SubmissionsProps, {}> {
-  public static defaultProps: Partial<SubmissionsProps> = {
-    contest: {
-      id: 1,
-      name: 'contest name is ...',
-      description: 'contest description',
-      joined: true,
-      startAt: new Date,
-      endAt: new Date,
-      problems: [
-        {
-          id: 1,
-          name: 'problem name',
-          description: 'problem description',
-          dataSets: [
-            {
-              id: 1,
-              label: 'Small',
-              maxScore: 1000,
-              correct: false,
-              score: 100
-            }, {
-              id: 2,
-              label: 'Large',
-              maxScore: 1000,
-              correct: false,
-              score: 100
-            }
-          ]
-        }
-      ]
-    },
-    submissions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((sid) => ({
-      id: sid,
-      problemId: 1,
-      dataSetId: Math.floor(Math.random() * 2) + 1,
-      judgeStatus: Math.floor(Math.random() * 2) + 1,
-      score: Math.floor(Math.random() * 1000),
-      createdAt: new Date()
-    })) as [ SubmissionObject ]
+  constructor() {
+    super();
+    this.state = {};
   }
 
   public createdAt(date: Date) {
     const yyyy: number = date.getFullYear();
-    const mm: number = date.getMonth();
+    const mm: number = date.getMonth() + 1;
     const dd: number = date.getDate();
     const HH: number = date.getHours();
     const MM: number = date.getMinutes();
@@ -79,9 +45,15 @@ export default class Submissions extends React.Component<SubmissionsProps, {}> {
     }).label;
   }
 
-  public render() {
-    const WA: number = 1;
+  public judgeStatus(status: number) {
+    switch(status) {
+      case JUDGE_STATUS.WJ: return 'WJ';
+      case JUDGE_STATUS.WA: return 'WA';
+      case JUDGE_STATUS.AC: return 'AC';
+    }
+  }
 
+  public render() {
     return (
       <div className="submissions">
         <div className="submissions--inner">
@@ -104,8 +76,8 @@ export default class Submissions extends React.Component<SubmissionsProps, {}> {
                     <td className="submissions--problemName">{ this.problemName(submission.problemId) }</td>
                     <td className="submissions--dataSetLabel">{ this.dataSetLabel(submission.problemId, submission.dataSetId) }</td>
                     <td className="submissions--judgeStatus">
-                      <div className={ `submissions--judgeStatusBadge__${ submission.judgeStatus === WA ? 'WA' : 'AC' }` }>
-                        { submission.judgeStatus === WA ? 'WA' : 'AC' }
+                      <div className={ `submissions--judgeStatusBadge__${ this.judgeStatus(submission.judgeStatus) }` }>
+                        { this.judgeStatus(submission.judgeStatus) }
                       </div>
                     </td>
                     <td className="submissions--score">{ submission.score }</td>
