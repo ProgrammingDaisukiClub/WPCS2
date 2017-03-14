@@ -48,13 +48,13 @@ RSpec.describe Api::SubmissionsController do
     context 'when user logged in and participated' do
       let(:submission) { Submission.last }
       let(:json_with_submission) do
-        contest.submissions.where(user: user).map do |submission|
+        contest.submissions.where(user: user).order(id: :asc).map do |submission|
           data = {
             id: submission.id,
             problem_id: submission.problem_id,
             data_set_id: submission.data_set_id,
             judge_status: submission.judge_status_before_type_cast,
-            created_at: submission.created_at.iso8601(3)
+            created_at: JSON.parse(submission.created_at.to_json)
           }
           next data unless submission.judge_status_accepted?
           data.merge(score: submission.score)

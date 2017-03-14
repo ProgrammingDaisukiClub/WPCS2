@@ -10,7 +10,7 @@ class Api::SubmissionsController < ApplicationController
       return
     end
 
-    render json: json_create_for_index(contest.submissions.where(user: current_user)), status: 200
+    render json: json_create_for_index(contest.submissions.where(user: current_user).order(id: :asc)), status: 200
   end
 
   def create
@@ -57,7 +57,7 @@ class Api::SubmissionsController < ApplicationController
       problem_id: submission.problem_id,
       data_set_id: submission.data_set_id,
       judge_status: submission.judge_status.to_i,
-      created_at: submission.created_at.to_s
+      created_at: submission.created_at
     }
   end
 

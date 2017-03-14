@@ -16,7 +16,7 @@ Metrics/BlockLength:
   Exclude:
     - "**/*.rake"
     - 'spec/**/*.rb'
-    - 'config/routes/*.rb'
+    - 'config/**/*.rb'
 
 Metrics/LineLength:
   Max: 120

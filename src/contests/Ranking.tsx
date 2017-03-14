@@ -17,39 +17,6 @@ interface RankingState {
 }
 
 export default class Ranking extends React.Component<RankingProps, RankingState> {
-  public static defaultProps: Partial<RankingProps> = {
-    contest: {
-      id: 1,
-      name: 'contest name',
-      description: 'description',
-      joined: true,
-      startAt: new Date((+new Date) - 60 * 60 * 1000),
-      endAt: new Date((+new Date) + 60 * 60 * 1000),
-      problems: [1, 2, 3, 4].map((pid) => ({
-        id: pid,
-        dataSets: ['Small', 'Large'].map((label, did) => ({
-          id: did + 1,
-          label: label,
-          maxScore: Math.floor(Math.random() * 1000),
-        } as DataSetScoreObject)) as [ DataSetObject ],
-      } as ProblemScoreObject)) as [ ProblemObject ],
-    },
-    users: Array(220).fill(0).map((v, i) => v + i).map((uid) => ({
-      id: uid + 1,
-      totalScore: 200,
-      name: `user name ${uid + 1}`,
-      problems: [1, 2, 3, 4].map((pid) => ({
-        id: pid,
-        dataSets: ['Small', 'Large'].map((label, did) => ({
-          id: did + 1,
-          label: label,
-          solvedAt: new Date,
-          score: Math.floor(Math.random() * 1000),
-        } as DataSetScoreObject)) as [ DataSetScoreObject ],
-      } as ProblemScoreObject)) as [ ProblemScoreObject ],
-    } as UserScoreObject)) as [ UserScoreObject ],
-  };
-
   constructor() {
     super();
 

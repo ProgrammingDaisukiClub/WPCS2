@@ -5,7 +5,7 @@ class Api::ContestsController < ApplicationController
       return
     end
 
-    json_without_problems = contest.name_and_description(params[:lang])
+    json_without_problems = contest.name_and_description(I18n.locale)
 
     unless signed_in?
       show_for_no_login_user(contest, json_without_problems)
@@ -96,6 +96,6 @@ class Api::ContestsController < ApplicationController
   end
 
   def json_problems(contest)
-    contest.problems_to_show(current_user.try(:id), params[:lang])
+    contest.problems_to_show(current_user.try(:id), I18n.locale)
   end
 end
