@@ -331,6 +331,7 @@
   &--score {
     text-align: center;
   }
+  &--judgeStatusBadge__WJ,
   &--judgeStatusBadge__WA,
   &--judgeStatusBadge__AC {
     display: inline-block;
@@ -340,6 +341,9 @@
     font-size: 12px;
     text-align: center;
     color: #fff;
+  }
+  &--judgeStatusBadge__WJ {
+    background-color: #979797;
   }
   &--judgeStatusBadge__WA {
     background-color: #ef9e2b;
