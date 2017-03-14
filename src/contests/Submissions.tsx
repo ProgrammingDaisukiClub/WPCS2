@@ -6,6 +6,8 @@ import ProblemObject from 'contests/ProblemObject';
 import DataSetObject from 'contests/DataSetObject';
 import SubmissionObject from 'contests/SubmissionObject';
 
+import JUDGE_STATUS from 'contests/JUDGE_STATUS';
+
 export interface SubmissionsProps extends React.Props<Submissions> {
   contest: ContestObject;
   submissions: [ SubmissionObject ];
@@ -43,9 +45,15 @@ export default class Submissions extends React.Component<SubmissionsProps, {}> {
     }).label;
   }
 
-  public render() {
-    const WA: number = 1;
+  public judgeStatus(status: number) {
+    switch(status) {
+      case JUDGE_STATUS.WJ: return 'WJ';
+      case JUDGE_STATUS.WA: return 'WA';
+      case JUDGE_STATUS.AC: return 'AC';
+    }
+  }
 
+  public render() {
     return (
       <div className="submissions">
         <div className="submissions--inner">
@@ -68,8 +76,8 @@ export default class Submissions extends React.Component<SubmissionsProps, {}> {
                     <td className="submissions--problemName">{ this.problemName(submission.problemId) }</td>
                     <td className="submissions--dataSetLabel">{ this.dataSetLabel(submission.problemId, submission.dataSetId) }</td>
                     <td className="submissions--judgeStatus">
-                      <div className={ `submissions--judgeStatusBadge__${ submission.judgeStatus === WA ? 'WA' : 'AC' }` }>
-                        { submission.judgeStatus === WA ? 'WA' : 'AC' }
+                      <div className={ `submissions--judgeStatusBadge__${ this.judgeStatus(submission.judgeStatus) }` }>
+                        { this.judgeStatus(submission.judgeStatus) }
                       </div>
                     </td>
                     <td className="submissions--score">{ submission.score }</td>

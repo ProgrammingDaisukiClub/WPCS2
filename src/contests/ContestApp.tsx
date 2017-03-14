@@ -6,6 +6,8 @@ import DataSetObject from 'contests/DataSetObject';
 import SubmissionObject from 'contests/SubmissionObject';
 import UserScoreObject from 'contests/UserScoreObject';
 
+import JUDGE_STATUS from 'contests/JUDGE_STATUS';
+
 import Navigation from 'contests/Navigation';
 import ContestHome from 'contests/ContestHome';
 import Problem from 'contests/Problem';
@@ -191,7 +193,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             createdAt: new Date(json.created_at)
           })
         });
-        if(json.judge_status === 2) {
+        if(json.judge_status === JUDGE_STATUS.AC) {
           Object.assign(state, {
             contest: Object.assign({}, contest, {
               problems: [
