@@ -16,7 +16,7 @@ class DataSet < ApplicationRecord
       user: user_id,
       judge_status: :accepted,
       created_at: range
-    ).order(score: :desc).limit(1).first
+    ).order(score: :desc).first
     return 0 if submission.nil?
     submission.score
   end
