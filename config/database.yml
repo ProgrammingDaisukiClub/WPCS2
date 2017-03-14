@@ -32,5 +32,3 @@ test:
 production:
   <<: *default
   database: wpcs2_production
-  username: wpcs2
-  password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
