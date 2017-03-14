@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     member do
       get 'ranking'
     end
+    resources 'submissions', only: ['index']
   end
 
   namespace :api do
