@@ -1,0 +1,22 @@
+// Place all the styles related to the privacy_policy controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "mixins";
+
+.privacy {
+  @include clearfix;
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  &--inner {
+    padding: 16px;
+  }
+  &--contents {
+    margin-bottom: 8px;
+  }
+  li {
+    list-style-type: decimal;
+    margin-left: 32px;
+  }
+}
