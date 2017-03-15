@@ -82,6 +82,7 @@ RSpec.describe Api::SubmissionsController do
     let(:user) { create(:user) }
     let(:user_signed_in?) { true }
     let(:user_registered?) { true }
+    let(:correct_answer?) { false }
 
     before do
       sign_in(user) if user_signed_in?
@@ -89,7 +90,7 @@ RSpec.describe Api::SubmissionsController do
       post :create, params: {
         contest_id: contest_id,
         data_set_id: data_set.id,
-        answer: 'hogehoge'
+        answer: correct_answer? ? data_set.output : 'hogehoge'
       }
     end
 
@@ -127,21 +128,15 @@ RSpec.describe Api::SubmissionsController do
 
     context 'when contest is being held and user registers' do
       let(:submission) { Submission.last }
-      let(:json_when_wrong_submission) do
+      let(:json_submission) do
         {
           id: submission.id,
           problem_id: submission.data_set.problem.id,
           data_set_id: submission.data_set.id,
-          judge_status: 1, # WA
-          created_at: submission.created_at.to_s
-        }
-      end
-
-      let(:json_when_accepted_submission) do
-        json_when_wrong_submission.merge(
-          judge_status: 2, # AC
+          judge_status: correct_answer? ? 2 : 1,
+          created_at: JSON.parse(submission.created_at.to_json),
           score: submission.score
-        )
+        }
       end
 
       it 'returns 201 Created' do
@@ -149,16 +144,15 @@ RSpec.describe Api::SubmissionsController do
       end
 
       context 'if submission is correct' do
+        let(:correct_answer?) { true }
         it 'contains JSON of accepted submission' do
-          pending 'waiting for implementations of judging'
-          expect(JSON.parse(response.body, symbolize_names: true)).to eq json_when_accepted_submission
+          expect(JSON.parse(response.body, symbolize_names: true)).to eq json_submission
         end
       end
 
       context 'if submission is wrong' do
         it 'contains JSON of wrong submission' do
-          pending 'waiting for implementations of judging'
-          expect(JSON.parse(response.body, symbolize_names: true)).to eq json_when_wrong_submission
+          expect(JSON.parse(response.body, symbolize_names: true)).to eq json_submission
         end
       end
     end
