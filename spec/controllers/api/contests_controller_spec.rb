@@ -38,7 +38,7 @@ RSpec.describe Api::ContestsController, type: :controller do
             id: problem.id,
             name: params[:lang] == 'en' ? problem.name_en : problem.name_ja,
             description: params[:lang] == 'en' ? problem.description_en : problem.description_ja,
-            data_sets: problem.data_sets.map do |data_set|
+            data_sets: problem.data_sets.order(order: :asc).map do |data_set|
               {
                 id: data_set.id,
                 label: data_set.label,
@@ -455,7 +455,7 @@ RSpec.describe Api::ContestsController, type: :controller do
                 problems: contest.problems.order(order: :asc).map do |problem|
                   {
                     id: problem.id,
-                    data_sets: problem.data_sets.map do |data_set|
+                    data_sets: problem.data_sets.order(order: :asc).map do |data_set|
                       {
                         id: data_set.id,
                         label: data_set.label
