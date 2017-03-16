@@ -1,39 +1,61 @@
-<h2><%= t('.title', resource: resource_class.model_name.human) %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <p>
-      <%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %>
-    </p>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i><br />
-    <%= f.password_field :current_password %>
-  </div>
-
-  <div><%= f.submit t('.update') %></div>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'users' %>
 <% end %>
 
-<h3><%= t('.cancel_my_account') %></h3>
-
-<p><%= t('.unhappy') %> <%= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %>.</p>
-
-<%= link_to t('users.shared.links.back'), :back %>
+<div class="usersAuth">
+  <div class="usersAuth--inner">
+    <h2 class="usersAuth--title"><%= t('.title', resource: resource_class.model_name.human) %></h2>
+    <div class="usersAuth--body">
+      <%= render "users/shared/errors" %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <table class="usersAuth--formTable">
+          <tbody>
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell">
+                <%= f.label :email %>
+              </td>
+              <td class="usersAuth--cell">
+                <%= f.email_field :email, class: 'usersAuth--input' %>
+              </td>
+            </tr>
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell">
+                <%= f.label :password %><br />
+                (<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)
+              </td>
+              <td class="usersAuth--cell">
+                <%= f.password_field :password, autocomplete: "off", class: 'usersAuth--input' %>
+              </td>
+            </tr>
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell">
+                <%= f.label :password_confirmation %>
+              </td>
+              <td class="usersAuth--cell">
+                <%= f.password_field :password_confirmation, class: 'usersAuth--input' %>
+              </td>
+            </tr>
+            <tr class="usersAuth--row">
+              <td class="usersAuth--cell">
+                <%= f.label :current_password %><br />
+                (<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)
+              </td>
+              <td class="usersAuth--cell">
+                <%= f.password_field :current_password, class: 'usersAuth--input' %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="usersAuth--actions">
+          <%= f.submit t('.update'), class: 'usersAuth--actionButton' %>
+        </div>
+      <% end %>
+    </div>
+    <h3 class="usersAuth--title"><%= t('.cancel_my_account') %></h3>
+    <div class="usersAuth--body">
+      <p>
+        <%= t('.unhappy') %> <%= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %>.
+      </p>
+    </div>
+  </div>
+</div>
