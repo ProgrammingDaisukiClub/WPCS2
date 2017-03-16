@@ -42,7 +42,11 @@ i18n_configs = Object.keys(languages).map(language => Object.assign({}, config, 
   output: Object.assign({}, config.output, {
     filename: `[name].${language}.js`
   }),
-  plugins: [ new I18nPlugin(languages[language]) ],
+  plugins: [
+    new I18nPlugin(languages[language], {
+      functionName: 't',
+    })
+  ],
 }));
 
 module.exports = i18n_configs;
