@@ -46,13 +46,13 @@ export default class Ranking extends React.Component<RankingProps, RankingState>
     return (
       <div className="ranking">
         <div className="ranking--inner">
-          <div className="ranking--header">Ranking</div>
+          <div className="ranking--header">{ t('ranking') }</div>
           <div className="ranking--body">
             <table className="ranking--table">
               <thead>
                 <tr>
-                  <td className="ranking--tableOrderHeader">順位</td>
-                  <td className="ranking--tableNameHeader">名前</td>
+                  <td className="ranking--tableOrderHeader">{ t('rank') }</td>
+                  <td className="ranking--tableNameHeader">{ t('user_name') }</td>
                   { this.props.contest.problems.map((problem: ProblemObject, index: number) => (
                     problem.dataSets.map((dataSet: DataSetObject) => (
                       <td key={ dataSet.id } className="ranking--tableScoreHeader">
@@ -60,7 +60,7 @@ export default class Ranking extends React.Component<RankingProps, RankingState>
                       </td>
                     ))
                   ))}
-                  <td className="ranking--tableTotalScoreHeader">総合得点</td>
+                  <td className="ranking--tableTotalScoreHeader">{ t('total_score') }</td>
                 </tr>
               </thead>
               <tbody>

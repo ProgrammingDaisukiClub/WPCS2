@@ -57,16 +57,16 @@ export default class Submissions extends React.Component<SubmissionsProps, {}> {
     return (
       <div className="submissions">
         <div className="submissions--inner">
-          <div className="submissions--header">Submissions</div>
+          <div className="submissions--header">{ t('submissions') }</div>
           <div className="submissions--body">
             <table className="submissions--table">
               <thead>
                 <tr>
-                  <td className="submissions--createdAtHeader">提出日時</td>
-                  <td className="submissions--problemNameHeader">問題名</td>
-                  <td className="submissions--dataSetLabelHeader">データセット</td>
-                  <td className="submissions--judgeStatusHeader">判定</td>
-                  <td className="submissions--scoreHeader">得点</td>
+                  <td className="submissions--createdAtHeader">{ t('submitted_at') }</td>
+                  <td className="submissions--problemNameHeader">{ t('problem') }</td>
+                  <td className="submissions--dataSetLabelHeader">{ t('data_set') }</td>
+                  <td className="submissions--judgeStatusHeader">{ t('judge') }</td>
+                  <td className="submissions--scoreHeader">{ t('score') }</td>
                 </tr>
               </thead>
               <tbody>

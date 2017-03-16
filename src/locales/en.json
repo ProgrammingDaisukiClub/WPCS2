@@ -1,3 +1,19 @@
 {
-  "hello": "Hello"
+  "locale": "?lang=en",
+  "hello": "Hello",
+  "contest_home": "Contest Home",
+  "submissions": "Your Submissions",
+  "ranking": "Ranking",
+  "join": "Join Contest",
+  "score": "Score",
+  "submission": "Answer Submission",
+  "submit": "Submit",
+  "submitted_at": "Date",
+  "problem": "Problem",
+  "data_set": "Data Set",
+  "judge": "Judge",
+  "score": "Score",
+  "rank": "Rank",
+  "user_name": "User Name",
+  "total_score": "Total Score"
 }
