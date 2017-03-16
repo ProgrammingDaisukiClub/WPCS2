@@ -1,10 +1,7 @@
 class WelcomeController < ApplicationController
   def index
-    @top_contest = Contest.limit(2).map do |contest|
-      contest.name_and_description(I18n.locale)
-    end
-    @all_contest = Contest.all.map do |contest|
-      contest.name_and_description(I18n.locale)
-    end
+    now = DateTime.now
+    @top_contest = Contest.where('end_at >= ?', now)
+    @all_contest = Contest.where('end_at < ?', now)
   end
 end
