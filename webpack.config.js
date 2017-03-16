@@ -1,4 +1,10 @@
 const path = require('path');
+const I18nPlugin = require('i18n-webpack-plugin');
+
+const languages = {
+  "en": require("./src/locales/en.json"),
+  "ja": require("./src/locales/ja.json")
+};
 
 let config = {
   entry: {
@@ -7,7 +13,6 @@ let config = {
   },
   output: {
     path: path.join(__dirname, "./app/assets/javascripts/build"),
-    filename: "[name].js",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
@@ -32,4 +37,12 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
-module.exports = config;
+i18n_configs = Object.keys(languages).map(language => Object.assign({}, config, {
+  name: language,
+  output: Object.assign({}, config.output, {
+    filename: `[name].${language}.js`
+  }),
+  plugins: [ new I18nPlugin(languages[language]) ],
+}));
+
+module.exports = i18n_configs;
