@@ -44,6 +44,9 @@
             </tr>
           </tbody>
         </table>
+        <div class="usersAuth--terms">
+          <%= t('.terms_confirmation', terms_of_service: link_to(t('.terms_of_service'), terms_path), privacy_policies: link_to(t('.privacy_policies'), privacy_policies_path)).html_safe %>
+        </div>
         <div class="usersAuth--actions">
           <%= f.submit t('.sign_up'), class: 'usersAuth--actionButton' %>
         </div>
