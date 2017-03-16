@@ -65,7 +65,7 @@ class Api::SubmissionsController < ApplicationController
   end
 
   def create_and_judge_submission
-    data_set = DataSet.find_by_id(params.required(:data_set_id))
+    data_set = DataSet.find(params.required(:data_set_id))
     answer = params.required(:answer)
 
     submission = Submission.create(

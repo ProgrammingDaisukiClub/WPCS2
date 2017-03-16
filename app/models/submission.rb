@@ -37,7 +37,7 @@ class Submission < ApplicationRecord
 
   def contest_progress_rate
     contest_time = contest.end_at - contest.start_at
-    remain_time = contest.end_at - created_at
-    remain_time / contest_time
+    remaining_time = contest.end_at - created_at
+    remaining_time / contest_time
   end
 end
