@@ -9,9 +9,10 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   let(:params) do
     {
-      id: contest.present? ? contest.id : Contest.pluck(:id).push(0).max.next,
-      lang: lang
-    }
+      id: contest.present? ? contest.id : Contest.pluck(:id).push(0).max.next
+    }.tap do |params|
+      params.merge(lang: lang) if lang != 'ja'
+    end
   end
 
   describe 'GET /api/contents/:id' do
@@ -22,8 +23,8 @@ RSpec.describe Api::ContestsController, type: :controller do
     let(:json_without_problems) do
       {
         id: contest.id,
-        name: params[:lang] == 'ja' ? contest.name_ja : contest.name_en,
-        description: params[:lang] == 'ja' ? contest.description_ja : contest.description_en,
+        name: params[:lang] == 'en' ? contest.name_en : contest.name_ja,
+        description: params[:lang] == 'en' ? contest.description_en : contest.description_ja,
         start_at: JSON.parse(contest.start_at.to_json),
         end_at: JSON.parse(contest.end_at.to_json),
         joined: user.present? && ContestRegistration.find_by(user_id: user.id).present?
@@ -32,12 +33,12 @@ RSpec.describe Api::ContestsController, type: :controller do
 
     let(:json_with_problems) do
       json_without_problems.merge(
-        problems: contest.problems.map do |problem|
+        problems: contest.problems.order(order: :asc).map do |problem|
           {
             id: problem.id,
-            name: params[:lang] == 'ja' ? problem.name_ja : problem.name_en,
-            description: params[:lang] == 'ja' ? problem.description_ja : problem.description_en,
-            data_sets: problem.data_sets.map do |data_set|
+            name: params[:lang] == 'en' ? problem.name_en : problem.name_ja,
+            description: params[:lang] == 'en' ? problem.description_en : problem.description_ja,
+            data_sets: problem.data_sets.order(order: :asc).map do |data_set|
               {
                 id: data_set.id,
                 label: data_set.label,
@@ -443,17 +444,32 @@ RSpec.describe Api::ContestsController, type: :controller do
       describe 'Case 3: return json' do
         let(:json_ranking) do
           sorted_users = contest.users.sort do |a, b|
-            b.score_for_contest(contest) <=>
-              a.score_for_contest(contest)
+            b.score_for_contest(contest) <=> a.score_for_contest(contest)
           end
           {
             users: sorted_users.map do |user|
-                     {
-                       id: user.id,
-                       name: user.name,
-                       total_score: user.score_for_contest(contest)
-                     }.merge(contest.problems_for_ranking(user.id))
-                   end
+              {
+                id: user.id,
+                name: user.name,
+                total_score: user.score_for_contest(contest),
+                problems: contest.problems.order(order: :asc).map do |problem|
+                  {
+                    id: problem.id,
+                    data_sets: problem.data_sets.order(order: :asc).map do |data_set|
+                      {
+                        id: data_set.id,
+                        label: data_set.label
+                      }.tap do |hash|
+                        if data_set.solved_by?(user.id)
+                          hash.merge!(score: data_set.user_score(user.id),
+                                      solved_at: JSON.parse(data_set.user_solved_at(user.id).to_json))
+                        end
+                      end
+                    end
+                  }
+                end
+              }
+            end
           }
         end
         context 'logged in' do
