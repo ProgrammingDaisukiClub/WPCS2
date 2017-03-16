@@ -16,12 +16,16 @@ class Submission < ApplicationRecord
   }, _prefix: true
 
   def judge
-    status = answer == data_set.output ? :accepted : :wrong
+    status = correct_answer? ? :accepted : :wrong
 
     update(
       judge_status: status,
       score: status == :wrong ? 0 : judge_score
     )
+  end
+
+  def correct_answer?
+    answer.strip == data_set.output.strip
   end
 
   def judge_score
