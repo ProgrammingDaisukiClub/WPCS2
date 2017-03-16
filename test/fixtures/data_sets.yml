@@ -7,6 +7,7 @@ one:
   output: MyText
   score: 1
   accuracy: 1
+  order: 1
 
 two:
   label: MyString
@@ -15,3 +16,4 @@ two:
   output: MyText
   score: 1
   accuracy: 1
+  order: 2

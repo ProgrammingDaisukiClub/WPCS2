@@ -33,7 +33,7 @@ class Contest < ApplicationRecord
 
   def problems_to_show(user_id, lang)
     {
-      problems: problems.map do |problem|
+      problems: problems.order(order: :asc).map do |problem|
         {
           id: problem.id,
           name: lang == :ja ? problem.name_ja : problem.name_en,
@@ -45,7 +45,7 @@ class Contest < ApplicationRecord
 
   def problems_for_ranking(user_id)
     {
-      problems: problems.map do |problem|
+      problems: problems.order(order: :asc).map do |problem|
         {
           id: problem.id
         }.merge(problem.label_score_solved_at(user_id))
