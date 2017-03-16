@@ -5,11 +5,11 @@ class Contest < ApplicationRecord
   has_many :contest_registrations
   has_many :users, through: :contest_registrations
 
-  def name locale = :ja
+  def name(locale = :ja)
     locale == :ja ? name_ja : name_en
   end
 
-  def description locale = :ja
+  def description(locale = :ja)
     locale == :ja ? description_ja : description_en
   end
 
