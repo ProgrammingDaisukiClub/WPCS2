@@ -6,6 +6,6 @@
 <div id="contests-app"></div>
 
 <% content_for :scripts do %>
-  <%= javascript_include_tag 'build/contests' %>
+  <%= javascript_include_tag "build/contests.#{I18n.locale}" %>
   <%= render partial: 'contests/import_mathjax' %>
 <% end %>
