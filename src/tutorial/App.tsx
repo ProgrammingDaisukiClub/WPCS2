@@ -9,7 +9,7 @@ export default class App extends React.Component<{}, {}> {
     return (
       <div>
         <div>
-          <div>Navigation</div>
+          <div>Navigation - { t('hello') }</div>
           <ul>
             <li><Link to='/react_tutorial'>Contest Home</Link></li>
             <li>

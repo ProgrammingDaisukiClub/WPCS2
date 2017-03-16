@@ -38,6 +38,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "i18n-webpack-plugin": "^0.3.0",
     "marked": "^0.3.6",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
