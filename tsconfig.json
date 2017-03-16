@@ -18,6 +18,7 @@
     "node_modules"
   ],
   "files": [
-    "src/contests/renderHTML.d.ts"
+    "src/contests/renderHTML.d.ts",
+    "src/env.d.ts"
   ]
 }

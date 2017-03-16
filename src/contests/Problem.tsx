@@ -52,7 +52,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
           <h2 className="problem--header">{ this.props.problem.name }</h2>
           <div className="problem--body">
             <div className="problem--score">
-              <div className="problem--scoreHeader">配点</div>
+              <div className="problem--scoreHeader">{ t('score') }</div>
               { this.props.problem.dataSets.map((dataSet) => (
                 <div className="problem--scoreBody" key={ dataSet.id }>
                   { dataSet.label }: { dataSet.maxScore } points
@@ -60,13 +60,12 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
               )) }
             </div>
             <div className="problem--description">
-              <div className="problem--descriptionHeader">問題</div>
               <div className="problem--descriptionBody">
                 <MarkdownRenderer text= { this.props.problem.description } />
               </div>
             </div>
             <div className="problem--submission">
-              <div className="problem--submissionHeader">提出</div>
+              <div className="problem--submissionHeader">{ t('submission') }</div>
               <form onSubmit={ (e) => this.onFormSubmit(e) }>
                 <div className="problem--submissionForm">
                   <div className="problem--submissionDataSets">
@@ -90,7 +89,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
                   />
                 </div>
                 <div className="problem--submitWrapper">
-                  <input className="problem--submit" type="submit" value="提出する" />
+                  <input className="problem--submit" type="submit" value={ t('submit') } />
                 </div>
               </form>
             </div>
