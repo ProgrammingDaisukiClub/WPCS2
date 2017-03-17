@@ -65,6 +65,9 @@
               <%= link_to "#{data_set.id} - #{data_set.label}", [:admin, data_set] %>
             </div>
           <% end %>
+          <div>
+            <%= link_to 'Add DataSet', new_admin_data_set_path(problem_id: problem.id) %>
+          </div>
         </td>
       </tr>
     <% end %>

@@ -46,9 +46,10 @@ class Admin::ProblemsController < Admin::AdminControllerBase
   # DELETE /problems/1
   # DELETE /problems/1.json
   def destroy
+    contest = @problem.contest
     @problem.destroy
     respond_to do |format|
-      format.html { redirect_to admin_problems_url, notice: 'Problem was successfully destroyed.' }
+      format.html { redirect_to admin_contest_url(contest), notice: 'Problem was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -63,7 +64,7 @@ class Admin::ProblemsController < Admin::AdminControllerBase
   # Never trust parameters from the scary internet, only allow the white list through.
   def problem_params
     params.require(:problem).permit(
-      :name_en, :name_ja, :description_en, :description_ja, :order
+      :contest_id, :name_en, :name_ja, :description_en, :description_ja, :order
     )
   end
 end

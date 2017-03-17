@@ -1,6 +1,6 @@
 class Problem < ApplicationRecord
   belongs_to :contest
-  has_many :data_sets
+  has_many :data_sets, dependent: :destroy
   has_many :submissions, through: :data_sets
 
   def label_and_score(user_id)

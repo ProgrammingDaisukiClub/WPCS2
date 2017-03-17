@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :problem_id %>
-    <%= f.select :problem_id, Problem.all.map {|problem| [problem.name_ja, problem.id]} %>
+    <%= f.select :problem_id, Problem.all.map {|problem| [problem.name_ja, problem.id]}, selected: @data_set.problem_id %>
   </div>
 
   <div class="field">
