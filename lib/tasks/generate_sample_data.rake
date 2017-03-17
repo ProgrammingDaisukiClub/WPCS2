@@ -44,10 +44,10 @@ namespace :sample_data do
       [*4..12].sample.times do |j|
         problem = Problem.create(
           contest_id: contest.id,
-          name_ja: "サンプルコンテスト#{i} - 問題#{j}",
-          name_en: "SampleContest#{i} - Problem#{j}",
-          description_ja: "サンプルコンテスト#{i} - 問題#{j}の説明です",
-          description_en: "Description of SampleContest#{i} - Problem#{j}",
+          name_ja: "問題#{i} - #{j}",
+          name_en: "Problem#{i} - #{j}",
+          description_ja: "問題#{i} - #{j}の説明です",
+          description_en: "Description of Problem#{i} - #{j}",
           order: j
         )
 
