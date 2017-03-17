@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     }
   end
   namespace :admin do
-    resources :contests, :problems, :data_sets
+    resources :contests, :data_sets
+    resources :problems, only: %i(show new edit create update)
   end
 end
