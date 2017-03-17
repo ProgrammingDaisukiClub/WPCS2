@@ -60,20 +60,20 @@ RSpec.describe Submission, type: :model do
     context 'when submission is correct and penalty' do
       let!(:wrong_answer) do
         create(:submission, user: user,
-               data_set: data_set,
-               judge_status: :wrong,
-               answer: answer,
-               created_at: submitted_at - 5.minute,
-               updated_at: submitted_at - 5.minute)
+                            data_set: data_set,
+                            judge_status: :wrong,
+                            answer: answer,
+                            created_at: submitted_at - 5.minute,
+                            updated_at: submitted_at - 5.minute)
       end
       let!(:another_data_set) { contest.problems.second.data_sets.first }
       let!(:another_wrong_answer) do
         create(:submission, user: user,
-               data_set: another_data_set,
-               judge_status: :wrong,
-               answer: answer,
-               created_at: submitted_at - 10.minute,
-               updated_at: submitted_at - 10.minute)
+                            data_set: another_data_set,
+                            judge_status: :wrong,
+                            answer: answer,
+                            created_at: submitted_at - 10.minute,
+                            updated_at: submitted_at - 10.minute)
       end
       let(:answer) { data_set.output }
       let(:expected_judge_status) { 'accepted' }
@@ -106,7 +106,7 @@ RSpec.describe Submission, type: :model do
     end
 
     context 'after context is completed' do
-      let(:answer) { data_set.output  }
+      let(:answer) { data_set.output }
       let(:submitted_at) { Time.zone.parse('2017-03-14 23:00:00') }
       let(:expected_judge_status) { 'accepted' }
       let(:expected_score) { 0 }
