@@ -13,6 +13,7 @@ import ContestHome from 'contests/ContestHome';
 import Problem from 'contests/Problem';
 import Submissions from 'contests/Submissions';
 import Ranking from 'contests/Ranking';
+import SubmitResults from 'contests/SubmitResults';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   children: React.ReactElement<any>;
@@ -27,6 +28,7 @@ export interface ContestAppState {
   contest?: ContestObject;
   submissions?: [ SubmissionObject ];
   users?: [ UserScoreObject ];
+  submitResults: [ number ];
 }
 
 export default class ContestApp extends React.Component<ContestAppProps, ContestAppState> {
@@ -41,7 +43,8 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     this.csrfToken = document.querySelector('meta[name=csrf-token]').getAttribute('content');
 
     this.state = {
-      initialized: false
+      initialized: false,
+      submitResults: [] as [ number ]
     };
   }
 
@@ -118,7 +121,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             judgeStatus: submission.judge_status,
             score: submission.score || 0,
             createdAt: new Date(submission.created_at)
-          }))
+          }));
           break;
 
         case 403: throw new Error('403 forbidden');
@@ -191,7 +194,8 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             judgeStatus: json.judge_status,
             score: json.score || 0,
             createdAt: new Date(json.created_at)
-          })
+          }),
+          submitResults: this.state.submitResults.concat(json.id)
         });
         if(json.judge_status === JUDGE_STATUS.AC) {
           Object.assign(state, {
@@ -244,7 +248,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
               solvedAt: dataSet.solved_at ? new Date(dataSet.solved_at) : undefined
             }))
           }))
-        }))
+        }));
         break;
 
       case 403: throw new Error('403 forbidden');
@@ -263,6 +267,12 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     const border: HTMLElement = document.querySelector('.container--border') as HTMLElement;
     if(!container || !border) return;
     border.style.height = container.clientHeight + 'px';
+  }
+
+  public closeSubmitResults() {
+    this.setState(Object.assign({}, this.state, {
+      submitResults: []
+    }));
   }
 
   public render() {
@@ -300,6 +310,11 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             users={ this.state.users }
           />
         }
+        <SubmitResults
+          submissions={ this.state.submissions }
+          submitResults={ this.state.submitResults }
+          closeSubmitResults={ this.closeSubmitResults.bind(this) }
+        />
       </div>
     );
   }

@@ -15,5 +15,8 @@
   "score": "Score",
   "rank": "Rank",
   "user_name": "User Name",
-  "total_score": "Total Score"
+  "total_score": "Total Score",
+  "judge_results": "Judge Results",
+  "point": " point",
+  "close": "Close"
 }

@@ -417,3 +417,64 @@
     cursor: pointer;
   }
 }
+
+.submitResults {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  border: 1px solid #979797;
+  font-size: 14px;
+
+  &--inner {
+    padding: 4px 8px;
+  }
+
+  &--header {
+    padding: 4px;
+    border-bottom: 1px solid #979797;
+  }
+
+  &--item {
+    padding: 4px;
+    border-bottom: 1px solid #979797;
+    vertical-align: middle;
+  }
+
+  &--judgeStatus__WJ,
+  &--judgeStatus__WA,
+  &--judgeStatus__AC {
+    display: inline-block;
+    margin-right: 8px;
+    width: 32px;
+    padding: 2px 0;
+    border-radius: 2px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+  }
+  &--judgeStatus__WJ {
+    background-color: #979797;
+  }
+  &--judgeStatus__WA {
+    background-color: #ef9e2b;
+  }
+  &--judgeStatus__AC {
+    background-color: #529453;
+  }
+
+  &--score {
+    display: inline-block;
+  }
+
+  &--date {
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  &--footer {
+    text-align: right;
+    padding: 4px;
+    cursor: pointer;
+  }
+}
