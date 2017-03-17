@@ -75,7 +75,7 @@ class Api::SubmissionsController < ApplicationController
       answer: answer
     )
 
-    submission.judge
+    # submission.judge
     submission
   end
 end
