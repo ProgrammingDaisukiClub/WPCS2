@@ -20,7 +20,7 @@ class Submission < ApplicationRecord
 
     update(
       judge_status: status,
-      score: status == :wrong ? 0 : judge_score
+      score: status == :wrong || created_at > contest.end_at ? 0 : judge_score
     )
   end
 
@@ -37,7 +37,16 @@ class Submission < ApplicationRecord
 
   def contest_progress_rate
     contest_time = contest.end_at - contest.start_at
-    remaining_time = contest.end_at - created_at
+    remaining_time = contest.end_at - submitted_at_with_penalty
     remaining_time / contest_time
+  end
+
+  def submitted_at_with_penalty
+    wrong_answers = Submission.where(
+      user_id: user_id,
+      data_set_id: data_set_id,
+      judge_status: 'wrong'
+    ).count
+    created_at + 20.minute * wrong_answers
   end
 end
