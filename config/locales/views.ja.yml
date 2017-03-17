@@ -9,3 +9,9 @@ ja:
       terms_of_service: "利用規約"
       privacy_policy: "プライバシーポリシー"
       copyright: ©2017 Programing Daisuki Club
+  welcome:
+    index:
+      start_at: "開始日時"
+      contest_time: "コンテスト時間"
+      join: "参加する"
+      recent_contests: "過去に開催されたコンテスト"

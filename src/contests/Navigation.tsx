@@ -20,11 +20,11 @@ export default class Navigation extends React.Component<NavigationProps, {}> {
       <div className="contestNavigation">
         <nav className="contestNavigation--inner">
           <h2 className="contestNavigation--header">{ this.props.contest.name }</h2>
-          <Link className="contestNavigation--homeLink" to={ `/contests/${this.props.contest.id}` }>Contest Home</Link>
+          <Link className="contestNavigation--homeLink" to={ `/contests/${this.props.contest.id}${t('locale')}` }>{ t('contest_home') }</Link>
           { this.props.contest.problems &&
             this.props.contest.problems.map((problem: ProblemObject) => (
               <div key={ problem.id } className="contestNavigation--problem">
-                <Link className="contestNavigation--problemLink" key={ problem.id } to={ `/contests/${this.props.contest.id}/problems/${problem.id}` }>
+                <Link className="contestNavigation--problemLink" key={ problem.id } to={ `/contests/${this.props.contest.id}/problems/${problem.id}${t('locale')}` }>
                   { problem.name }
                 </Link>
                 { problem.dataSets.map((dataSet: DataSetObject) => (
@@ -36,10 +36,10 @@ export default class Navigation extends React.Component<NavigationProps, {}> {
             ))
           }
           { this.props.contest.problems &&
-            <Link className="contestNavigation--submissionsLink" to={ `/contests/${this.props.contest.id}/submissions` }>Submissions</Link>
+            <Link className="contestNavigation--submissionsLink" to={ `/contests/${this.props.contest.id}/submissions${t('locale')}` }>{ t('submissions') }</Link>
           }
           { this.props.contest.problems &&
-            <Link className="contestNavigation--rankingLink" to={ `/contests/${this.props.contest.id}/ranking` }>Ranking</Link>
+            <Link className="contestNavigation--rankingLink" to={ `/contests/${this.props.contest.id}/ranking${t('locale')}` }>{ t('ranking' ) }</Link>
           }
         </nav>
       </div>

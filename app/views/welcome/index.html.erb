@@ -1,4 +1,44 @@
-<h2>Hello World</h2>
-<p>
-  The time is now: <%= Time.now %>
-</p>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'welcome' %>
+<% end %>
+
+<div class="topContainer">
+  <div class="topContests">
+    <ul class="topContests--inner">
+      <% @top_contest.each do |contest| %>
+        <li class="topContests--item">
+          <h2 class="topContests--header"><%= contest.name(I18n.locale) %></h2>
+          <div class="topContests--body">
+            <div class="topContests--description">
+              <%= contest.description(I18n.locale) %>
+            </div>
+            <div class="topContests--startAt">
+              <%= t('.start_at') %>: <%= contest.start_at.strftime('%Y/%m/%d %H:%M') %>
+            </div>
+            <div class="topContests--time">
+              <%= t('.contest_time') %>: <%= (contest.end_at.to_i - contest.start_at.to_i) / 60 %><%= t('datetime.prompts.minute') %>
+            </div>
+            <div class="topContests--join">
+              <%= link_to t('.join'), contest_path(contest), class: 'topContests--joinButton' %>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="allContests">
+    <div class="allContests--inner">
+      <h2 class="allContests--header"><%= t('.recent_contests') %></h2>
+      <div class="allContests--body">
+        <ul>
+          <% @all_contest.each do |contest| %>
+            <li class="allContests--item">
+              <%= link_to contest.name(I18n.locale), contest_path(contest), class: 'allContests--link' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

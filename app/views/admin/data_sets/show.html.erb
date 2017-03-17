@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>id:</strong>
+  <%= @data_set.id %>
+</p>
+
+<p>
+  <strong>problem_id:</strong>
+  <%= @data_set.problem_id %>
+</p>
+
+<p>
+  <strong>label:</strong>
+  <%= @data_set.label %>
+</p>
+
+<p>
+  <strong>input:</strong>
+  <%= @data_set.input %>
+</p>
+
+<p>
+  <strong>output:</strong>
+  <%= @data_set.output %>
+</p>
+
+<p>
+  <strong>score:</strong>
+  <%= @data_set.score %>
+</p>
+
+<p>
+  <strong>accuracy:</strong>
+  <%= @data_set.accuracy %>
+</p>
+
+<p>
+  <strong>created_at:</strong>
+  <%= @data_set.created_at %>
+</p>
+
+<p>
+  <strong>updated_at:</strong>
+  <%= @data_set.updated_at %>
+</p>
+
+<p>
+  <strong>order:</strong>
+  <%= @data_set.order %>
+</p>
+
+<%= link_to 'Edit', edit_admin_data_set_path(@data_set) %> |
+<%= link_to 'Back', admin_data_sets_path %>

@@ -64,7 +64,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
   }
 
   public async fetchContest() {
-    const responseContest: Response = await fetch(`/api/contests/${this.props.params.contestId}`, {
+    const responseContest: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
       credentials: 'same-origin',
     });
 
@@ -104,7 +104,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
     let submissions: [ SubmissionObject ];
     if(contest.problems) {
-      const responseSubmissions: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
+      const responseSubmissions: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions${t('locale')}`, {
         credentials: 'same-origin',
       });
 
@@ -223,7 +223,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
   }
 
   public async fetchRanking() {
-    const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/ranking`, {
+    const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/ranking${t('locale')}`, {
       credentials: 'same-origin'
     });
 
@@ -267,7 +267,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
   public render() {
     if(!this.state.initialized) {
-      return <div>now initializing...</div>;
+      return <div>Now Initializing...</div>;
     }
 
     return (

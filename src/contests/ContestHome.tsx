@@ -23,7 +23,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
             { (!this.props.contest.joined && new Date() < this.props.contest.endAt) &&
               <div className="contestHome--registrationButtonWrapper">
                 <span className="contestHome--registrationButton" onClick={ this.onJoinButtonClick.bind(this) }>
-                  参加する
+                  { t('join') }
                 </span>
               </div>
             }

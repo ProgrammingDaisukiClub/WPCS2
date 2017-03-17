@@ -9,3 +9,9 @@ en:
       terms_of_service: Terms of Service
       privacy_policy: Privacy Policy
       copyright: ©2017 Programing Daisuki Club
+  welcome:
+    index:
+      start_at: Date
+      contest_time: Contest Time
+      join: Join Contest
+      recent_contests: Recent Contests
