@@ -5,30 +5,24 @@
 <table>
   <thead>
     <tr>
-      <th>Description en</th>
-      <th>Description ja</th>
-      <th>End at</th>
-      <th>Name en</th>
       <th>Name ja</th>
+      <th>Name en</th>
       <th>Score baseline</th>
       <th>Start at</th>
-      <th colspan="3"></th>
+      <th>End at</th>
     </tr>
   </thead>
 
   <tbody>
     <% @contests.each do |contest| %>
       <tr>
-        <td><%= contest.description_en %></td>
-        <td><%= contest.description_ja %></td>
-        <td><%= contest.end_at %></td>
+        <td>
+          <%= link_to contest.name_ja, [:admin, contest] %>
+        </td>
         <td><%= contest.name_en %></td>
-        <td><%= contest.name_ja %></td>
         <td><%= contest.score_baseline %></td>
-        <td><%= contest.start_at %></td>
-        <td><%= link_to 'Show', [:admin, contest] %></td>
-        <td><%= link_to 'Edit', edit_admin_contest_path(contest) %></td>
-        <td><%= link_to 'Destroy', [:admin, contest], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= contest.start_at.strftime('%Y/%m/%d %H:%M:%S') %></td>
+        <td><%= contest.end_at.strftime('%Y/%m/%d %H:%M:%S')%></td>
       </tr>
     <% end %>
   </tbody>

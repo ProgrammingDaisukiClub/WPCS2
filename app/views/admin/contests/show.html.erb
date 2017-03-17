@@ -38,7 +38,8 @@
 </p>
 
 <%= link_to 'Edit', edit_admin_contest_path(@contest) %> |
-<%= link_to 'Back', admin_contests_path %>
+<%= link_to 'Back', admin_contests_path %> |
+<%= link_to 'Destroy', [:admin, @contest], method: :delete, data: { confirm: 'Are you sure?' } %>
 
 <h2>Problems</h2>
 
@@ -53,14 +54,11 @@
   </thead>
 
   <tbody>
-    <% @contest.problems.order(order: :asc).each do |problem| %>
+    <% @contest.problems.each do |problem| %>
       <tr>
-        <td><%= problem.name_ja %></td>
+        <td><%= link_to problem.name_ja, [:admin, problem] %></td>
         <td><%= problem.name_en %></td>
         <td><%= problem.order %></td>
-        <td><%= link_to 'Show', [:admin, problem] %></td>
-        <td><%= link_to 'Edit', edit_admin_problem_path(problem) %></td>
-        <td><%= link_to 'Destroy', [:admin, problem], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
