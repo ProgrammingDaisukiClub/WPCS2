@@ -1,19 +1,13 @@
 class Admin::DataSetsController < ApplicationController
   before_action :set_data_set, only: [:show, :edit, :update, :destroy]
 
-  # GET /data_sets
-  # GET /data_sets.json
-  def index
-    @data_sets = DataSet.all
-  end
-
   # GET /data_sets/1
   # GET /data_sets/1.json
   def show; end
 
   # GET /data_sets/new
   def new
-    @data_set = DataSet.new
+    @data_set = DataSet.new(params.permit(:problem_id))
   end
 
   # GET /data_sets/1/edit
@@ -52,9 +46,10 @@ class Admin::DataSetsController < ApplicationController
   # DELETE /data_sets/1
   # DELETE /data_sets/1.json
   def destroy
+    contest = @data_set.contest
     @data_set.destroy
     respond_to do |format|
-      format.html { redirect_to admin_data_sets_url, notice: 'Data set was successfully destroyed.' }
+      format.html { redirect_to admin_contest_url(contest), notice: 'Data set was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
