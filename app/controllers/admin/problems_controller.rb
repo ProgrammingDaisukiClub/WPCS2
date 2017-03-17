@@ -13,7 +13,7 @@ class Admin::ProblemsController < Admin::AdminControllerBase
 
   # GET /problems/new
   def new
-    @problem = Problem.new
+    @problem = Problem.new(params.permit(:contest_id))
   end
 
   # GET /problems/1/edit

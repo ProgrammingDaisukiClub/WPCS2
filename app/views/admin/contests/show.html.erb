@@ -37,6 +37,9 @@
   <%= @contest.start_at %>
 </p>
 
+<%= link_to 'Edit', edit_admin_contest_path(@contest) %> |
+<%= link_to 'Back', admin_contests_path %>
+
 <h2>Problems</h2>
 
 <table>
@@ -63,5 +66,5 @@
   </tbody>
 </table>
 
-<%= link_to 'Edit', edit_admin_contest_path(@contest) %> |
-<%= link_to 'Back', admin_contests_path %>
+<%= link_to 'add problem', new_admin_problem_path(contest_id: @contest.id) %>
+<br />
