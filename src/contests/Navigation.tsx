@@ -30,6 +30,7 @@ export default class Navigation extends React.Component<NavigationProps, {}> {
                 { problem.dataSets.map((dataSet: DataSetObject) => (
                   <div key={ dataSet.id } className="contestNavigation--dataSet">
                     { dataSet.label }: { dataSet.score }/{ dataSet.maxScore }
+                    <i className={ `contestNavigation--dataSetCheck__${dataSet.correct ? 'correct' : 'incorrect'} fa fa-check` }></i>
                   </div>
                 )) }
               </div>
