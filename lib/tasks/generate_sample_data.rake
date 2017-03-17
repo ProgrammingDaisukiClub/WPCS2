@@ -57,7 +57,8 @@ namespace :sample_data do
           input: '1 2 3 4 5',
           output: '1 2 3 4 5',
           score: (rand(200) + 1) * 10,
-          accuracy: 0
+          accuracy: 0,
+          order: 1
         )
         data_set_large = DataSet.create(
           label: 'Large',
@@ -65,7 +66,8 @@ namespace :sample_data do
           input: '1 2 3 4 5',
           output: '1 2 3 4 5',
           score: (rand(200) + 1) * 10,
-          accuracy: 0
+          accuracy: 0,
+          order: 2
         )
 
         users.each do |user|
