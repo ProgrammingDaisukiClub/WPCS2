@@ -310,11 +310,13 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             users={ this.state.users }
           />
         }
-        <SubmitResults
-          submissions={ this.state.submissions }
-          submitResults={ this.state.submitResults }
-          closeSubmitResults={ this.closeSubmitResults.bind(this) }
-        />
+        { this.state.submissions &&
+          <SubmitResults
+            submissions={ this.state.submissions }
+            submitResults={ this.state.submitResults }
+            closeSubmitResults={ this.closeSubmitResults.bind(this) }
+          />
+        }
       </div>
     );
   }
