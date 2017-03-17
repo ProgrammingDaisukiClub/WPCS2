@@ -1,0 +1,12 @@
+<div class="globalFlash">
+  <% if flash[:notice] %>
+    <div class="globalFlash--notice">
+      <%= flash[:notice] %>
+  </div>
+  <% end %>
+  <% if flash[:alert] %>
+    <div class="globalFlash--alert">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+</div>
