@@ -58,8 +58,21 @@
   &--dataSet {
     display: block;
     font-size: 12px;
-    padding-left: 16px;
     color: #545454;
+    padding-left: 16px;
+  }
+  &--dataSetCheck__incorrect,
+  &--dataSetCheck__correct {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 16px;
+  }
+  &--dataSetCheck__incorrect {
+    display: none;
+    color: #979797;
+  }
+  &--dataSetCheck__correct {
+    color: #529453
   }
   &--submissionsLink {
     display: block;
