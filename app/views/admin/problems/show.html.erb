@@ -15,4 +15,4 @@ Order: <%= @problem.order %>
 <hr>
 
 <%= link_to 'Edit', edit_admin_problem_path(@problem) %> |
-<%= link_to 'Back', admin_problems_path %>
+<%= link_to 'Back', admin_contest_path(@problem.contest) %>

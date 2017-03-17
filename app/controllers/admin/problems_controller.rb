@@ -1,12 +1,6 @@
 class Admin::ProblemsController < Admin::AdminControllerBase
   before_action :set_problem, only: [:show, :edit, :update, :destroy]
 
-  # GET /problems
-  # GET /problems.json
-  def index
-    @problems = Problem.all
-  end
-
   # GET /problems/1
   # GET /problems/1.json
   def show; end
