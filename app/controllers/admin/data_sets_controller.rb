@@ -1,12 +1,6 @@
 class Admin::DataSetsController < ApplicationController
   before_action :set_data_set, only: [:show, :edit, :update, :destroy]
 
-  # GET /data_sets
-  # GET /data_sets.json
-  def index
-    @data_sets = DataSet.all
-  end
-
   # GET /data_sets/1
   # GET /data_sets/1.json
   def show; end
