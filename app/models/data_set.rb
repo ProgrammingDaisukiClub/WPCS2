@@ -1,6 +1,6 @@
 class DataSet < ApplicationRecord
   belongs_to :problem
-  has_many :submissions
+  has_many :submissions, dependent: :destroy
 
   delegate :contest, to: :problem
 

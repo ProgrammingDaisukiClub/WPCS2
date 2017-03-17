@@ -1,8 +1,8 @@
 class Contest < ApplicationRecord
-  has_many :problems, -> { order(:order) }
+  has_many :problems, -> { order(:order) }, dependent: :destroy
   has_many :data_sets, through: :problems
   has_many :submissions, through: :problems
-  has_many :contest_registrations
+  has_many :contest_registrations, dependent: :destroy
   has_many :users, through: :contest_registrations
 
   def name(locale = :ja)

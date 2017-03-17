@@ -15,4 +15,5 @@ Order: <%= @problem.order %>
 <hr>
 
 <%= link_to 'Edit', edit_admin_problem_path(@problem) %> |
-<%= link_to 'Back', admin_contest_path(@problem.contest) %>
+<%= link_to 'Back', admin_contest_path(@problem.contest) %> |
+<%= link_to 'Destroy', [:admin, @problem], method: :delete, data: { confirm: 'Are you sure?' } %>

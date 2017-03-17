@@ -51,4 +51,5 @@
 </p>
 
 <%= link_to 'Edit', edit_admin_data_set_path(@data_set) %> |
-<%= link_to 'Back', admin_data_sets_path %>
+<%= link_to 'Back', [:admin, @data_set.contest] %> |
+<%= link_to 'Destroy', [:admin, @data_set], method: :delete, data: { confirm: 'Are you sure?' } %>
