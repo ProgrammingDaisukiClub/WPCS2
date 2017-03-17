@@ -57,10 +57,58 @@ RSpec.describe Submission, type: :model do
       end
     end
 
+    context 'when submission is correct and penalty' do
+      let!(:wrong_answer) do
+        create(:submission, user: user,
+                            data_set: data_set,
+                            judge_status: :wrong,
+                            answer: answer,
+                            created_at: submitted_at - 5.minute,
+                            updated_at: submitted_at - 5.minute)
+      end
+      let!(:another_data_set) { contest.problems.second.data_sets.first }
+      let!(:another_wrong_answer) do
+        create(:submission, user: user,
+                            data_set: another_data_set,
+                            judge_status: :wrong,
+                            answer: answer,
+                            created_at: submitted_at - 10.minute,
+                            updated_at: submitted_at - 10.minute)
+      end
+      let(:answer) { data_set.output }
+      let(:expected_judge_status) { 'accepted' }
+
+      context 'when score is half score of the data_set and' do
+        let(:submitted_at) { Time.zone.parse('2017-03-14 21:00:00') }
+        let(:expected_score) { 90 }
+        it_behaves_like 'updated properly'
+      end
+
+      context 'when score is half score of the data_set and' do
+        let(:submitted_at) { Time.zone.parse('2017-03-14 21:50:00') }
+        let(:expected_score) { 65 }
+        it_behaves_like 'updated properly'
+      end
+
+      context 'when score is half score of the data_set and' do
+        let(:submitted_at) { Time.zone.parse('2017-03-14 22:40:00') }
+        let(:expected_score) { 40 }
+        it_behaves_like 'updated properly'
+      end
+    end
+
     context 'when submission is wrong' do
       let(:answer) { data_set.output + ' + This is wrong answer' }
       let(:submitted_at) { Time.zone.parse('2017-03-14 21:00:00') }
       let(:expected_judge_status) { 'wrong' }
+      let(:expected_score) { 0 }
+      it_behaves_like 'updated properly'
+    end
+
+    context 'after context is completed' do
+      let(:answer) { data_set.output }
+      let(:submitted_at) { Time.zone.parse('2017-03-14 23:00:00') }
+      let(:expected_judge_status) { 'accepted' }
       let(:expected_score) { 0 }
       it_behaves_like 'updated properly'
     end
