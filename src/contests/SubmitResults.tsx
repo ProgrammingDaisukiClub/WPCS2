@@ -58,7 +58,7 @@ export default class SubmitResults extends React.Component<SubmitResultsProps, {
             <div className="submitResults--item">
               <span className="submitResults--date">{ this.createdAt(submission.createdAt) }</span>
               <span className={ `submitResults--judgeStatus__${ this.judgeStatus(submission.judgeStatus) }` }>{ this.judgeStatus(submission.judgeStatus) }</span>
-              <span className="submitResults--score">{ submission.score }{ t('point') }</span>
+              { submission.judgeStatus !== JUDGE_STATUS.WJ && <span className="submitResults--score">{ submission.score }{ t('point') }</span> }
             </div>
           )) }
           <div className="submitResults--footer">

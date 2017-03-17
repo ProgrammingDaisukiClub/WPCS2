@@ -80,7 +80,7 @@ export default class Submissions extends React.Component<SubmissionsProps, {}> {
                         { this.judgeStatus(submission.judgeStatus) }
                       </div>
                     </td>
-                    <td className="submissions--score">{ submission.score }</td>
+                    <td className="submissions--score">{ submission.judgeStatus !== JUDGE_STATUS.WJ && submission.score }</td>
                   </tr>
                 )) }
               </tbody>
