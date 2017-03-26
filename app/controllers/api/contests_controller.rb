@@ -44,12 +44,7 @@ class Api::ContestsController < ApplicationController
       return
     end
 
-    if !signed_in? || contest.preparing?
-      render(json: {}, status: 403)
-      return
-    end
-
-    if contest.during? && !contest.registered_by?(current_user)
+    if contest.preparing? || (contest.during? && !(signed_in? && contest.registered_by?(current_user)))
       render(json: {}, status: 403)
       return
     end

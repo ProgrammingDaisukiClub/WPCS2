@@ -436,7 +436,7 @@ RSpec.describe Api::ContestsController, type: :controller do
           context 'NOT logged in' do
             let(:user) { nil }
             it 'returns 404 Not Found' do
-              expect(response).to have_http_status 403
+              expect(response).to have_http_status 200
             end
           end
         end
