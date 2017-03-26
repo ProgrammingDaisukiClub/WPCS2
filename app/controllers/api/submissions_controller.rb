@@ -61,7 +61,7 @@ class Api::SubmissionsController < ApplicationController
   end
 
   def prevent_show?(contest)
-    !signed_in? || !contest.registered_by?(current_user)
+    !contest.ended? && (!signed_in? || !contest.registered_by?(current_user))
   end
 
   def create_and_judge_submission
