@@ -7,7 +7,9 @@ class ContestsController < ApplicationController
     render action: :show
   end
 
-  private def raise_not_found
+  private
+
+  def raise_not_found
     contest = Contest.find_by(id: params.require(:id))
     raise ActionController::RoutingError, 'Not Found' unless contest
   end

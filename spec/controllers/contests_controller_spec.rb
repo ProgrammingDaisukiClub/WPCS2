@@ -16,22 +16,22 @@ RSpec.describe ContestsController, type: :controller do
       let(:contest) { create(:contest_holding) }
 
       it 'return http success' do
-        expect(subject).to have_http_status(:success)
+        is_expected.to have_http_status(:success)
       end
 
       it 'render contests#show' do
-        expect(subject).to render_template('contests/show')
+        is_expected.to render_template('contests/show')
       end
     end
   end
 
   describe 'GET #show' do
-    let(:subject) { get :show, params: { id: contest_id } }
+    subject { get :show, params: { id: contest_id } }
     it_behaves_like 'render contests#show'
   end
 
   describe 'GET #ranking' do
-    let(:subject) { get :ranking, params: { id: contest_id } }
+    subject { get :ranking, params: { id: contest_id } }
     it_behaves_like 'render contests#show'
   end
 end

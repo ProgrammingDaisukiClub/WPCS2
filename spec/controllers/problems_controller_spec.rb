@@ -40,7 +40,7 @@ RSpec.describe ProblemsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:subject) { get :show, params: { contest_id: contest_id, id: problem_id } }
+    subject { get :show, params: { contest_id: contest_id, id: problem_id } }
     it_behaves_like 'render contests#show'
   end
 end
