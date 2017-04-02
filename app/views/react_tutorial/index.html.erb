@@ -1,6 +1,11 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'github-markdown.css', media: 'all' %>
+<% end %>
+
 <h1>ReactTutorial#index</h1>
 <p>Find me in app/views/react_tutorial/index.html.erb</p>
 
 <div id="app"></div>
 
-<%= javascript_include_tag "build/tutorial" %>
+<%= javascript_include_tag "build/tutorial.#{I18n.locale}" %>
+<%= render partial: 'contests/import_mathjax' %>

@@ -1,0 +1,22 @@
+{
+  "locale": "",
+  "hello": "こんにちは",
+  "contest_home": "コンテストホーム",
+  "submissions": "提出履歴一覧",
+  "ranking": "ランキング",
+  "join": "参加する",
+  "score": "配点",
+  "submission": "提出",
+  "submit": "提出",
+  "submitted_at": "提出日時",
+  "problem": "問題名",
+  "data_set": "データセット",
+  "judge": "判定",
+  "score": "得点",
+  "rank": "順位",
+  "user_name": "ユーザー名",
+  "total_score": "総合得点",
+  "judge_results": "判定結果",
+  "point": "点",
+  "close": "閉じる"
+}

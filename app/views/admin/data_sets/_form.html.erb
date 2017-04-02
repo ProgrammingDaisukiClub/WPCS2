@@ -1,0 +1,52 @@
+<%= form_for([:admin, @data_set]) do |f| %>
+  <% if data_set.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(data_set.errors.count, "error") %> prohibited this data_set from being saved:</h2>
+
+      <ul>
+      <% data_set.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :problem_id %>
+    <%= f.select :problem_id, Problem.all.map {|problem| [problem.name_ja, problem.id]}, selected: @data_set.problem_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :label %>
+    <%= f.text_field :label %>
+  </div>
+
+  <div class="field">
+    <%= f.label :input %>
+    <%= f.text_area :input %>
+  </div>
+
+  <div class="field">
+    <%= f.label :output %>
+    <%= f.text_area :output %>
+  </div>
+
+  <div class="field">
+    <%= f.label :score %>
+    <%= f.number_field :score %>
+  </div>
+
+  <div class="field">
+    <%= f.label :accuracy %>
+    <%= f.number_field :accuracy %>
+  </div>
+
+  <div class="field">
+    <%= f.label :order %>
+    <%= f.number_field :order %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

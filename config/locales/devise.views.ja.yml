@@ -3,6 +3,7 @@ ja:
     attributes:
       user:
         current_password: "現在のパスワード"
+        name: "ユーザー名"
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "確認用パスワード"
@@ -81,6 +82,9 @@ ja:
         we_need_your_current_password_to_confirm_your_changes: "変更を反映するには現在のパスワードを入力してください"
       new:
         sign_up: "アカウント登録"
+        terms_of_service: "利用規約"
+        privacy_policies: "プライバシーポリシー"
+        terms_confirmation: '"アカウント登録" ボタンをクリックすると%{terms_of_service}及び%{privacy_policies}に同意したものとみなします。'
       signed_up: "アカウント登録が完了しました。"
       signed_up_but_inactive: "ログインするためには、アカウントを有効化してください。"
       signed_up_but_locked: "アカウントが凍結されているためログインできません。"

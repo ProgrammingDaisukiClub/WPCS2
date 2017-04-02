@@ -9,7 +9,7 @@ export default class App extends React.Component<{}, {}> {
     return (
       <div>
         <div>
-          <div>Navigation</div>
+          <div>Navigation - { t('hello') }</div>
           <ul>
             <li><Link to='/react_tutorial'>Contest Home</Link></li>
             <li>
@@ -22,6 +22,7 @@ export default class App extends React.Component<{}, {}> {
               </ul>
             </li>
             <li><Link to='/react_tutorial/ranking'>Ranking</Link></li>
+            <li><Link to='/react_tutorial/statement_test'>Statement Parse Test</Link></li>
           </ul>
         </div>
         <div>

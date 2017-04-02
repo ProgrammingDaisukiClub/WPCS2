@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>WPCS2</title>
+    <title><%= t('layouts.brand') %></title>
     <%= csrf_meta_tags %>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= yield :styles %>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="globalWrapper">
+      <%= render partial: 'layouts/header' %>
+      <div class="globalContents">
+        <%= render partial: 'layouts/flash' %>
+        <%= yield %>
+      </div>
+      <%= render partial: 'layouts/footer' %>
+    </div>
 
     <%= javascript_include_tag 'application' %>
     <%= yield :scripts %>

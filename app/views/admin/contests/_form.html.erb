@@ -12,18 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :description_en %>
-    <%= f.text_field :description_en %>
-  </div>
-
-  <div class="field">
-    <%= f.label :description_ja %>
-    <%= f.text_field :description_ja %>
-  </div>
-
-  <div class="field">
-    <%= f.label :end_at %>
-    <%= f.datetime_select :end_at %>
+    <%= f.label :name_ja %>
+    <%= f.text_field :name_ja %>
   </div>
 
   <div class="field">
@@ -32,8 +22,13 @@
   </div>
 
   <div class="field">
-    <%= f.label :name_ja %>
-    <%= f.text_field :name_ja %>
+    <%= f.label :description_ja %>
+    <%= f.text_area :description_ja %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description_en %>
+    <%= f.text_area :description_en %>
   </div>
 
   <div class="field">
@@ -44,6 +39,11 @@
   <div class="field">
     <%= f.label :start_at %>
     <%= f.datetime_select :start_at %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_at %>
+    <%= f.datetime_select :end_at %>
   </div>
 
   <div class="actions">

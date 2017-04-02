@@ -1,0 +1,139 @@
+@import "variables";
+@import "mixins";
+
+.globalWrapper {
+  min-height: 100vh;
+}
+
+.globalHeader {
+  width: 100%;
+  min-width: 1080px;
+  padding-left: 60px;
+  padding-right: 60px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 0.5px 1px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
+
+  &--inner {
+    @include clearfix;
+  }
+
+  &--navigation__left {
+    float: left;
+  }
+  &--navigation__right {
+    float: right;
+  }
+
+  &--brandName {
+    display: inline-block;
+    color: #000;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  &--navLink,
+  &--navLink__active {
+    display: inline-block;
+    padding: 16px 8px 12px 8px;
+    margin: 0 8px;
+    border-bottom: 4px solid transparent;
+    color: #000;
+    font-size: 14px;
+    font-weight: normal;
+    &:hover {
+      text-decoration: none;
+      border-bottom: 4px solid $brand-color;
+    }
+  }
+  &--navLink__active {
+    border-bottom: 4px solid $brand-color;
+  }
+
+  &--navButton {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 8px;
+    background-color: $brand-color;
+    box-shadow: 0 0.5px 0.8px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
+    color: #fff;
+    font-size: 14px;
+    font-weight: normal;
+    transition: 0.15s background-color ease-in, 0.15s box-shadow ease-in;
+    &:hover {
+      text-decoration: none;
+      background-color: lighten($brand-color, 5%);
+      box-shadow: 0 0.5px 8px 0 rgba(0, 0, 0, 0.08), 0 0.5px 4px 0 rgba(0, 0, 0, 0.18);
+      color: #fff;
+    }
+  }
+
+  &--langSelectForm {
+    display: inline-block;
+    margin: 0 8px;
+  }
+
+  &--langSelect {
+    @include clear-form-input-style;
+    cursor: pointer;
+  }
+}
+
+.globalFooter {
+  margin-top: 20px;
+
+  &--inner {
+    width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 8px;
+    border-top: 1px solid #ccc;
+    text-align: center;
+  }
+
+  &--navigation {
+    margin-bottom: 4px;
+  }
+
+  &--navLink {
+    display: inline-block;
+    margin: 0 8px;
+    font-size: 12px;
+    color: #999;
+    &:hover {
+      color: #999;
+    }
+  }
+
+  &--copyright {
+    display: inline-block;
+    font-size: 12px;
+    color: #999;
+  }
+}
+
+.globalFlash {
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 8px;
+  &--notice,
+  &--alert {
+    padding: 8px;
+    border-radius: 4px;
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+  &--notice {
+    background: lighten($success-color, 30%);
+    border: 1px solid $success-color;
+    color: darken($success-color, 15%);
+  }
+  &--alert {
+    background: lighten($error-color, 30%);
+    border: 1px solid $error-color;
+    color: darken($error-color, 15%);
+  }
+}

@@ -4,9 +4,11 @@ namespace :sample_data do
     user_ids = []
     20.times do |i|
       user = User.create(
+        name: "user #{i}",
         email: "sample-user-#{i}@example.com",
         password: 'password',
-        password_confirmation: 'password'
+        password_confirmation: 'password',
+        confirmed_at: 2.days.ago
       )
       user_ids << user.id
     end
@@ -42,10 +44,10 @@ namespace :sample_data do
       [*4..12].sample.times do |j|
         problem = Problem.create(
           contest_id: contest.id,
-          name_ja: "サンプルコンテスト#{i} - 問題#{j}",
-          name_en: "SampleContest#{i} - Problem#{j}",
-          description_ja: "サンプルコンテスト#{i} - 問題#{j}の説明です",
-          description_en: "Description of SampleContest#{i} - Problem#{j}",
+          name_ja: "問題#{i} - #{j}",
+          name_en: "Problem#{i} - #{j}",
+          description_ja: "問題#{i} - #{j}の説明です",
+          description_en: "Description of Problem#{i} - #{j}",
           order: j
         )
 
@@ -55,7 +57,8 @@ namespace :sample_data do
           input: '1 2 3 4 5',
           output: '1 2 3 4 5',
           score: (rand(200) + 1) * 10,
-          accuracy: 0
+          accuracy: 0,
+          order: 1
         )
         data_set_large = DataSet.create(
           label: 'Large',
@@ -63,7 +66,8 @@ namespace :sample_data do
           input: '1 2 3 4 5',
           output: '1 2 3 4 5',
           score: (rand(200) + 1) * 10,
-          accuracy: 0
+          accuracy: 0,
+          order: 2
         )
 
         users.each do |user|
@@ -75,11 +79,14 @@ namespace :sample_data do
           )
           next unless ended || (started && registered)
           [*0..8].sample.times do |_k|
+            data_set = rand(2) == 1 ? data_set_small : data_set_large
+            judge_status = rand(3)
             Submission.create(
               user_id: user.id,
-              data_set_id: rand(2) == 1 ? data_set_small.id : data_set_large.id,
+              data_set_id: data_set.id,
               answer: '1 2 3 4 5',
-              judge_status_id: 1
+              judge_status: judge_status,
+              score: judge_status == 2 ? rand(data_set.score) : 0
             )
           end
         end
