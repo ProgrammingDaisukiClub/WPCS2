@@ -5,6 +5,18 @@ class ProblemsController < ApplicationController
     render template: 'contests/show'
   end
 
+  # GET /problem/1
+  def download_input
+    data_set = DataSet.find(params[:data_set_id])
+    send_data(
+      data_set.input, 
+      filename: "input_#{params[:contest_id]}_#{params[:id]}_#{data_set.id}.in",
+      type: 'text/txt',
+      disposition: 'attachment',
+      status: 200,
+      ) 
+  end
+
   private
 
   def raise_not_found

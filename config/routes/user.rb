@@ -8,13 +8,16 @@ Rails.application.routes.draw do
     sessions:      'users/sessions'
   }
   resources 'contests', only: ['show'] do
-    resources 'problems', only: ['show']
+    resources 'problems', only: ['show'] do
+      member do
+        get 'data_sets/:data_set_id/download_input' => 'problems#download_input'
+      end
+    end
     member do
       get 'ranking'
     end
     resources 'submissions', only: ['index']
   end
-
   resource 'terms', only: %w(show)
   resource 'privacy_policies', only: %(show)
 
