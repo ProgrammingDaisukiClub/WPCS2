@@ -41,11 +41,10 @@ RSpec.describe ProblemsController, type: :controller do
 
       it "should return a txt attachment" do
         @controller.should_receive(:send_data).with(input, send_data_options).
-      and_return { @controller.render nothing: true } # to prevent a 'missing template' error
-      get :, format: :txt
+      and_return { @controller.render nothing: true }
+      get 'data_sets/:data_set_id/download_input' => 'problems#download_input', format: :txt
     end
-
-    end
+  end
 end
 
 describe 'GET #show' do
