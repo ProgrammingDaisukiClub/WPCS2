@@ -1,5 +1,5 @@
 class Admin::DataSetsController < ApplicationController
-  before_action :set_data_set, only: [:show, :edit, :update, :destroy, :download_input]
+  before_action :set_data_set, only: %i[show edit update destroy download_input]
 
   # GET /data_sets/1
   # GET /data_sets/1.json
@@ -65,6 +65,6 @@ class Admin::DataSetsController < ApplicationController
   def data_set_params
     params.require(:data_set).permit(
       :problem_id, :label, :input, :output, :score, :accuracy, :order
-      )
+    )
   end
 end

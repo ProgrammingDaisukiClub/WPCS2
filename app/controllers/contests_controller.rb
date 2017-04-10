@@ -1,5 +1,5 @@
 class ContestsController < ApplicationController
-  before_action :raise_not_found, only: %i(show ranking)
+  before_action :raise_not_found, only: %i[show ranking]
 
   def show; end
 

@@ -1,5 +1,5 @@
 class Admin::ContestsController < Admin::AdminControllerBase
-  before_action :set_contest, only: [:show, :edit, :update, :destroy]
+  before_action :set_contest, only: %i[show edit update destroy]
 
   # GET /contests
   # GET /contests.json

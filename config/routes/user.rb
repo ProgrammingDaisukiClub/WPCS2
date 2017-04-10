@@ -18,26 +18,26 @@ Rails.application.routes.draw do
     end
     resources 'submissions', only: ['index']
   end
-  resource 'terms', only: %w(show)
+  resource 'terms', only: %w[show]
   resource 'privacy_policies', only: %(show)
 
   namespace :api do
-    resources 'contests', only: %w(show) do
+    resources 'contests', only: %w[show] do
       member do
         post 'entry'
         get  'ranking'
       end
-      resources 'submissions', only: %w(index create)
+      resources 'submissions', only: %w[index create]
     end
   end
 
   namespace :api do
-    resources 'contests', only: %w(show) do
+    resources 'contests', only: %w[show] do
       member do
         post 'entry'
         get  'ranking'
       end
-      resources 'submissions', only: %w(index create)
+      resources 'submissions', only: %w[index create]
     end
   end
 
