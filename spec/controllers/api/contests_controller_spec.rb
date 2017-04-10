@@ -444,14 +444,14 @@ RSpec.describe Api::ContestsController, type: :controller do
       describe 'Case 3: return json' do
         let(:json_ranking) do
           sorted_users = contest.users.sort do |a, b|
-            b.score_for_contest(contest) <=> a.score_for_contest(contest)
+            contest.user_score(b) <=> contest.user_score(a)
           end
           {
             users: sorted_users.map do |user|
               {
                 id: user.id,
                 name: user.name,
-                total_score: user.score_for_contest(contest),
+                total_score: contest.user_score(user),
                 problems: contest.problems.order(order: :asc).map do |problem|
                   {
                     id: problem.id,
