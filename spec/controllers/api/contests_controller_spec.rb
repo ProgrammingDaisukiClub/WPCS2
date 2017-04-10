@@ -43,8 +43,8 @@ RSpec.describe Api::ContestsController, type: :controller do
                 id: data_set.id,
                 label: data_set.label,
                 max_score: data_set.score,
-                correct: user.nil? ? false : data_set.solved_by?(user.id),
-                score: user.nil? ? 0 : data_set.user_score(user.id)
+                correct: user.nil? ? false : data_set.solved_by?(user),
+                score: user.nil? ? 0 : data_set.user_score(user)
               }
             end
           }
@@ -458,13 +458,10 @@ RSpec.describe Api::ContestsController, type: :controller do
                     data_sets: problem.data_sets.order(order: :asc).map do |data_set|
                       {
                         id: data_set.id,
-                        label: data_set.label
-                      }.tap do |hash|
-                        if data_set.solved_by?(user.id)
-                          hash.merge!(score: data_set.user_score(user.id),
-                                      solved_at: JSON.parse(data_set.user_solved_at(user.id).to_json))
-                        end
-                      end
+                        label: data_set.label,
+                        score: data_set.user_score(user),
+                        solved_at: JSON.parse(data_set.user_solved_at(user).to_json)
+                      }
                     end
                   }
                 end
