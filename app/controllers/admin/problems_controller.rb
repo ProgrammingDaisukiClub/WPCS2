@@ -1,13 +1,9 @@
 class Admin::ProblemsController < Admin::AdminControllerBase
-  before_action :set_problem, only: [:show, :edit, :update, :destroy :download_input]
+  before_action :set_problem, only: [:show, :edit, :update, :destroy]
 
   # GET /problems/1
   # GET /problems/1.json
   def show; end
-
-  # GET /problem/1
-  def download_input
-  end
 
   # GET /problems/new
   def new
