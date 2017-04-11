@@ -9,11 +9,7 @@ Rails.application.routes.draw do
   }
   resources 'contests', only: ['show'] do
     resources 'problems', only: ['show'] do
-      resources 'data_sets', only: [] do
-        member do
-          get 'download_input' => 'problems#download_input'
-        end
-      end
+      get 'data_sets/:id/download_input' => 'problems#download_input'
     end
     member do
       get 'ranking'
