@@ -28,8 +28,12 @@ RSpec.describe ProblemsController, type: :controller do
     context 'when the contest exists' do
       let(:contest) { create(:contest_holding) }
       let(:problem) { contest.problems.first }
-      let(:input) { problem.data_sets.first.input }
-      let(:send_data_options) { { filename: 'test.txt', disposition: 'attachment', type: 'text/txt' } }
+      let(:data_set) { problem.data_sets.first }
+      let(:input) { data_set.input }
+      let(:send_data_options) do
+        { filename: "input_#{contest.id}_#{problem.id}_#{data_set.id}.in",
+          disposition: 'attachment', type: 'text/txt', status: 200 }
+      end
 
       it 'return http success' do
         expect(subject).to have_http_status(:success)
@@ -40,9 +44,10 @@ RSpec.describe ProblemsController, type: :controller do
       end
 
       it 'should return a txt attachment' do
-        @controller.should_receive(:send_data).with(input, send_data_options)
-                   .and_return { @controller.render nothing: true }
-        get 'data_sets/:data_set_id/download_input' => 'problems#download_input', format: :txt
+        expect(@controller).to receive(:send_data).with(input, send_data_options) {
+                                 @controller.render nothing: true
+                               }
+        get :download_input, id: data_set.id, problem_id: problem.id, contest_id: contest.id, format: 'text'
       end
     end
   end

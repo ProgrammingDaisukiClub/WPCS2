@@ -5,12 +5,12 @@ class ProblemsController < ApplicationController
     render template: 'contests/show'
   end
 
-  # GET /problem/1
+  # GET contests/1/problem/1/data_sets/1/download_input
   def download_input
-    data_set = DataSet.find(params[:data_set_id])
+    data_set = DataSet.find(params[:id])
     send_data(
       data_set.input,
-      filename: "input_#{params[:contest_id]}_#{params[:id]}_#{data_set.id}.in",
+      filename: "input_#{params[:contest_id]}_#{params[:problem_id]}_#{data_set.id}.in",
       type: 'text/txt',
       disposition: 'attachment',
       status: 200
