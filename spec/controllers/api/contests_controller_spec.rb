@@ -43,8 +43,8 @@ RSpec.describe Api::ContestsController, type: :controller do
                 id: data_set.id,
                 label: data_set.label,
                 max_score: data_set.score,
-                correct: user.nil? ? false : data_set.solved_by?(user),
-                score: user.nil? ? 0 : data_set.user_score(user)
+                correct: data_set.solved_by?(user),
+                score: data_set.user_score(user)
               }
             end
           }
