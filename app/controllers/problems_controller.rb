@@ -1,8 +1,20 @@
 class ProblemsController < ApplicationController
-  before_action :raise_not_found, only: %i(show)
+  before_action :raise_not_found, only: %i[show]
 
   def show
     render template: 'contests/show'
+  end
+
+  # GET contests/1/problem/1/data_sets/1/download_input
+  def download_input
+    data_set = DataSet.find(params[:id])
+    send_data(
+      data_set.input,
+      filename: "input_#{params[:contest_id]}_#{params[:problem_id]}_#{data_set.id}.in",
+      type: 'text/txt',
+      disposition: 'attachment',
+      status: 200
+    )
   end
 
   private

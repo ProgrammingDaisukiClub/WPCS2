@@ -79,7 +79,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
                         </li>
                       )) }
                     </ul>
-                    { /* <a className="problem--dataSetDownloadLink" href="#">Download</a> */ }
+                      <a className="problem--dataSetDownloadLink" href={ this.props.problem.id+"/data_sets/"+this.state.dataSetTabId+"/download_input" }>Download</a>  
                   </div>
                   <textarea
                     className="problem--answer"

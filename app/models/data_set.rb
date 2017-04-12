@@ -6,7 +6,7 @@ class DataSet < ApplicationRecord
 
   def solved_by?(user_id)
     return false unless user_id
-    submissions.where(user_id: user_id).judge_status_accepted.count > 0
+    submissions.where(user_id: user_id).judge_status_accepted.count.positive?
   end
 
   def user_score(user_id)
