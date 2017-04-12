@@ -10,10 +10,4 @@ class Problem < ApplicationRecord
   def description
     send("description_#{I18n.locale}")
   end
-
-  def label_and_score(user)
-    {
-      data_sets: data_sets.order(order: :asc).map { |data_set| data_set.to_json_hash(user.id) }
-    }
-  end
 end
