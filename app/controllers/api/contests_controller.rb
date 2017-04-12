@@ -93,8 +93,8 @@ class Api::ContestsController < ApplicationController
                 {
                   id: data_set.id,
                   label: data_set.label,
-                  score: data_set.solved_by?(user) ? data_set.user_score(user) : 0,
-                  solved_at: data_set.solved_by?(user) ? data_set.user_solved_at(user) : nil
+                  score: data_set.user_score(user),
+                  solved_at: data_set.user_solved_at(user)
                 }
               end
             }

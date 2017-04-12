@@ -6,13 +6,13 @@ class DataSet < ApplicationRecord
 
   def solved_by?(user)
     return false if user.nil?
-    submissions.where(user_id: user.id).judge_status_accepted.count > 0
+    submissions.where(user: user).judge_status_accepted.count.positive?
   end
 
   def user_score(user)
     return 0 if user.nil?
     submission = submissions.where(
-      user_id: user.id,
+      user: user,
       judge_status: :accepted,
       created_at: contest.start_at..contest.end_at
     ).order(score: :desc).first
@@ -21,7 +21,7 @@ class DataSet < ApplicationRecord
 
   def user_solved_at(user)
     return nil if user.nil?
-    submission = submissions.where(user_id: user.id, judge_status: :accepted).order(score: :desc).limit(1).first
+    submission = submissions.where(user: user, judge_status: :accepted).order(score: :desc).limit(1).first
     submission ? submission.created_at : nil
   end
 end

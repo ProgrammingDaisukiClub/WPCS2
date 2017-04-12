@@ -14,15 +14,15 @@ class Contest < ApplicationRecord
   end
 
   def preparing?
-    start_at > Time.zone.now
+    start_at > Time.current
   end
 
   def started?
-    start_at < Time.zone.now
+    start_at < Time.current
   end
 
   def ended?
-    end_at < Time.zone.now
+    end_at < Time.current
   end
 
   def during?
@@ -30,15 +30,15 @@ class Contest < ApplicationRecord
   end
 
   def registered_by?(user)
-    ContestRegistration.find_by(user_id: user.id, contest_id: id).present?
+    ContestRegistration.find_by(user: user, contest: self).present?
   end
 
   def register(user)
-    ContestRegistration.create(user_id: user.id, contest_id: id)
+    ContestRegistration.create(user: user, contest: self)
   end
 
   def user_score(user)
-    return 0 if user.nil? || !registered_by?(user)
+    return 0 unless user && registered_by?(user)
     data_sets.map { |data_set| data_set.user_score(user) }.inject(0, :+)
   end
 end
