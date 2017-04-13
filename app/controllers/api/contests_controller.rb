@@ -1,96 +1,112 @@
 class Api::ContestsController < ApplicationController
+  before_action :set_contest
+
   def show
-    unless (contest = Contest.find_by_id(params[:id]))
-      render(json: {}, status: 404)
-      return
+    if hide_problems?
+      render(json: json_for_show_without_problems, status: 200)
+    else
+      render(json: json_for_show_with_problems, status: 200)
     end
-
-    json_without_problems = contest.name_and_description(I18n.locale)
-
-    unless signed_in?
-      show_for_no_login_user(contest, json_without_problems)
-      return
-    end
-
-    show_for_login_user(contest, json_without_problems)
   end
 
   def entry
-    unless (contest = Contest.find_by_id(params[:id]))
-      render(json: {}, status: 404)
+    if @joined
+      render(json: {}, status: 409)
       return
     end
 
-    if !signed_in? || contest.ended?
+    if !signed_in? || @contest.ended?
       render(json: {}, status: 403)
-    elsif contest.registered_by?(current_user)
-      render(json: {}, status: 409)
-    elsif contest.register(current_user)
-      render(json: {}, status: 201)
+      return
     end
+
+    @contest.register(current_user)
+    render(json: {}, status: 201)
   end
 
   def ranking
-    contest = Contest.find_by_id(params[:id])
+    if hide_problems?
+      render(json: {}, status: 403)
+      return
+    end
 
-    generate_ranking_response(contest)
+    render(json: json_for_ranking, status: 200)
   end
 
   private
 
-  def generate_ranking_response(contest)
-    if contest.nil?
+  def set_contest
+    unless (@contest = Contest.find_by_id(params[:id]))
       render(json: {}, status: 404)
       return
     end
-
-    if contest.preparing? || (contest.during? && !(signed_in? && contest.registered_by?(current_user)))
-      render(json: {}, status: 403)
-      return
-    end
-
-    ranking_for_login_user(contest)
+    @joined = signed_in? && @contest.registered_by?(current_user)
   end
 
-  def show_for_no_login_user(contest, json_without_problems)
-    json_without_problems = json_without_problems.merge(joined: false)
-    if contest.ended?
-      json_with_problems = json_without_problems.merge(json_problems(contest))
-      render(json: json_with_problems, status: :ok)
-    else
-      render(json: json_without_problems, status: :ok)
-    end
+  def hide_problems?
+    !((@contest.during? && @joined) || @contest.ended?)
   end
 
-  def show_for_login_user(contest, json_without_problems)
-    is_user_registered = contest.registered_by?(current_user)
-    json_without_problems = json_without_problems.merge(joined: is_user_registered)
-
-    if !contest.started? || (!contest.ended? && !is_user_registered)
-      render(json: json_without_problems, status: :ok)
-    else
-      json_with_problems = json_without_problems.merge(json_problems(contest))
-      render(json: json_with_problems, status: :ok)
-    end
+  def json_for_show_without_problems
+    {
+      id: @contest.id,
+      name: @contest.name,
+      description: @contest.description,
+      start_at: @contest.start_at,
+      end_at: @contest.end_at,
+      joined: @joined
+    }
   end
 
-  def ranking_for_login_user(contest)
-    users = contest.users_sorted_by_rank
-    render(
-      json: {
-        users: users.map do |user|
-          {
-            id: user.id,
-            name: user.name,
-            total_score: user.score_for_contest(contest)
-          }.merge(contest.problems_for_ranking(user.id))
-        end
-      },
-      status: :ok
+  def json_for_show_with_problems
+    json_for_show_without_problems.merge(
+      problems: @contest.problems.map do |problem|
+        {
+          id: problem.id,
+          name: problem.name,
+          description: problem.description,
+          data_sets: problem.data_sets.map do |data_set|
+            {
+              id: data_set.id,
+              label: data_set.label,
+              max_score: data_set.score,
+              correct: data_set.solved_by?(current_user),
+              score: data_set.user_score(current_user)
+            }
+          end
+        }
+      end
     )
   end
 
-  def json_problems(contest)
-    contest.problems_to_show(current_user.try(:id), I18n.locale)
+  def json_for_ranking
+    {
+      users: sorted_users.map do |user|
+        {
+          id: user.id,
+          name: user.name,
+          total_score: @contest.user_score(user),
+          problems: @contest.problems.map do |problem|
+            {
+              id: problem.id,
+              data_sets: problem.data_sets.map do |data_set|
+                {
+                  id: data_set.id,
+                  label: data_set.label,
+                  score: data_set.user_score(user),
+                  solved_at: data_set.user_solved_at(user)
+                }
+              end
+            }
+          end
+        }
+      end
+    }
+  end
+
+  def sorted_users
+    @contest.users.sort do |user1, user2|
+      @contest.user_score(user2) <=> @contest.user_score(user1)
+    end
   end
 end
