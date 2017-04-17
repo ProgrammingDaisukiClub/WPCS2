@@ -43,8 +43,8 @@ RSpec.describe Api::ContestsController, type: :controller do
                 id: data_set.id,
                 label: data_set.label,
                 max_score: data_set.score,
-                correct: user.nil? ? false : data_set.solved_by?(user.id),
-                score: user.nil? ? 0 : data_set.user_score(user.id)
+                correct: data_set.solved_by?(user),
+                score: data_set.user_score(user)
               }
             end
           }
@@ -444,27 +444,24 @@ RSpec.describe Api::ContestsController, type: :controller do
       describe 'Case 3: return json' do
         let(:json_ranking) do
           sorted_users = contest.users.sort do |a, b|
-            b.score_for_contest(contest) <=> a.score_for_contest(contest)
+            contest.user_score(b) <=> contest.user_score(a)
           end
           {
             users: sorted_users.map do |user|
               {
                 id: user.id,
                 name: user.name,
-                total_score: user.score_for_contest(contest),
+                total_score: contest.user_score(user),
                 problems: contest.problems.order(order: :asc).map do |problem|
                   {
                     id: problem.id,
                     data_sets: problem.data_sets.order(order: :asc).map do |data_set|
                       {
                         id: data_set.id,
-                        label: data_set.label
-                      }.tap do |hash|
-                        if data_set.solved_by?(user.id)
-                          hash.merge!(score: data_set.user_score(user.id),
-                                      solved_at: JSON.parse(data_set.user_solved_at(user.id).to_json))
-                        end
-                      end
+                        label: data_set.label,
+                        score: data_set.user_score(user),
+                        solved_at: JSON.parse(data_set.user_solved_at(user).to_json)
+                      }
                     end
                   }
                 end
