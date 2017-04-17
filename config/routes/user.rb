@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     sessions:      'users/sessions'
   }
   resources 'contests', only: ['show'] do
-    resources 'problems', only: ['show']
+    resources 'problems', only: ['show'] do
+      resources 'data_sets', only: ['show']
+    end
     member do
       get 'ranking'
     end
