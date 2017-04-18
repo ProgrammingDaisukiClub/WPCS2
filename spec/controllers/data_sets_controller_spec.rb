@@ -38,11 +38,10 @@ RSpec.describe DataSetsController, type: :controller do
       let(:problem) { contest.problems.first }
       let(:data_set) { problem.data_sets.first }
       let(:send_data_options) do
-        { filename: "input_#{contest_id}_#{problem_id}_#{data_set_id}.in", 
-          disposition: 'attachment', 
-          type: 'text/txt', 
-          status: 200 
-        }
+        { filename: "input_#{contest_id}_#{problem_id}_#{data_set_id}.in",
+          disposition: 'attachment',
+          type: 'text/txt',
+          status: 200 }
       end
       it 'return http ' do
         expect(subject).to have_http_status(:success)
@@ -59,6 +58,5 @@ RSpec.describe DataSetsController, type: :controller do
 
   describe 'GET #show' do
     subject { get :show, params: { contest_id: contest_id, problem_id: problem_id, id: data_set_id, type: 'text' } }
-
   end
 end
