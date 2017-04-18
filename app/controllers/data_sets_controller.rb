@@ -3,10 +3,10 @@ class DataSetsController < ApplicationController
 
   def show
     send_data(@data_set.input,
-      filename: "input_#{ @contest.id }_#{ @problem.id }_#{ @data_set.id }.in",
-      type: 'text/txt',
-      disposition: 'attachment',
-      status: 200)
+              filename: "input_#{@contest.id}_#{@problem.id}_#{@data_set.id}.in",
+              type: 'text/txt',
+              disposition: 'attachment',
+              status: 200)
   end
 
   private
