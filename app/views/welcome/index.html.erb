@@ -7,10 +7,10 @@
     <ul class="topContests--inner">
       <% @top_contest.each do |contest| %>
         <li class="topContests--item">
-          <h2 class="topContests--header"><%= contest.name(I18n.locale) %></h2>
+          <h2 class="topContests--header"><%= contest.name %></h2>
           <div class="topContests--body">
             <div class="topContests--description">
-              <%= contest.description(I18n.locale) %>
+              <%= contest.description %>
             </div>
             <div class="topContests--startAt">
               <%= t('.start_at') %>: <%= contest.start_at.strftime('%Y/%m/%d %H:%M') %>
@@ -34,7 +34,7 @@
         <ul>
           <% @all_contest.each do |contest| %>
             <li class="allContests--item">
-              <%= link_to contest.name(I18n.locale), contest_path(contest), class: 'allContests--link' %>
+              <%= link_to contest.name, contest_path(contest), class: 'allContests--link' %>
             </li>
           <% end %>
         </ul>
