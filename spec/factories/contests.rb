@@ -8,6 +8,7 @@ FactoryGirl.define do
 
     after(:create) do |contest|
       2.times { contest.problems << create(:problem, contest_id: contest.id) }
+      2.times { contest.users << create(:user) }
     end
   end
 
