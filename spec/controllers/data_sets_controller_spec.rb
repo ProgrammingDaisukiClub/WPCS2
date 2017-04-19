@@ -69,7 +69,6 @@ RSpec.describe DataSetsController, type: :controller do
       it_behaves_like 'raise ActionController::RoutingError'
     end
 
-
     context 'when the contest exists and contest holding and login and not register' do
       let(:contest) { create(:contest_holding) }
       let(:problem) { contest.problems.first }
