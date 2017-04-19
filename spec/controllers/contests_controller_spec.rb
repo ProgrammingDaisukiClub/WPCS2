@@ -14,7 +14,6 @@ RSpec.describe ContestsController, type: :controller do
 
     context 'when the contest exists' do
       let(:contest) { create(:contest_holding) }
-
       it 'return http success' do
         is_expected.to have_http_status(:success)
       end
@@ -24,7 +23,6 @@ RSpec.describe ContestsController, type: :controller do
       end
     end
   end
-
   describe 'GET #show' do
     subject { get :show, params: { id: contest_id } }
     it_behaves_like 'render contests#show'
