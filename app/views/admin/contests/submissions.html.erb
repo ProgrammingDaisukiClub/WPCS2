@@ -1,0 +1,36 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'admin' %>
+<% end %>
+<div class="submissions">
+  <div class="submissions--inner">
+    <div class="submissions--header">参加者の提出履歴</div>
+    <div class="submissions--body">
+      <table class="submissions--table">
+        <thead>
+          <tr>
+            <td class="submissions--createdAtHeader">{ t('submitted_at') }</td>
+            <td class="submissions--problemNameHeader">{ t('problem') }</td>
+            <td class="submissions--dataSetLabelHeader">{ t('data_set') }</td>
+            <td class="submissions--judgeStatusHeader">{ t('judge') }</td>
+            <td class="submissions--scoreHeader">{ t('score') }</td>
+          </tr>
+        </thead>
+        <tbody>
+          { this.props.submissions.map((submission) => (
+            <tr key={ submission.id }>
+              <td class="submissions--createdAt">{ this.createdAt(submission.createdAt) }</td>
+              <td class="submissions--problemName">{ this.problemName(submission.problemId) }</td>
+              <td class="submissions--dataSetLabel">{ this.dataSetLabel(submission.problemId, submission.dataSetId) }</td>
+              <td class="submissions--judgeStatus">
+                <div class={ `submissions--judgeStatusBadge__${ this.judgeStatus(submission.judgeStatus) }` }>
+                  { this.judgeStatus(submission.judgeStatus) }
+                </div>
+              </td>
+              <td class="submissions--score">{ submission.judgeStatus !== JUDGE_STATUS.WJ && submission.score }</td>
+            </tr>
+          )) }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
