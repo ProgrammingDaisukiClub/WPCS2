@@ -1,0 +1,17 @@
+@import "variables";
+@import "problem";
+@import "mixins";
+
+.admin--contest {
+  @include clearfix;
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.problem {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
