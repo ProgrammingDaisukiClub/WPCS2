@@ -1,19 +1,65 @@
-<p id="notice"><%= notice %></p>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'github-markdown' %>
+  <%= stylesheet_link_tag 'admin' %>
+<% end %>
 
-Order: <%= @problem.order %>
+<div class="admin--contest">
+  <p id="notice"><%= notice %></p>
 
-<hr>
+  <p>Order: <%= @problem.order %></p>
 
-<h2><%= @problem.name_ja %></h2>
-<div><%= @problem.description_ja %></div>
+  <p>
+    <%= link_to 'Edit', edit_admin_problem_path(@problem) %> |
+    <%= link_to 'Back', admin_contest_path(@problem.contest) %> |
+    <%= link_to 'Destroy', [:admin, @problem], method: :delete, data: { confirm: 'Are you sure?' } %>
+  </p>
 
-<hr>
+  <div class="problem">
+    <div class="problem--inner">
+      <h2 class="problem--header">[ja] <%= @problem.name_ja %></h2>
+      <div class="problem--body">
+        <div class="problem--description">
+          <div class="problem--descriptionBody">
+            <div id="description_ja"><%= raw(@problem.description_ja) %></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<h2><%= @problem.name_en %></h2>
-<div><%= @problem.description_en %></div>
+    <div class="problem--inner">
+      <h2 class="problem--header">[en] <%= @problem.name_en %></h2>
+      <div class="problem--body">
+        <div class="problem--description">
+          <div class="problem--descriptionBody">
+            <div id="description_en"><%= raw(@problem.description_en) %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<hr>
+  <p>
+    <%= link_to 'Edit', edit_admin_problem_path(@problem) %> |
+    <%= link_to 'Back', admin_contest_path(@problem.contest) %> |
+    <%= link_to 'Destroy', [:admin, @problem], method: :delete, data: { confirm: 'Are you sure?' } %>
+  </p>
 
-<%= link_to 'Edit', edit_admin_problem_path(@problem) %> |
-<%= link_to 'Back', admin_contest_path(@problem.contest) %> |
-<%= link_to 'Destroy', [:admin, @problem], method: :delete, data: { confirm: 'Are you sure?' } %>
+  <hr>
+
+  <p>
+    DataSets:
+    <% @problem.data_sets.each do |data_set| %>
+      <div>
+        <%= link_to "#{data_set.id} - #{data_set.label} (#{data_set.score})", [:admin, data_set] %>
+      </div>
+    <% end %>
+    <div>
+      <%= link_to 'Add DataSet', new_admin_data_set_path(problem_id: @problem.id) %>
+    </div>
+  </p>
+</div>
+
+<% content_for :scripts do %>
+  <%= render partial: 'contests/import_mathjax' %>
+  <%= javascript_include_tag "build/admin.#{I18n.locale}" %>
+<% end %>
