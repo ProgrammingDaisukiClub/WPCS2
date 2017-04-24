@@ -19,6 +19,12 @@ class Admin::ContestsController < Admin::AdminControllerBase
   # GET /contests/1/edit
   def edit; end
 
+  # GET /contests/1/submissions
+  def submissions
+    # memo user, problem, data_set
+    @submissions = Submission.all
+  end
+
   # POST /contests
   # POST /contests.json
   def create

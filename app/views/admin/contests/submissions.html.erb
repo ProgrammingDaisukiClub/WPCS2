@@ -8,28 +8,30 @@
       <table class="submissions--table">
         <thead>
           <tr>
-            <td class="submissions--createdAtHeader">{ t('submitted_at') }</td>
-            <td class="submissions--problemNameHeader">{ t('problem') }</td>
-            <td class="submissions--dataSetLabelHeader">{ t('data_set') }</td>
-            <td class="submissions--judgeStatusHeader">{ t('judge') }</td>
-            <td class="submissions--scoreHeader">{ t('score') }</td>
+            <td class="submissions--createdAtHeader">提出日時</td>
+            <td class="submissions--submitterHeader">提出者</td>
+            <td class="submissions--problemNameHeader">問題名</td>
+            <td class="submissions--dataSetLabelHeader">データセット</td>
+            <td class="submissions--judgeStatusHeader">判定</td>
+            <td class="submissions--scoreHeader">スコア</td>
           </tr>
         </thead>
+        <% @submissions.each do |submission| %>
         <tbody>
-          { this.props.submissions.map((submission) => (
             <tr key={ submission.id }>
-              <td class="submissions--createdAt">{ this.createdAt(submission.createdAt) }</td>
-              <td class="submissions--problemName">{ this.problemName(submission.problemId) }</td>
-              <td class="submissions--dataSetLabel">{ this.dataSetLabel(submission.problemId, submission.dataSetId) }</td>
+              <td class="submissions--createdAt"><%= submission.created_at %></td>
+              <td class="submissions--submitter"><%= submission.user.name %></td>
+              <td class="submissions--problemName"><%= submission.problem.name %></td>
+              <td class="submissions--dataSetLabel"><%= submission.data_set.label %></td>
               <td class="submissions--judgeStatus">
-                <div class={ `submissions--judgeStatusBadge__${ this.judgeStatus(submission.judgeStatus) }` }>
-                  { this.judgeStatus(submission.judgeStatus) }
-                </div>
+                <%= submission.judge_status %>
               </td>
-              <td class="submissions--score">{ submission.judgeStatus !== JUDGE_STATUS.WJ && submission.score }</td>
+              <td class="submissions--score">
+                <%= submission.score %>
+              </td>
             </tr>
-          )) }
         </tbody>
+        <% end %>
       </table>
     </div>
   </div>
