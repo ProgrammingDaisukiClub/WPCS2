@@ -22,7 +22,7 @@ class Admin::ContestsController < Admin::AdminControllerBase
   # GET /contests/1/submissions
   def submissions
     # memo user, problem, data_set
-    @submissions = Submission.all
+    @submissions = Contest.find_by_id(params[:id]).submissions.all.order(id: :asc)
   end
 
   # POST /contests
