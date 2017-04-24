@@ -133,8 +133,7 @@ RSpec.describe Api::SubmissionsController do
           id: submission.id,
           problem_id: submission.data_set.problem.id,
           data_set_id: submission.data_set.id,
-          # judge_status: correct_answer? ? 2 : 1,
-          judge_status: 0, # temporary return waiting status
+          judge_status: correct_answer? ? 2 : 1,
           created_at: JSON.parse(submission.created_at.to_json),
           score: submission.score
         }
