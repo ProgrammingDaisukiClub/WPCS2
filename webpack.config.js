@@ -10,6 +10,7 @@ let config = {
   entry: {
     tutorial: "./src/tutorial/index.tsx",
     contests: "./src/contests/index.tsx",
+    admin: "./src/admin/index.tsx",
   },
   output: {
     path: path.join(__dirname, "./app/assets/javascripts/build"),

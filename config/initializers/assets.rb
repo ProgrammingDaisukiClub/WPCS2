@@ -8,5 +8,5 @@ Rails.application.config.assets.version = '1.0'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w(build/tutorial.ja.js build/tutorial.en.js build/contests.ja.js build/contests.en.js)
-Rails.application.config.assets.precompile += %w(welcome.css users.css contests.css terms.scss privacy_policies.scss github-markdown.css)
+Rails.application.config.assets.precompile += %w(build/tutorial.ja.js build/tutorial.en.js build/contests.ja.js build/contests.en.js build/admin.ja.js build/admin.en.js)
+Rails.application.config.assets.precompile += %w(welcome.css admin.scss users.css contests.css terms.scss privacy_policies.scss github-markdown.css)
