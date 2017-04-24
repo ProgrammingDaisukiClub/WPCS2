@@ -1,5 +1,5 @@
 class Admin::AdminControllerBase < ApplicationController
-  before_action :admin_authentication
+  before_action :admin_authentication, if: -> { ENV['staging'] != 'true' }
 
   def admin_authentication
     # redirect_to new_admin_session_path unless admin_signed_in?
