@@ -21,8 +21,8 @@ class Admin::ContestsController < Admin::AdminControllerBase
 
   # GET /contests/1/submissions
   def submissions
-    # memo user, problem, data_set
-    @submissions = Contest.find_by_id(params[:id]).submissions.all.order(id: :asc)
+    data_set_ids = Contest.find_by_id(params[:id]).data_sets.pluck(:id)
+    @submissions = Submission.where(:data_set_id => data_set_ids)
   end
 
   # POST /contests
