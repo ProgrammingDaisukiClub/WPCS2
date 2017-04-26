@@ -19,12 +19,6 @@ class Admin::ContestsController < Admin::AdminControllerBase
   # GET /contests/1/edit
   def edit; end
 
-  # GET /contests/1/submissions
-  def submissions
-    data_set_ids = Contest.find_by_id(params[:id]).data_sets.pluck(:id)
-    @submissions = Submission.where(data_set_id: data_set_ids)
-  end
-
   # POST /contests
   # POST /contests.json
   def create

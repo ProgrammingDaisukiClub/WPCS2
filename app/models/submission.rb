@@ -1,10 +1,10 @@
 class Submission < ApplicationRecord
   belongs_to :user
   belongs_to :data_set
+  has_one :problem, through: :data_set
+  has_one :contest, through: :problem
 
   delegate :problem_id, to: :data_set
-  delegate :problem, to: :data_set
-  delegate :contest, to: :problem
 
   enum judge_status: {
     waiting: 0,

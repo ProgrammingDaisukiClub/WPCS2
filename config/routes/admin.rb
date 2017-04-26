@@ -9,9 +9,7 @@ Rails.application.routes.draw do
   end
   namespace :admin do
     resources :contests do
-      member do
-        get 'submissions'
-      end
+      resources :submissions
     end
     resources :problems, :data_sets, only: %i(show new edit create update destroy)
   end
