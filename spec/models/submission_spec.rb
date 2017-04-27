@@ -80,19 +80,19 @@ RSpec.describe Submission, type: :model do
 
       context 'when score is half score of the data_set and' do
         let(:submitted_at) { Time.zone.parse('2017-03-14 21:00:00') }
-        let(:expected_score) { 90 }
+        let(:expected_score) { 100 }
         it_behaves_like 'updated properly'
       end
 
       context 'when score is half score of the data_set and' do
         let(:submitted_at) { Time.zone.parse('2017-03-14 21:50:00') }
-        let(:expected_score) { 65 }
+        let(:expected_score) { 75 }
         it_behaves_like 'updated properly'
       end
 
       context 'when score is half score of the data_set and' do
         let(:submitted_at) { Time.zone.parse('2017-03-14 22:40:00') }
-        let(:expected_score) { 40 }
+        let(:expected_score) { 50 }
         it_behaves_like 'updated properly'
       end
     end
