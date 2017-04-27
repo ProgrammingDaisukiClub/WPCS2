@@ -2,5 +2,7 @@ ja:
   activerecord:
     attributes:
       contest:
+      submission:
     models:
       contest: "コンテスト"
+      submission: "提出"

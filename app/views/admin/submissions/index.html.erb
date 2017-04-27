@@ -1,0 +1,45 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'pages/admin/submissions' %>
+<% end %>
+
+<div class="submissions">
+  <div class="submissions--inner">
+    <div class="submissions--header">参加者の提出履歴</div>
+    <div class="submissions--body">
+      <%= page_entries_info @submissions %>
+      <table class="submissions--table">
+        <thead>
+          <tr>
+            <td class="submissions--id">ID</td>
+            <td class="submissions--submitterIdHeader">ユーザーID</td>
+            <td class="submissions--submitterHeader">ユーザー名</td>
+            <td class="submissions--problemNameHeader">問題ID</td>
+            <td class="submissions--problemNameHeader">問題名</td>
+            <td class="submissions--dataSetLabelHeader">データセットID</td>
+            <td class="submissions--dataSetLabelHeader">データセット</td>
+            <td class="submissions--judgeStatusHeader">判定</td>
+            <td class="submissions--scoreHeader">スコア</td>
+            <td class="submissions--createdAtHeader">提出日時</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @submissions.each do |submission| %>
+            <tr>
+              <td class="submissions--idHeader"><%= submission.id %></td>
+              <td class="submissions--submitterId"><%= submission.user.id %></td>
+              <td class="submissions--submitter"><%= submission.user.name %></td>
+              <td class="submissions--problemName"><%= submission.problem.id %></td>
+              <td class="submissions--problemName"><%= submission.problem.name %></td>
+              <td class="submissions--dataSetLabel"><%= submission.data_set.id %></td>
+              <td class="submissions--dataSetLabel"><%= submission.data_set.label %></td>
+              <td class="submissions--judgeStatus"><%= judge_status_badge(submission) %></td>
+              <td class="submissions--score"><%= submission.score %></td>
+              <td class="submissions--createdAt"><%= l(submission.created_at, format: :short) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= paginate @submissions %>
+    </div>
+  </div>
+</div>

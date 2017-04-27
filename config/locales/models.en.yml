@@ -2,5 +2,7 @@ en:
   activerecord:
     attributes:
       contest:
+      submission:
     models:
       contest: Contest
+      submission: Submission

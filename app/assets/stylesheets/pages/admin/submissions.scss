@@ -1,0 +1,83 @@
+@import "variables";
+
+.submissions {
+  width: 100%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  &--inner {
+    padding: 16px;
+  }
+  &--header {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    font-weight: normal;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background-color: $brand-color;
+    }
+  }
+  &--body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  &--table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+  }
+  &--idHeader,
+  &--createdAtHeader,
+  &--submitterIdHeader,
+  &--submitterHeader,
+  &--problemNameHeader,
+  &--dataSetLabelHeader,
+  &--judgeStatusHeader,
+  &--scoreHeader,
+  &--id,
+  &--createdAt,
+  &--submitterId,
+  &--submitter,
+  &--problemName,
+  &--dataSetLabel,
+  &--judgeStatus,
+  &--score {
+    border-bottom: 1px solid #979797;
+    vertical-align: middle;
+    padding: 4px;
+  }
+  &--judgeStatus,
+  &--score {
+    text-align: center;
+  }
+  &--judgeStatusBadge__WJ,
+  &--judgeStatusBadge__WA,
+  &--judgeStatusBadge__AC {
+    display: inline-block;
+    width: 32px;
+    padding: 2px 0;
+    border-radius: 2px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+  }
+  &--judgeStatusBadge__WJ {
+    background-color: #979797;
+  }
+  &--judgeStatusBadge__WA {
+    background-color: #ef9e2b;
+  }
+  &--judgeStatusBadge__AC {
+    background-color: #529453;
+  }
+}
