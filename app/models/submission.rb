@@ -25,7 +25,10 @@ class Submission < ApplicationRecord
   end
 
   def correct_answer?
-    answer.strip == data_set.output.strip
+    data_set_output = data_set.output.gsub("\r\n", "\n").gsub(/\s+/, "\s").strip
+    submission_answer = answer.gsub("\r\n", "\n").gsub(/[\s\t]+/, "\s").strip
+
+    data_set_output == submission_answer
   end
 
   def judge_score
