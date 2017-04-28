@@ -26,9 +26,9 @@ RSpec.describe DataSetsController, type: :controller do
 
       it 'should return a txt attachment' do
         expect(@controller).to receive(:send_data).with(data_set.input, send_data_options) {
-          @controller.render nothing: true
+          @controller.head :ok
         }
-        get :show, id: data_set_id, problem_id: problem_id, contest_id: contest_id, format: 'text'
+        get :show, params: { id: data_set_id, problem_id: problem_id, contest_id: contest_id, format: 'text' }
       end
     end
 
