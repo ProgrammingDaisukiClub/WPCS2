@@ -1,9 +1,13 @@
+@import "github-markdown";
+@import "variables";
+
 .markdown-body {
   font-size: 14px;
   h1 {
     font-size: 1.3em;
-    border-left: 5px solid $brand-color;
-    padding: 0 0 2px 4px;
+    border-left: 4px solid $brand-color;
+    border-bottom: none;
+    padding: 2px 8px;
   }
   h2 {
     font-size: 1.2em;
