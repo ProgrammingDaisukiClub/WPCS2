@@ -155,4 +155,35 @@ RSpec.describe Admin::DataSetsController, type: :controller do
       expect(response).to redirect_to(data_sets_url)
     end
   end
+
+  let(:contest) { create(:contest_holding) }
+  let(:problem) { contest.problems.first }
+  let(:data_set) { problem.data_sets.first }
+
+  describe 'GET #show' do
+    context 'when the user does not login' do
+      subject { get :show, params: { id: data_set.id } }
+      it 'raise routing error' do
+        expect { subject }.to raise_error(ActionController::RoutingError, 'not found')
+      end
+    end
+  end
+
+  describe 'GET #new' do
+    context 'when the user does not login' do
+      subject { get :new }
+      it 'raise routing error' do
+        expect { subject }.to raise_error(ActionController::RoutingError, 'not found')
+      end
+    end
+  end
+
+  describe 'GET #edit' do
+    context 'when the user does not login' do
+      subject { get :edit, params: { id: data_set.id } }
+      it 'raise routing error' do
+        expect { subject }.to raise_error(ActionController::RoutingError, 'not found')
+      end
+    end
+  end
 end
