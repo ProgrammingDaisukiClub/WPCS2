@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428163517) do
+ActiveRecord::Schema.define(version: 20170428165657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "admin_roles", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_admin_roles_on_user_id", unique: true, using: :btree
+  end
 
   create_table "contest_registrations", force: :cascade do |t|
     t.integer  "user_id"
@@ -98,6 +105,7 @@ ActiveRecord::Schema.define(version: 20170428163517) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "admin_roles", "users"
   add_foreign_key "contest_registrations", "contests"
   add_foreign_key "contest_registrations", "users"
   add_foreign_key "data_sets", "problems"
