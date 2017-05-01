@@ -1,16 +1,10 @@
 class ProfileController < ApplicationController
   def show
-    unless signed_in?
-      redirect_to new_user_session_url
-      nil
-    end
+    redirect_to new_user_session_url unless signed_in?
   end
 
   def edit
-    unless signed_in?
-      redirect_to new_user_session_url
-      return
-    end
+    redirect_to new_user_session_url unless signed_in?
     @user = current_user
   end
 end
