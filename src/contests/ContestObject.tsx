@@ -6,8 +6,10 @@ interface ContestObject {
   description: string;
   problems?: [ProblemObject];
   joined: boolean;
+  currentUserId: number;
   startAt: Date;
   endAt: Date;
+  baseline: number;
 }
 
 export default ContestObject;

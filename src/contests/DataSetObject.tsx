@@ -4,6 +4,7 @@ interface DataSetObject {
   maxScore: number;
   correct: boolean;
   score: number;
+  answer: string;
 };
 
 export default DataSetObject
