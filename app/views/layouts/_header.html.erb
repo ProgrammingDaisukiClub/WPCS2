@@ -16,6 +16,7 @@
         <%= link_to t('layouts.header.sign_up'), new_user_registration_path, class: 'globalHeader--navButton' %>
       <% else %>
         <%= link_to t('layouts.header.sign_out'), destroy_user_session_path, method: :delete, class: 'globalHeader--navLink' %>
+        <%= link_to "profile", profile_path, method: :get, class: 'globalHeader--navLink' %>
       <% end %>
     </nav>
   </header>

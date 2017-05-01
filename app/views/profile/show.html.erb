@@ -1,0 +1,19 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'pages/profile' %>
+<% end %>
+
+<p id="notice"><%= notice %></p>
+
+<div class="profileContainer">
+  <h1 class="profileContainer--header">Profile</h1>
+  <div class="profileContainer--heading">
+    <p>
+      <%= current_user.name %>
+    </p>
+  </div>
+  <div class="profileContainer--body">
+    <p>
+      <%= current_user.email %>
+    </p>
+  </div>
+</div>

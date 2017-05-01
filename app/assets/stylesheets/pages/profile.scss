@@ -1,0 +1,135 @@
+// Place all the styles related to the profile controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'variables';
+@import 'mixins';
+
+.profileContainer {
+  @include clearfix;
+  width: 75%;
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  &--header {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    font-weight: normal;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background-color: $brand-color;
+    }
+  }
+  &--heading {
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 24px;
+  }
+  &--body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+.topContests {
+  float: left;
+  width: 75%;
+  &--inner {
+    padding: 16px;
+  }
+  &--item {
+    margin-bottom: 16px;
+  }
+  &--header {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    font-weight: normal;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background-color: $brand-color;
+    }
+  }
+  &--body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  &--description {
+    margin-bottom: 8px;
+  }
+  &--time {
+    margin-bottom: 8px;
+  }
+  &--joinButton {
+    position: relative;
+    top: 0;
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    background-color: $brand-color;
+    box-shadow: 0 0.5px 0.8px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.15s background-color ease-in, 0.15s box-shadow ease-in;
+    &:hover {
+      text-decoration: none;
+      background-color: lighten($brand-color, 5%);
+      box-shadow: 0 0.5px 8px 0 rgba(0, 0, 0, 0.08), 0 0.5px 4px 0 rgba(0, 0, 0, 0.18);
+      color: #fff;
+    }
+    &:active {
+      top: 2px;
+    }
+  }
+}
+
+.allContests {
+  float: left;
+  width: 25%;
+  &--inner {
+    padding: 16px;
+  }
+  &--header {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+    font-weight: normal;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background-color: $brand-color;
+    }
+  }
+  &--body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
