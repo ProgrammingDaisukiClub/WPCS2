@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   resource 'terms', only: %w(show)
   resource 'privacy_policies', only: %(show)
-  resource 'profile', only: %w(show edit), controller: :profile
+  resource 'profile', only: %w(show), controller: :profile
 
   namespace :api do
     resources 'contests', only: %w(show) do

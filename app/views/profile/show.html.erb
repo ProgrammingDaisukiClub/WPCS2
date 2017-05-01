@@ -16,4 +16,5 @@
       <%= current_user.email %>
     </p>
   </div>
+  <%= link_to t("profile.edit"), edit_registration_path(current_user), :class => "profileContainer--editButton" =%>
 </div>

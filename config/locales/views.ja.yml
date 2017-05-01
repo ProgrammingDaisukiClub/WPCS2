@@ -15,3 +15,5 @@ ja:
       contest_time: "コンテスト時間"
       join: "参加する"
       recent_contests: "過去に開催されたコンテスト"
+  profile:
+    edit: "変更する"

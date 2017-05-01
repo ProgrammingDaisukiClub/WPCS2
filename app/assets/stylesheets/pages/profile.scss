@@ -38,50 +38,12 @@
     padding-left: 8px;
     padding-right: 8px;
   }
-}
-
-.topContests {
-  float: left;
-  width: 75%;
-  &--inner {
-    padding: 16px;
-  }
-  &--item {
-    margin-bottom: 16px;
-  }
-  &--header {
-    position: relative;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-bottom: 4px;
-    margin-bottom: 8px;
-    border-bottom: 2px solid #ccc;
-    font-size: 16px;
-    font-weight: normal;
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 120px;
-      height: 2px;
-      background-color: $brand-color;
-    }
-  }
-  &--body {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-  &--description {
-    margin-bottom: 8px;
-  }
-  &--time {
-    margin-bottom: 8px;
-  }
-  &--joinButton {
+  &--editButton {
     position: relative;
     top: 0;
     display: inline-block;
+    margin-left: 8px;
+    margin-top: 16px;
     padding: 8px 16px;
     margin-bottom: 8px;
     border-radius: 2px;
@@ -103,33 +65,3 @@
   }
 }
 
-.allContests {
-  float: left;
-  width: 25%;
-  &--inner {
-    padding: 16px;
-  }
-  &--header {
-    position: relative;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-bottom: 4px;
-    margin-bottom: 8px;
-    border-bottom: 2px solid #ccc;
-    font-size: 16px;
-    font-weight: normal;
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 120px;
-      height: 2px;
-      background-color: $brand-color;
-    }
-  }
-  &--body {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-}
