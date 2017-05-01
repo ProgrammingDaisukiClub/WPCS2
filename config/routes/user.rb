@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'welcome#index'
+  resource 'users', only: %(show)
   devise_for :users, controllers: {
     confirmations: 'users/confirmations',
     passwords:     'users/passwords',
@@ -19,7 +20,6 @@ Rails.application.routes.draw do
 
   resource 'terms', only: %w(show)
   resource 'privacy_policies', only: %(show)
-  resource 'profile', only: %w(show), controller: :profile
 
   namespace :api do
     resources 'contests', only: %w(show) do

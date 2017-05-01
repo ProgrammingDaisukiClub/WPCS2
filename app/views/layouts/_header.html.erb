@@ -18,8 +18,8 @@
         <%= link_to t('layouts.header.sign_up'), new_user_registration_path, class: 'globalHeader--navButton' %>
       <% else %>
         <%= link_to t('layouts.header.sign_out'), destroy_user_session_path, method: :delete, class: 'globalHeader--navLink' %>
-        <%= link_to current_user.name, profile_path, method: :get,
-          class: 'globalHeader--navLink' + (profile_path == request.path_info ? '__active' : '') %>
+        <%= link_to current_user.name, users_path, method: :get,
+          class: 'globalHeader--navLink' + (users_path == request.path_info ? '__active' : '') %>
       <% end %>
     </nav>
   </header>
