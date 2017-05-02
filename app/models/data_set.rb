@@ -24,4 +24,8 @@ class DataSet < ApplicationRecord
     submission = submissions.where(user: user, judge_status: :accepted).order(score: :desc).limit(1).first
     submission ? submission.created_at : nil
   end
+
+  def formatted_input
+    input.gsub(/\R/, "\r\n")
+  end
 end

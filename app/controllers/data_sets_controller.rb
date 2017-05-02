@@ -4,7 +4,7 @@ class DataSetsController < ApplicationController
   def show
     true_condition1 = (user_signed_in? && @contest.registered_by?(current_user) && @contest.during?) || @contest.ended?
     raise ActionController::RoutingError, 'Not Found' unless true_condition1
-    send_data(@data_set.input,
+    send_data(@data_set.formatted_input,
               filename: "input_#{@contest.id}_#{@problem.id}_#{@data_set.id}.in",
               type: 'text/txt',
               disposition: 'attachment',
