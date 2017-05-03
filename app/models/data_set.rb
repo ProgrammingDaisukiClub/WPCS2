@@ -30,7 +30,7 @@ class DataSet < ApplicationRecord
   def user_solved_at(user)
     return nil if user.nil?
     submission = submissions.where(user: user, judge_status: :accepted).order(score: :desc).limit(1).first
-    submission && submission.created_at < contest.end_at ? submission.created_at : nil
+    submission.created_at if submission && (submission.created_at < contest.end_at)
   end
 
   def user_wrong_answers(user)
