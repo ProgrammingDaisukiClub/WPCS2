@@ -7,8 +7,9 @@ class Admin::ContestsControllerTest < ActionDispatch::IntegrationTest
     @admin_contest = Contest.create!(name_ja: 'MyString', name_en: 'MyString',
                                      description_ja: 'MyString', description_en: 'MyString',
                                      start_at: Time.current, end_at: Time.current.next_month, score_baseline: 100)
-    @admin = admins(:one)
-    login_as(@admin)
+    @user = users(:one)
+    AdminRole.create!(user: @user)
+    login_as(@user)
   end
 
   test 'should get index' do
