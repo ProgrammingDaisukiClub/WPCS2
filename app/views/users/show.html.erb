@@ -8,13 +8,15 @@
   <h1 class="profileContainer--header">Profile</h1>
   <div class="profileContainer--heading">
     <p>
-      <%= current_user.name %>
+      <%= @user.name %>
     </p>
   </div>
   <div class="profileContainer--body">
     <p>
-      <%= current_user.email %>
+      <%= @user.email %>
     </p>
   </div>
+  <% if user_path(current_user) == request.path_info%>
   <%= link_to t("profile.edit"), edit_registration_path(current_user), :class => "profileContainer--editButton" =%>
+  <% end %>
 </div>

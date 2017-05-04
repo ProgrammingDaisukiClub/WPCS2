@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
-  def show; end
+  def index
+    @users = User.all
+  end
 
-  def edit
-    redirect_to new_user_session_url unless signed_in?
-    @user = current_user
+  def show
+    @user = User.find(params[:id])
   end
 end
