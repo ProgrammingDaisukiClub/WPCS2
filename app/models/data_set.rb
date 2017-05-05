@@ -41,4 +41,8 @@ class DataSet < ApplicationRecord
       created_at: contest.start_at..(solved_at || contest.end_at)
     ).judge_status_wrong.count
   end
+
+  def formatted_input
+    input.gsub(/\R/, "\r\n")
+  end
 end
