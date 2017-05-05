@@ -8,4 +8,5 @@ class User < ApplicationRecord
   has_many :contest_registrations
   has_many :contests, through: :contest_registrations
   has_many :submissions
+  has_one :admin_role
 end

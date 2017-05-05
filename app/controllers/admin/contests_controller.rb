@@ -1,4 +1,4 @@
-class Admin::ContestsController < Admin::AdminControllerBase
+class Admin::ContestsController < Admin::ControllerBase
   before_action :set_contest, only: [:show, :edit, :update, :destroy]
 
   # GET /contests

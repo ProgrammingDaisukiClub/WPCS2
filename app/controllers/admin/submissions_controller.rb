@@ -1,4 +1,4 @@
-class Admin::SubmissionsController < ApplicationController
+class Admin::SubmissionsController < Admin::ControllerBase
   SUBMISSIONS_PER_PAGE = 30
 
   def index
