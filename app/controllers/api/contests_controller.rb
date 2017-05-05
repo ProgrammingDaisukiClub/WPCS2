@@ -54,6 +54,8 @@ class Api::ContestsController < ApplicationController
       description: @contest.description,
       start_at: @contest.start_at,
       end_at: @contest.end_at,
+      baseline: @contest.score_baseline,
+      current_user_id: current_user.try(:id),
       joined: @joined
     }
   end
@@ -65,7 +67,7 @@ class Api::ContestsController < ApplicationController
           id: problem.id,
           name: problem.name,
           description: problem.description,
-          data_sets: problem.data_sets.map do |data_set|
+          data_sets: problem.data_sets.order(order: :asc).map do |data_set|
             {
               id: data_set.id,
               label: data_set.label,
@@ -86,15 +88,17 @@ class Api::ContestsController < ApplicationController
           id: user.id,
           name: user.name,
           total_score: @contest.user_score(user),
-          problems: @contest.problems.map do |problem|
+          problems: @contest.problems.includes(:data_sets).map do |problem|
             {
               id: problem.id,
-              data_sets: problem.data_sets.map do |data_set|
+              data_sets: problem.data_sets.order(order: :asc).includes(:submissions).map do |data_set|
                 {
                   id: data_set.id,
                   label: data_set.label,
+                  correct: data_set.solved_by_during_contest?(user),
                   score: data_set.user_score(user),
-                  solved_at: data_set.user_solved_at(user)
+                  solved_at: data_set.user_solved_at(user),
+                  wrong_answers: data_set.user_wrong_answers(user)
                 }
               end
             }
@@ -105,8 +109,6 @@ class Api::ContestsController < ApplicationController
   end
 
   def sorted_users
-    @contest.users.sort do |user1, user2|
-      @contest.user_score(user2) <=> @contest.user_score(user1)
-    end
+    @contest.users.sort { |user1, user2| @contest.user_score(user2) <=> @contest.user_score(user1) }
   end
 end
