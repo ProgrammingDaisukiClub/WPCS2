@@ -52,14 +52,6 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     this.fetchContest();
   }
 
-  public componentDidMount() {
-    this.setBorderHeight();
-  }
-
-  public componentDidUpdate() {
-    this.setBorderHeight();
-  }
-
   public componentWillUnmount() {
     if(this.rankingRequestTimerId) {
       clearInterval(this.rankingRequestTimerId);
@@ -80,13 +72,16 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           name: json.name,
           description: json.description,
           joined: json.joined,
+          currentUserId: json.current_user_id,
           startAt: new Date(json.start_at),
-          endAt: new Date(json.end_at)
+          endAt: new Date(json.end_at),
+          baseline: json.baseline
         };
         if(json.problems) {
           Object.assign(contest, {
-            problems: json.problems.map((problem: any) => ({
+            problems: json.problems.map((problem: any, index: number) => ({
               id: problem.id,
+              task: String.fromCharCode(index + 65),
               name: problem.name,
               description: problem.description,
               dataSets: problem.data_sets.map((dataSet: any) => ({
@@ -94,7 +89,8 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
                 label: dataSet.label,
                 maxScore: dataSet.max_score,
                 correct: dataSet.correct,
-                score: dataSet.score
+                score: dataSet.score,
+                answer: ''
               }))
             }))
           });
@@ -163,11 +159,21 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     }
   }
 
-  public async submit(problemId: number, dataSetId: number, answer: string) {
+  public async submit(problemId: number, dataSetId: number) {
+    const contest = this.state.contest;
+    const problems = contest.problems;
+    const problemIndex = problems.findIndex((problem) => problem.id === problemId);
+    const problem = problems[ problemIndex ];
+    const dataSets = problem.dataSets;
+    const dataSetIndex = dataSets.findIndex((dataSet) => dataSet.id === dataSetId);
+    const dataSet = dataSets[ dataSetIndex ];
+
     const formData: FormData = new FormData();
     formData.append(this.csrfParam, this.csrfToken);
-    formData.append('data_set_id', dataSetId);
-    formData.append('answer', answer);
+    formData.append('data_set_id', dataSetId.toString());
+    formData.append('answer', dataSet.answer);
+
+    this.changeAnswerForm(problemId, dataSetId, '');
 
     const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
       method: 'post',
@@ -244,8 +250,10 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             dataSets: problem.data_sets.map((dataSet: any) => ({
               id: dataSet.id,
               label: dataSet.label,
-              score: dataSet.score ? dataSet.score : undefined,
-              solvedAt: dataSet.solved_at ? new Date(dataSet.solved_at) : undefined
+              correct: dataSet.correct,
+              score: dataSet.score,
+              solvedAt: dataSet.solved_at ? new Date(dataSet.solved_at) : null,
+              wrongAnswers: dataSet.wrong_answers,
             }))
           }))
         }));
@@ -262,22 +270,47 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     }
   }
 
-  public setBorderHeight() {
-    const container: HTMLElement = document.querySelector('.container') as HTMLElement;
-    const border: HTMLElement = document.querySelector('.container--border') as HTMLElement;
-    if(!container || !border) return;
-    border.style.height = container.clientHeight + 'px';
-  }
-
   public closeSubmitResults() {
     this.setState(Object.assign({}, this.state, {
       submitResults: []
     }));
   }
 
+  public changeAnswerForm(problemId: number, dataSetId: number, answer: string) {
+    const contest = this.state.contest;
+    const problems = contest.problems;
+    const problemIndex = problems.findIndex((problem) => problem.id === problemId);
+    const problem = problems[ problemIndex ];
+    const dataSets = problem.dataSets;
+    const dataSetIndex = dataSets.findIndex((dataSet) => dataSet.id === dataSetId);
+    const dataSet = dataSets[ dataSetIndex ];
+
+    this.setState({
+      contest: Object.assign({}, contest, {
+        problems: [
+          ...problems.slice(0, problemIndex),
+          Object.assign({}, problem, {
+            dataSets: [
+              ...dataSets.slice(0, dataSetIndex),
+              Object.assign({}, dataSet, {
+                answer: answer
+              }),
+              ...dataSets.slice(dataSetIndex + 1)
+            ]
+          }),
+          ...problems.slice(problemIndex + 1)
+        ]
+      })
+    });
+  }
+
   public render() {
     if(!this.state.initialized) {
-      return <div>Now Initializing...</div>;
+      return (
+        <div className="container">
+          <div>Now Initializing...</div>;
+        </div>
+      )
     }
 
     return (
@@ -285,7 +318,6 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
         <Navigation
           contest={ this.state.contest }
         />
-        <div className="container--border"></div>
         { this.props.children && this.props.children.type === ContestHome &&
           <ContestHome
             contest={ this.state.contest }
@@ -294,7 +326,9 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
         }
         { this.props.children && this.props.children.type === Problem && this.state.contest.problems &&
           <Problem
+            contest={ this.state.contest }
             problem={ this.state.contest.problems.find((problem) => problem.id === +this.props.params.problemId) }
+            changeAnswerForm={ this.changeAnswerForm.bind(this) }
             submit={ this.submit.bind(this) }
           />
         }

@@ -25,12 +25,12 @@ export default class Navigation extends React.Component<NavigationProps, {}> {
             this.props.contest.problems.map((problem: ProblemObject) => (
               <div key={ problem.id } className="contestNavigation--problem">
                 <Link className="contestNavigation--problemLink" key={ problem.id } to={ `/contests/${this.props.contest.id}/problems/${problem.id}${t('locale')}` }>
-                  { problem.name }
+                  { problem.task } - { problem.name }
                 </Link>
                 { problem.dataSets.map((dataSet: DataSetObject) => (
                   <div key={ dataSet.id } className="contestNavigation--dataSet">
-                    { dataSet.label }: { dataSet.score }/{ dataSet.maxScore }
                     <i className={ `contestNavigation--dataSetCheck__${dataSet.correct ? 'correct' : 'incorrect'} fa fa-check` }></i>
+                    { dataSet.label }: { dataSet.score }/{ dataSet.maxScore }
                   </div>
                 )) }
               </div>

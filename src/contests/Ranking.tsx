@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import ContestObject from 'contests/ContestObject';
 import ProblemObject from 'contests/ProblemObject';
-import DataSetObject from 'contests/DataSetObject';
 import UserScoreObject from 'contests/UserScoreObject';
 import ProblemScoreObject from 'contests/ProblemScoreObject';
 import DataSetScoreObject from 'contests/DataSetScoreObject';
@@ -53,34 +52,40 @@ export default class Ranking extends React.Component<RankingProps, RankingState>
                 <tr>
                   <td className="ranking--tableOrderHeader">{ t('rank') }</td>
                   <td className="ranking--tableNameHeader">{ t('user_name') }</td>
-                  { this.props.contest.problems.map((problem: ProblemObject, index: number) => (
-                    problem.dataSets.map((dataSet: DataSetObject) => (
-                      <td key={ dataSet.id } className="ranking--tableScoreHeader">
-                        { index + 1 }: { dataSet.label }
-                      </td>
-                    ))
-                  ))}
+                  { this.props.contest.problems.map((problem: ProblemObject) => (
+                    <td key={ problem.id } className="ranking--tableScoreHeader">{ problem.task }</td>
+                  )) }
                   <td className="ranking--tableTotalScoreHeader">{ t('total_score') }</td>
                 </tr>
               </thead>
               <tbody>
                 { this.props.users.slice(pageOffset, pageOffset + usersPerPage).map((user: UserScoreObject, index: number) => (
-                  <tr key={ user.id }>
+                  <tr className={ `ranking--tableRow${ user.id == this.props.contest.currentUserId ? '__self' : '' }` } key={ user.id }>
                     <td className="ranking--tableOrder">{ pageOffset + index + 1 }</td>
                     <td className="ranking--tableName">{ user.name }</td>
                     { user.problems.map((problem: ProblemScoreObject) => (
-                      problem.dataSets.map((dataSet: DataSetScoreObject) => (
-                        <td key={ dataSet.id } className="ranking--tableScore">
-                          <div className="ranking--score">
-                            { dataSet.score ? dataSet.score : '-' }
-                          </div>
-                          <div className="ranking--solvedTime">
-                            { dataSet.solvedAt ?
-                              this.passedTime(this.props.contest.startAt, dataSet.solvedAt) : '--:--'
-                            }
-                          </div>
-                        </td>
-                      ))
+                      <td key={ problem.id } className="ranking--tableScore">
+                        { problem.dataSets.map((dataSet: DataSetScoreObject) => (
+                          dataSet.correct ?
+                            <div key={ dataSet.id } className="ranking--dataSet">
+                              <div className="ranking--score">
+                                { dataSet.score }
+                                { dataSet.wrongAnswers > 0 ?
+                                  <span className="ranking--score__wrong"> ({ dataSet.wrongAnswers })</span> : ''
+                                }
+                              </div>
+                              <div className="ranking--solvedAt">{ this.passedTime(this.props.contest.startAt, dataSet.solvedAt) }</div>
+                            </div> : dataSet.wrongAnswers > 0 ?
+                            <div key={ dataSet.id } className="ranking--dataSet">
+                              <div className="ranking--score__wrong">({ dataSet.wrongAnswers })</div>
+                              <div className="ranking--solvedAt">--:--</div>
+                            </div> :
+                            <div key={ dataSet.id } className="ranking--dataSet">
+                              <div className="ranking--score">-</div>
+                              <div className="ranking--solvedAt">--:--</div>
+                            </div>
+                        ))}
+                      </td>
                     )) }
                     <td className="ranking--tableTotalScore">{ user.totalScore }</td>
                   </tr>
