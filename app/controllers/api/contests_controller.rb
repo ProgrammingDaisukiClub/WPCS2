@@ -44,8 +44,7 @@ class Api::ContestsController < ApplicationController
   end
 
   def hide_problems?
-    admin = current_user && current_user.admin_role
-    !admin && !((@contest.during? && @joined) || @contest.ended?)
+    !(current_user && current_user.admin_role) && !((@contest.during? && @joined) || @contest.ended?)
   end
 
   def json_for_show_without_problems
