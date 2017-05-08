@@ -15,7 +15,7 @@ class Api::ContestsController < ApplicationController
       return
     end
 
-    if !signed_in? || @contest.ended?
+    if !signed_in? || @contest.ended? || (current_user && current_user.admin_role)
       render(json: {}, status: 403)
       return
     end
@@ -44,7 +44,8 @@ class Api::ContestsController < ApplicationController
   end
 
   def hide_problems?
-    !((@contest.during? && @joined) || @contest.ended?)
+    admin = current_user && current_user.admin_role
+    !admin && !((@contest.during? && @joined) || @contest.ended?)
   end
 
   def json_for_show_without_problems
@@ -56,6 +57,7 @@ class Api::ContestsController < ApplicationController
       end_at: @contest.end_at,
       baseline: @contest.score_baseline,
       current_user_id: current_user.try(:id),
+      admin_role: current_user.try(:admin_role).present?,
       joined: @joined
     }
   end

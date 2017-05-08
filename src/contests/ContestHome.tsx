@@ -20,7 +20,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
         <div className="contestHome--inner">
           <h2 className="contestHome--header">{ this.props.contest.name }</h2>
           <div className="contestHome--body">
-            { this.props.contest.currentUserId && (!this.props.contest.joined && new Date() < this.props.contest.endAt) &&
+            { !this.props.contest.adminRole && this.props.contest.currentUserId && (!this.props.contest.joined && new Date() < this.props.contest.endAt) &&
               <div className="contestHome--registrationButtonWrapper">
                 <span className="contestHome--registrationButton" onClick={ this.onJoinButtonClick.bind(this) }>
                   { t('join') }

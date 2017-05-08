@@ -19,7 +19,7 @@ class Api::SubmissionsController < ApplicationController
       return
     end
 
-    if prevent_submission?(contest)
+    if !(current_user && current_user.admin_role) && prevent_submission?(contest)
       render json: {}, status: 403
       return
     end
@@ -61,7 +61,8 @@ class Api::SubmissionsController < ApplicationController
   end
 
   def prevent_show?(contest)
-    !contest.ended? && (!signed_in? || !contest.registered_by?(current_user))
+    admin = current_user && current_user.admin_role
+    !admin && !contest.ended? && (!signed_in? || !contest.registered_by?(current_user))
   end
 
   def create_and_judge_submission

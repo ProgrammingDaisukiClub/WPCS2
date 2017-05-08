@@ -7,6 +7,7 @@ interface ContestObject {
   problems?: [ProblemObject];
   joined: boolean;
   currentUserId: number;
+  adminRole: boolean;
   startAt: Date;
   endAt: Date;
   baseline: number;

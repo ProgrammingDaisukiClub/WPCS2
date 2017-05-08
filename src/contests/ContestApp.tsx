@@ -73,6 +73,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           description: json.description,
           joined: json.joined,
           currentUserId: json.current_user_id,
+          adminRole: json.admin_role,
           startAt: new Date(json.start_at),
           endAt: new Date(json.end_at),
           baseline: json.baseline
