@@ -5,7 +5,7 @@ class DataSetsController < ApplicationController
     true_condition1 = (user_signed_in? && @contest.registered_by?(current_user) && @contest.during?) || @contest.ended?
     raise ActionController::RoutingError, 'Not Found' unless true_condition1
     send_data(@data_set.formatted_input,
-              filename: "input_#{@contest.id}_#{@problem.id}_#{@data_set.id}.in",
+              filename: "contest_#{@contest.id}_#{(65 + @problem.order).chr}_#{@data_set.label}.txt",
               type: 'text/txt',
               disposition: 'attachment',
               status: 200)
