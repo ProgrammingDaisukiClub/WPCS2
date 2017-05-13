@@ -4,6 +4,7 @@ class Contest < ApplicationRecord
   has_many :submissions, through: :data_sets
   has_many :contest_registrations, dependent: :destroy
   has_many :users, through: :contest_registrations
+  has_one  :editorials
 
   def name
     send("name_#{I18n.locale}")
