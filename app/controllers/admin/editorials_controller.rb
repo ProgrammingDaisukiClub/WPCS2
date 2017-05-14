@@ -17,11 +17,10 @@ class Admin::EditorialsController < Admin::ControllerBase
   # POST /editorials.json
   def create
     @editorial = Editorial.new(editorial_params)
-    @contest = Contest.find(params[:contest_id])
 
     respond_to do |format|
       if @editorial.save
-        format.html { redirect_to admin_contest_path(@contest), notice: 'Editorial was successfully created.' }
+        format.html { redirect_to admin_contest_path(id: params[:contest_id]), notice: 'Editorial was successfully created.' }
         format.json { render :show, status: :created, location: admin_contest_path(@contest) }
       else
         format.html { render :new }
