@@ -33,10 +33,12 @@ class Admin::EditorialsController < Admin::ControllerBase
   # PATCH/PUT /editorials/1
   # PATCH/PUT /editorials/1.json
   def update
+    @contest = Contest.find(params[:contest_id])
+
     respond_to do |format|
       if @editorial.update(editorial_params)
-        format.html { redirect_to [:admin, @editorial], notice: 'editorial was successfully updated.' }
-        format.json { render :show, status: :ok, location: [:admin, @editorial] }
+        format.html { redirect_to admin_contest_path(@contest), notice: 'editorial was successfully updated.' }
+        format.json { render :show, status: :ok, location: admin_contest_path(@contest) }
       else
         format.html { render :edit }
         format.json { render json: @editorial.errors, status: :unprocessable_entity }

@@ -30,6 +30,10 @@ class Contest < ApplicationRecord
     started? && !ended?
   end
 
+  def editorial?
+    !editorial.nil?
+  end
+
   def registered_by?(user)
     ContestRegistration.find_by(user: user, contest: self).present?
   end

@@ -1,0 +1,27 @@
+<h1>Editing Contest</h1>
+
+<%= form_for @editorial, url: admin_contest_editorial_path(id: @editorial.id, contest_id: @editorial.contest_id)  do |f| %>
+  <% if @editorial.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@editorial.errors.count, "error") %> prohibited this editorial from being saved:</h2>
+
+      <ul>
+      <% @editorial.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :content %>
+    <%= f.text_area :content %>
+  </div>
+
+  <div class="actions">
+    <%= f.hidden_field :contest_id, :value => @editorial.contest_id %>
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', admin_contests_path %>
