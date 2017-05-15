@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable
 
+  validates :student_id, presence: true, length: { is: 8 }
+
   has_many :contest_registrations
   has_many :contests, through: :contest_registrations
   has_many :submissions

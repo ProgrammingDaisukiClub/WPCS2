@@ -4,6 +4,7 @@ ja:
       user:
         current_password: "現在のパスワード"
         name: "ユーザー名"
+        student_id: "学籍番号 (CDなし8桁) "
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "確認用パスワード"
