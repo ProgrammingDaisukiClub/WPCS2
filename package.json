@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/ProgrammingDaisukiClub/WPCS2#readme",
   "devDependencies": {
+    "@types/katex": "^0.5.0",
     "@types/marked": "0.0.28",
     "@types/mathjax": "0.0.31",
     "@types/react": "^15.0.9",
