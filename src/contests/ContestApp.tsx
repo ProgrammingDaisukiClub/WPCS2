@@ -14,6 +14,7 @@ import Problem from 'contests/Problem';
 import Submissions from 'contests/Submissions';
 import Ranking from 'contests/Ranking';
 import SubmitResults from 'contests/SubmitResults';
+import Editorial from 'contests/Editorial';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   children: React.ReactElement<any>;
@@ -93,6 +94,11 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
                 answer: ''
               }))
             }))
+          });
+        }
+        if(json.contents) {
+          Object.assign(contest, {
+            editorial: json.contents
           });
         }
         break;
@@ -349,6 +355,11 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             submissions={ this.state.submissions }
             submitResults={ this.state.submitResults }
             closeSubmitResults={ this.closeSubmitResults.bind(this) }
+          />
+        }
+        { this.props.children && this.props.children.type === Editorial &&
+          <Editorial
+            editorial={ this.state.contest.editorial }
           />
         }
       </div>

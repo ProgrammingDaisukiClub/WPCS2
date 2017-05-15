@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get 'ranking'
     end
     resources 'submissions', only: ['index']
+    resources 'editorials', only: ['show']
   end
 
   resource 'terms', only: %w(show)

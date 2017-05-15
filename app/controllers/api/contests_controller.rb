@@ -4,8 +4,10 @@ class Api::ContestsController < ApplicationController
   def show
     if hide_problems?
       render(json: json_for_show_without_problems, status: 200)
-    else
+    elsif hide_editorial?
       render(json: json_for_show_with_problems, status: 200)
+    else
+      render(json: json_for_show_with_problems_and_editorial, status: 200)
     end
   end
 
@@ -47,6 +49,10 @@ class Api::ContestsController < ApplicationController
     !((@contest.during? && @joined) || @contest.ended?)
   end
 
+  def hide_editorial?
+    !@contest.ended?
+  end
+
   def json_for_show_without_problems
     {
       id: @contest.id,
@@ -78,6 +84,12 @@ class Api::ContestsController < ApplicationController
           end
         }
       end
+    )
+  end
+
+  def json_for_show_with_problems_and_editorial
+    json_for_show_with_problems.merge(
+      contents: @contest.editorial
     )
   end
 

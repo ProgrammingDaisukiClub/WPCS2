@@ -8,6 +8,7 @@ import ContestHome from 'contests/ContestHome';
 import Problem from 'contests/Problem';
 import Ranking from 'contests/Ranking';
 import Submissions from 'contests/Submissions';
+import Editorial from 'contests/Editorial';
 
 ReactDOM.render(
   <Router history={ browserHistory }>
@@ -16,6 +17,7 @@ ReactDOM.render(
       <Route path='problems/:problemId' component={ Problem } />
       <Route path='ranking' component={ Ranking } />
       <Route path='submissions' component={ Submissions } />
+      <Route path='editorial' component={ Editorial } />
     </Route>
   </Router>,
   document.getElementById('contests-app')
