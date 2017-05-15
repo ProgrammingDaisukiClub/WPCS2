@@ -40,8 +40,6 @@ Rails.application.routes.draw do
     end
   end
 
-  mathjax 'mathjax'
-
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   # if Rails.env.development?

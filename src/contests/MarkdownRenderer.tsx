@@ -20,6 +20,7 @@ export default class MarkdownRenderer extends React.Component<Props, {}> {
     this.renderer.code = (str: string) => {
       return '<div>' + str.replace(/\n/g, "<br/>") + '</div>' ;
     };
+    marked.setOptions({ renderer: this.renderer });
   }
 
   private renderKatexFragments(text: string): string {
@@ -30,16 +31,11 @@ export default class MarkdownRenderer extends React.Component<Props, {}> {
     }
     return result;
   }
-  public componentDidMount() {
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
-  }
-  public componentDidUpdate() {
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
-  }
+
   public render() {
     return (
       <div className='markdown-body'>
-        { renderHTML(marked(this.renderKatexFragments(this.props.text), { renderer: this.renderer })) }
+        { renderHTML(marked(this.renderKatexFragments(this.props.text))) }
       </div>
     );
   }
