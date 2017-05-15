@@ -17,7 +17,7 @@ ReactDOM.render(
       <Route path='problems/:problemId' component={ Problem } />
       <Route path='ranking' component={ Ranking } />
       <Route path='submissions' component={ Submissions } />
-      <Route path='editorial' component={ Editorial } />
+      <Route path='editorials/:editorialId' component={ Editorial } />
     </Route>
   </Router>,
   document.getElementById('contests-app')
