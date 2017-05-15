@@ -18,7 +18,7 @@ export default class MarkdownRenderer extends React.Component<Props, {}> {
     super(props);
     this.renderer = new marked.Renderer();
     this.renderer.code = (str: string) => {
-      return '<div>' + str.replace(/\n/g, "<br/>") + '</div>' ;
+      return '<div class="markdown--code">' + str.replace(/\n/g, "<br/>") + '</div>' ;
     };
     marked.setOptions({ renderer: this.renderer });
   }
