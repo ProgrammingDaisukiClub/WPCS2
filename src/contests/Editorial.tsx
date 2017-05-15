@@ -7,10 +7,6 @@ export interface EditorialProps {
   editorial: EditorialObject;
 }
 
-// export interface EditorialState {
-//   dataSetTabId: number;
-// }
-
 export default class Editorial extends React.Component<EditorialProps, {}> {
   constructor() {
     super();
@@ -19,12 +15,12 @@ export default class Editorial extends React.Component<EditorialProps, {}> {
 
   public render() {
     return (
-      <div className="problem">
-        <div className="problem--inner">
-          <h2 className="problem--header">Editorial</h2>
-          <div className="problem--body">
-            <div className="problem--description">
-              <div className="problem--descriptionBody">
+      <div className="editorial">
+        <div className="editorial--inner">
+          <h2 className="editorial--header">Editorial</h2>
+          <div className="editorial--body">
+            <div className="editorial--content">
+              <div className="editorial--content">
                 <MarkdownRenderer text= { this.props.editorial.content } />
               </div>
             </div>
