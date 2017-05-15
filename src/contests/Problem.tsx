@@ -108,7 +108,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
                         )) }
                       </ul>
                       <a className="problem--dataSetDownloadLink" href={ this.props.problem.id + "/data_sets/"+ this.state.dataSetTabId }>
-                        <i className="fa fa-download"></i> ダウンロード
+                        <i className="fa fa-download"></i> { this.selectedDataSet().label + "のダウンロード" }
                       </a>
                     </div>
                     <textarea
