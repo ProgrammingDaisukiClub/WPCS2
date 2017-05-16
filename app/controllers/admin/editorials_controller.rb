@@ -1,5 +1,6 @@
 class Admin::EditorialsController < Admin::ControllerBase
   before_action :set_editorial, only: [:show, :edit, :update, :destroy]
+  before_action :set_contest, only: [:update, :create]
 
   # GET /editorials/1
   # GET /editorials/1.json
@@ -20,7 +21,7 @@ class Admin::EditorialsController < Admin::ControllerBase
 
     respond_to do |format|
       if @editorial.save
-        format.html { redirect_to admin_contest_path(id: params[:contest_id]), notice: 'Editorial was successfully created.' }
+        format.html { redirect_to admin_contest_path(@contest), notice: 'Editorial was successfully created.' }
         format.json { render :show, status: :created, location: admin_contest_path(@contest) }
       else
         format.html { render :new }
@@ -36,7 +37,7 @@ class Admin::EditorialsController < Admin::ControllerBase
 
     respond_to do |format|
       if @editorial.update(editorial_params)
-        format.html { redirect_to admin_contest_path(@contest), notice: 'editorial was successfully updated.' }
+        format.html { redirect_to admin_contest_path(@contest), notice: 'Editorial was successfully updated.' }
         format.json { render :show, status: :ok, location: admin_contest_path(@contest) }
       else
         format.html { render :edit }
@@ -61,6 +62,10 @@ class Admin::EditorialsController < Admin::ControllerBase
   # Use callbacks to share common setup or constraints between actions.
   def set_editorial
     @editorial = Editorial.find(params[:id])
+  end
+
+  def set_contest
+    @contest = Contest.find(params[:contest_id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
