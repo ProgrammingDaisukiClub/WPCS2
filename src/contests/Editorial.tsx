@@ -17,7 +17,7 @@ export default class Editorial extends React.Component<EditorialProps, {}> {
     return (
       <div className="editorial">
         <div className="editorial--inner">
-          <h2 className="editorial--header">Editorial</h2>
+          <h2 className="editorial--header">解説</h2>
           <div className="editorial--body">
             <div className="editorial--content">
               <div className="editorial--content">

@@ -83,14 +83,13 @@ class Api::ContestsController < ApplicationController
             }
           end
         }
-      end
+      end,
+      editorial: {}
     )
   end
 
   def json_for_show_with_problems_and_editorial
-    json_for_show_with_problems.merge(
-      contents: @contest.editorial
-    )
+    json_for_show_with_problems.merge(editorial: @contest.editorial)
   end
 
   def json_for_ranking

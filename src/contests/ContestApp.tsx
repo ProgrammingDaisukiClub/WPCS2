@@ -96,9 +96,9 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             }))
           });
         }
-        if(json.contents) {
+        if(json.editorial) {
           Object.assign(contest, {
-            editorial: json.contents
+            editorial: json.editorial
           });
         }
         break;
