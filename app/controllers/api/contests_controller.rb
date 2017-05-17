@@ -94,7 +94,7 @@ class Api::ContestsController < ApplicationController
 
   def json_for_ranking
     {
-      users: sorted_users.map do |user|
+      users: @contest.sorted_users.map do |user|
         {
           id: user.id,
           name: user.name,
@@ -117,9 +117,5 @@ class Api::ContestsController < ApplicationController
         }
       end
     }
-  end
-
-  def sorted_users
-    @contest.users.sort { |user1, user2| @contest.user_score(user2) <=> @contest.user_score(user1) }
   end
 end
