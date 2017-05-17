@@ -11,5 +11,4 @@ class EditorialsController < ApplicationController
     @editorial = Editorial.find_by(contest_id: params.require(:contest_id))
     raise ActionController::RoutingError, 'Not Found' unless @editorial
   end
-
 end
