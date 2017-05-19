@@ -5,7 +5,7 @@
         <h1 class="globalHeader--brandName"><%= t('layouts.brand') %></h1>
       <% end %>
       <%= link_to Contest.model_name.human, root_path,
-        class: 'globalHeader--navLink' + (root_path == request.path_info ? '__active' : '') %>
+        class: 'globalHeader--navLink' + (%(welcome contests).include?(controller.controller_name) ? '__active' : '') %>
     </nav>
     <nav class="globalHeader--navigation__right">
       <%= form_tag request.original_fullpath, method: :get, class: 'globalHeader--langSelectForm', enforce_utf8: false do %>
@@ -22,7 +22,7 @@
       <% else %>
         <%= link_to t('layouts.header.sign_out'), destroy_user_session_path, method: :delete, class: 'globalHeader--navLink' %>
         <%= link_to current_user.name, user_path(current_user), method: :get,
-          class: 'globalHeader--navLink' + (user_path(current_user) == request.path_info ? '__active' : '') %>
+          class: 'globalHeader--navLink' + (%(users registrations).include?(controller.controller_name) ? '__active' : '') %>
       <% end %>
     </nav>
   </header>
