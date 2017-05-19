@@ -5,9 +5,11 @@ class Api::ContestsController < ApplicationController
 
   def show
     if hide_problems?
-      render(json: json_for_show_without_problems, status: 200)
+      render(json: @contest.show_without_problems(@joined, current_user), status: 200)
+    elsif hide_editorial?
+      render(json: @contest.show_with_problems(@joined, current_user), status: 200)
     else
-      render(json: json_for_show_with_problems, status: 200)
+      render(json: @contest.show_with_problems_and_editorial(@joined, current_user), status: 200)
     end
   end
 
@@ -49,37 +51,7 @@ class Api::ContestsController < ApplicationController
     !((@contest.during? && @joined) || @contest.ended?)
   end
 
-  def json_for_show_without_problems
-    {
-      id: @contest.id,
-      name: @contest.name,
-      description: @contest.description,
-      start_at: @contest.start_at,
-      end_at: @contest.end_at,
-      baseline: @contest.score_baseline,
-      current_user_id: current_user.try(:id),
-      joined: @joined
-    }
-  end
-
-  def json_for_show_with_problems
-    json_for_show_without_problems.merge(
-      problems: @contest.problems.map do |problem|
-        {
-          id: problem.id,
-          name: problem.name,
-          description: problem.description,
-          data_sets: problem.data_sets.order(order: :asc).map do |data_set|
-            {
-              id: data_set.id,
-              label: data_set.label,
-              max_score: data_set.score,
-              correct: data_set.solved_by?(current_user),
-              score: data_set.user_score(current_user)
-            }
-          end
-        }
-      end
-    )
+  def hide_editorial?
+    !@contest.ended?
   end
 end

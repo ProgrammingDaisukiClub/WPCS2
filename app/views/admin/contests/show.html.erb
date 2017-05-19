@@ -76,3 +76,10 @@
 
 <%= link_to 'add problem', new_admin_problem_path(contest_id: @contest.id) %>
 <br />
+
+<h2>Editorial</h2>
+<% if @contest.editorial? %>
+  <%= link_to 'Edit Editorial', edit_admin_contest_editorial_path(contest_id: @contest.id, id: @contest.editorial) %>
+<% else %>
+  <%= link_to 'Create Editorial', new_admin_contest_editorial_path(contest_id: @contest.id) %>
+<% end %>
