@@ -103,7 +103,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
                             key={ dataSet.id }
                             className={ `problem--dataSetTab${ dataSet.id === this.state.dataSetTabId ? '__active' : '' }` }
                             onClick={ () => this.onTabClick(dataSet.id) }>
-                            { dataSet.label }
+                            <i className={ dataSet.id === this.state.dataSetTabId ? 'fa fa-check-square-o' : 'fa fa-square-o' }></i> { dataSet.label }
                           </li>
                         )) }
                       </ul>
