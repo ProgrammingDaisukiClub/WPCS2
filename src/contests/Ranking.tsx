@@ -62,7 +62,9 @@ export default class Ranking extends React.Component<RankingProps, RankingState>
                 { this.props.users.slice(pageOffset, pageOffset + usersPerPage).map((user: UserScoreObject, index: number) => (
                   <tr className={ `ranking--tableRow${ user.id == this.props.contest.currentUserId ? '__self' : '' }` } key={ user.id }>
                     <td className="ranking--tableOrder">{ pageOffset + index + 1 }</td>
-                    <td className="ranking--tableName">{ user.name }</td>
+                    <td className="ranking--tableName">
+                      <a href={ `/users/${user.id}` }>{ user.name }</a>
+                    </td>
                     { user.problems.map((problem: ProblemScoreObject) => (
                       <td key={ problem.id } className="ranking--tableScore">
                         { problem.dataSets.map((dataSet: DataSetScoreObject) => (
