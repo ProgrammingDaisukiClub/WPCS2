@@ -15,3 +15,5 @@ en:
       contest_time: Contest Time
       join: Join Contest
       recent_contests: Recent Contests
+  profile:
+    edit: Edit profile
