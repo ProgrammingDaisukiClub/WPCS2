@@ -11,11 +11,6 @@
       <%= @user.name %>
     </p>
   </div>
-  <div class="profileContainer--body">
-    <p>
-      <%= @user.email %>
-    </p>
-  </div>
   <% if user_path(current_user) == request.path_info%>
   <%= link_to t("profile.edit"), edit_registration_path(current_user), :class => "profileContainer--editButton" =%>
   <% end %>
