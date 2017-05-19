@@ -1,0 +1,22 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'pages/profile' %>
+<% end %>
+
+<p id="notice"><%= notice %></p>
+
+<div class="profileContainer">
+  <h1 class="profileContainer--header">Profile</h1>
+  <div class="profileContainer--heading">
+    <p>
+      <%= @user.name %>
+    </p>
+  </div>
+  <div class="profileContainer--body">
+    <p>
+      <%= @user.email %>
+    </p>
+  </div>
+  <% if user_path(current_user) == request.path_info%>
+  <%= link_to t("profile.edit"), edit_registration_path(current_user), :class => "profileContainer--editButton" =%>
+  <% end %>
+</div>
