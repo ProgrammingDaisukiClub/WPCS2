@@ -29,6 +29,7 @@ RSpec.describe Api::ContestsController, type: :controller do
         end_at: JSON.parse(contest.end_at.to_json),
         baseline: contest.score_baseline,
         current_user_id: user.try(:id),
+        admin_role: user.try(:admin_role).present?,
         joined: user.present? && ContestRegistration.find_by(user_id: user.id).present?
       }
     end

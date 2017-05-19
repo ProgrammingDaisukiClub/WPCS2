@@ -43,7 +43,8 @@ class Contest < ApplicationRecord
       end_at: end_at,
       baseline: score_baseline,
       current_user_id: current_user.try(:id),
-      joined: joined
+      joined: joined,
+      admin_role: current_user.try(:admin_role).present?
     }
   end
 
