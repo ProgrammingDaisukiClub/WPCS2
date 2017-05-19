@@ -24,8 +24,7 @@ Metrics/LineLength:
     - 'config/**/*.rb'
 
 Metrics/MethodLength:
-  Exclude:
-    - 'app/controllers/api/**/*.rb'
+  Max: 20
 
 Metrics/AbcSize:
   Max: 20
