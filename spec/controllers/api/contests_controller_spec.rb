@@ -54,6 +54,12 @@ RSpec.describe Api::ContestsController, type: :controller do
       )
     end
 
+    let(:json_with_problems_and_editorial) do
+      json_with_problems.merge(
+        editorial: contest.editorial
+      )
+    end
+
     shared_examples 'json without problems' do
       it 'return json without problems' do
         get :show, params: params
@@ -65,6 +71,13 @@ RSpec.describe Api::ContestsController, type: :controller do
       it 'return json with problems' do
         get :show, params: params
         expect(JSON.parse(response.body, symbolize_names: true)).to eq json_with_problems
+      end
+    end
+
+    shared_examples 'json with problems and editorial' do
+      it 'return json with problems and editorial' do
+        get :show, params: params
+        expect(JSON.parse(response.body, symbolize_names: true)).to eq json_with_problems_and_editorial
       end
     end
 
@@ -165,7 +178,7 @@ RSpec.describe Api::ContestsController, type: :controller do
           it 'returns 200 OK' do
             expect(response).to have_http_status 200
           end
-          it_behaves_like 'json with problems'
+          it_behaves_like 'json with problems and editorial'
         end
 
         context 'when the user does not join after the contest' do
@@ -175,7 +188,7 @@ RSpec.describe Api::ContestsController, type: :controller do
           it 'returns 200 OK' do
             expect(response).to have_http_status 200
           end
-          it_behaves_like 'json with problems'
+          it_behaves_like 'json with problems and editorial'
         end
 
         context 'when the user joins after the contest' do
@@ -190,7 +203,7 @@ RSpec.describe Api::ContestsController, type: :controller do
           it 'returns 200 OK' do
             expect(response).to have_http_status 200
           end
-          it_behaves_like 'json with problems'
+          it_behaves_like 'json with problems and editorial'
         end
       end
     end
