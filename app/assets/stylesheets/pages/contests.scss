@@ -504,3 +504,39 @@
     cursor: pointer;
   }
 }
+
+.editorial {
+  width: 75%;
+  &--inner {
+    padding: 16px;
+  }
+  &--header {
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #ccc;
+    font-size: 20px;
+    font-weight: bold;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 120px;
+      height: 2px;
+      background-color: $brand-color;
+    }
+  }
+  &--body {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  &--content {
+    margin-bottom: 8px;
+  }
+  &--contentBody {
+    font-size: 14px;
+  }
+}

@@ -21,4 +21,21 @@
   li {
     list-style-type: disc;
   }
+  .markdown--code {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f7f7f7;
+    border-radius: 3px;
+    white-space: pre;
+  }
+  .markdown-code::before,
+  .markdown-code::after {
+    content: normal;
+  }
 }

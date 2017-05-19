@@ -5,6 +5,7 @@ import ProblemObject from 'contests/ProblemObject';
 import DataSetObject from 'contests/DataSetObject';
 import SubmissionObject from 'contests/SubmissionObject';
 import UserScoreObject from 'contests/UserScoreObject';
+import TimerObject from 'contests/TimerObject';
 
 import JUDGE_STATUS from 'contests/JUDGE_STATUS';
 
@@ -14,6 +15,7 @@ import Problem from 'contests/Problem';
 import Submissions from 'contests/Submissions';
 import Ranking from 'contests/Ranking';
 import SubmitResults from 'contests/SubmitResults';
+import Editorial from 'contests/Editorial';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   children: React.ReactElement<any>;
@@ -58,6 +60,10 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     }
   }
 
+  public componentDidMount() {
+    this.initTimer();
+  }
+
   public async fetchContest() {
     const responseContest: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
       credentials: 'same-origin',
@@ -94,6 +100,11 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
                 answer: ''
               }))
             }))
+          });
+        }
+        if(json.editorial) {
+          Object.assign(contest, {
+            editorial: json.editorial
           });
         }
         break;
@@ -277,6 +288,48 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     }));
   }
 
+  public async initTimer() {
+    const time = await this.fetchTime();
+    const now = new Date();
+
+    if(now <= time.startAt){
+      setInterval(function() {
+        this.beforeContestTimer(time.startAt);
+      }.bind(this), 1000);
+    }
+  }
+
+  public async beforeContestTimer(startAt: Date) {
+    const now = new Date();
+    let startTime = startAt;
+
+    if(now < startAt) {
+    } else if (now >= startTime) {
+      alert("コンテストを開始します");
+      location.reload();
+    }
+  }
+
+  public async fetchTime() {
+    let fetchedTime: TimerObject;
+    const responseTime: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
+      credentials: 'same-origin',
+    });
+
+    switch(responseTime.status) {
+      case 200:
+        const json: any = await responseTime.json();
+        fetchedTime = {
+          startAt: new Date(json.start_at),
+          endAt: new Date(json.end_at)
+        }
+        break;
+      case 404: throw new Error('404 not found');
+      default: throw new Error('unexpected http status');
+    }
+    return fetchedTime;
+  }
+
   public changeAnswerForm(problemId: number, dataSetId: number, answer: string) {
     const contest = this.state.contest;
     const problems = contest.problems;
@@ -309,7 +362,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     if(!this.state.initialized) {
       return (
         <div className="container">
-          <div>Now Initializing...</div>;
+          <div>Now Initializing...</div>
         </div>
       )
     }
@@ -350,6 +403,11 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             submissions={ this.state.submissions }
             submitResults={ this.state.submitResults }
             closeSubmitResults={ this.closeSubmitResults.bind(this) }
+          />
+        }
+        { this.props.children && this.props.children.type === Editorial &&
+          <Editorial
+            editorial={ this.state.contest.editorial }
           />
         }
       </div>

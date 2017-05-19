@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'welcome#index'
+  resources 'users', only: %w(index show), constraints: { id: /\d+/ }
   devise_for :users, controllers: {
     confirmations: 'users/confirmations',
     passwords:     'users/passwords',
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
       get 'ranking'
     end
     resources 'submissions', only: ['index']
+    resources 'editorials', only: ['show']
   end
 
   resource 'terms', only: %w(show)
@@ -39,8 +41,6 @@ Rails.application.routes.draw do
       resources 'submissions', only: %w(index create)
     end
   end
-
-  mathjax 'mathjax'
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
