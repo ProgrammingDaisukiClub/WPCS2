@@ -361,7 +361,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     if(!this.state.initialized) {
       return (
         <div className="container">
-          <div>Now Initializing...</div>;
+          <div>Now Initializing...</div>
         </div>
       )
     }
