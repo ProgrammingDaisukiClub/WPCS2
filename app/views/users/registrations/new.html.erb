@@ -20,10 +20,10 @@
             </tr>
             <tr class="usersAuth--row">
               <td class="usersAuth--cell">
-                <%= f.label :email %>
+                <%= f.label :emai  %>
               </td>
               <td class="usersAuth--cell">
-                <%= f.email_field :email, class: 'usersAuth--input' %>
+                <%= f.email_field :email, class: 'usersAuth--input', pattern: "[a-z0-9._%+-]+@(akane|asagi|fuji|moegi|ruri|suou|toki)\.waseda\.jp" %>
               </td>
             </tr>
             <tr class="usersAuth--row">
