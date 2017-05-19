@@ -5,6 +5,7 @@ import ProblemObject from 'contests/ProblemObject';
 import DataSetObject from 'contests/DataSetObject';
 import SubmissionObject from 'contests/SubmissionObject';
 import UserScoreObject from 'contests/UserScoreObject';
+import TimerObject from 'contests/TImerObject';
 
 import JUDGE_STATUS from 'contests/JUDGE_STATUS';
 
@@ -56,6 +57,10 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     if(this.rankingRequestTimerId) {
       clearInterval(this.rankingRequestTimerId);
     }
+  }
+
+  public componentDidMount() {
+    this.initTimer();
   }
 
   public async fetchContest() {
@@ -274,6 +279,48 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     this.setState(Object.assign({}, this.state, {
       submitResults: []
     }));
+  }
+
+  public async initTimer() {
+    const time = await this.fetchTime();
+    const now = new Date();
+
+    if(now <= time.startAt){
+      setInterval(function() {
+        this.beforeContestTimer(time.startAt);
+      }.bind(this), 1000);
+    }
+  }
+
+  public async beforeContestTimer(startAt: Date) {
+    const now = new Date();
+    let startTime = startAt;
+
+    if(now < startAt) {
+    } else if (now >= startTime) {
+      alert("コンテストを開始します");
+      location.reload();
+    }
+  }
+
+  public async fetchTime() {
+    let fetchedTime: TimerObject;
+    const responseTime: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
+      credentials: 'same-origin',
+    });
+
+    switch(responseTime.status) {
+      case 200:
+        const json: any = await responseTime.json();
+        fetchedTime = {
+          startAt: new Date(json.start_at),
+          endAt: new Date(json.end_at)
+        }
+        break;
+      case 404: throw new Error('404 not found');
+      default: throw new Error('unexpected http status');
+    }
+    return fetchedTime;
   }
 
   public changeAnswerForm(problemId: number, dataSetId: number, answer: string) {
