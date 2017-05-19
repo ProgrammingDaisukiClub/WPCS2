@@ -1,4 +1,6 @@
 class Api::ContestsController < ApplicationController
+  include Api::ContestsRankingJson
+
   before_action :set_contest
 
   def show
@@ -51,32 +53,5 @@ class Api::ContestsController < ApplicationController
 
   def hide_editorial?
     !@contest.ended?
-  end
-
-  def json_for_ranking
-    {
-      users: @contest.sorted_users.map do |user|
-        {
-          id: user.id,
-          name: user.name,
-          total_score: @contest.user_score(user),
-          problems: @contest.problems.includes(:data_sets).map do |problem|
-            {
-              id: problem.id,
-              data_sets: problem.data_sets.order(order: :asc).includes(:submissions).map do |data_set|
-                {
-                  id: data_set.id,
-                  label: data_set.label,
-                  correct: data_set.solved_by_during_contest?(user),
-                  score: data_set.user_score(user),
-                  solved_at: data_set.user_solved_at(user),
-                  wrong_answers: data_set.user_wrong_answers(user)
-                }
-              end
-            }
-          end
-        }
-      end
-    }
   end
 end
