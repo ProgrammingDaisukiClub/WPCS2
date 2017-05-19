@@ -5,7 +5,7 @@ import ProblemObject from 'contests/ProblemObject';
 import DataSetObject from 'contests/DataSetObject';
 import SubmissionObject from 'contests/SubmissionObject';
 import UserScoreObject from 'contests/UserScoreObject';
-import TimerObject from 'contests/TImerObject';
+import TimerObject from 'contests/TimerObject';
 
 import JUDGE_STATUS from 'contests/JUDGE_STATUS';
 
