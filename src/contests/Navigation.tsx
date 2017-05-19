@@ -42,6 +42,9 @@ export default class Navigation extends React.Component<NavigationProps, {}> {
           { this.props.contest.problems &&
             <Link className="contestNavigation--rankingLink" to={ `/contests/${this.props.contest.id}/ranking${t('locale')}` }>{ t('ranking' ) }</Link>
           }
+          { this.props.contest.editorial && this.props.contest.editorial.id &&
+            <Link className="contestNavigation--rankingLink" to={ `/contests/${this.props.contest.id}/editorials/${this.props.contest.editorial.id}${t('locale')}` }>{ t('editorial' ) }</Link>
+          }
         </nav>
       </div>
     );

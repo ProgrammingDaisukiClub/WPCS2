@@ -103,21 +103,21 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
                             key={ dataSet.id }
                             className={ `problem--dataSetTab${ dataSet.id === this.state.dataSetTabId ? '__active' : '' }` }
                             onClick={ () => this.onTabClick(dataSet.id) }>
-                            { dataSet.label }
+                            <i className={ dataSet.id === this.state.dataSetTabId ? 'fa fa-check-square-o' : 'fa fa-square-o' }></i> { dataSet.label }
                           </li>
                         )) }
                       </ul>
                       <a className="problem--dataSetDownloadLink" href={ this.props.problem.id + "/data_sets/"+ this.state.dataSetTabId }>
-                        <i className="fa fa-download"></i> ダウンロード
+                        <i className="fa fa-download"></i> { this.selectedDataSet().label + "のダウンロード" }
                       </a>
                     </div>
                     <textarea
                       className="problem--answer"
                       name="answer"
                       placeholder={
-                        "作成したプログラムにデータセットを入力して得られた実行結果を入力してください\n" +
-                        "データセットはフォーム右上からダウンロードすることができます\n" +
-                        "データセットの選択間違いに注意してください"
+                        "このテキストボックスに解答（作成したプログラムにデータセットを入力して得られた実行結果）を貼り付けて、右下の提出ボタンを押してください。\n\n" +
+                        "入力となるデータセットはフォームの右上のリンクからダウンロードできます。\n" +
+                        "データセットは2種類あるので、SmallもしくはLargeを押して選択してから、ダウンロードしてください。"
                       }
                       value={ this.selectedDataSet().answer }
                       rows={ Math.max(6, Math.min(18, this.selectedDataSet().answer.split("\n").length))}

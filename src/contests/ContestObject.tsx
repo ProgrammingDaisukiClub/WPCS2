@@ -1,4 +1,5 @@
 import ProblemObject from 'contests/ProblemObject';
+import EditorialObject from 'contests/EditorialObject';
 
 interface ContestObject {
   id: number;
@@ -11,6 +12,7 @@ interface ContestObject {
   startAt: Date;
   endAt: Date;
   baseline: number;
+  editorial?: EditorialObject;
 }
 
 export default ContestObject;
