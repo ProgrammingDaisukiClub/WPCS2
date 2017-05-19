@@ -14,7 +14,7 @@ RSpec.describe DataSetsController, type: :controller do
 
     shared_examples 'download data set' do
       let(:send_data_options) do
-        { filename: "input_#{contest_id}_#{problem_id}_#{data_set_id}.in",
+        { filename:  "contest_#{contest.id}_#{(65 + problem.order).chr}_#{data_set.label}.txt",
           disposition: 'attachment',
           type: 'text/txt',
           status: 200 }

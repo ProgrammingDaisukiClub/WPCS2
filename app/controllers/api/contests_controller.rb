@@ -1,4 +1,6 @@
 class Api::ContestsController < ApplicationController
+  include Api::ContestsRankingJson
+
   before_action :set_contest
 
   def show
@@ -54,6 +56,8 @@ class Api::ContestsController < ApplicationController
       description: @contest.description,
       start_at: @contest.start_at,
       end_at: @contest.end_at,
+      baseline: @contest.score_baseline,
+      current_user_id: current_user.try(:id),
       joined: @joined
     }
   end
@@ -65,7 +69,7 @@ class Api::ContestsController < ApplicationController
           id: problem.id,
           name: problem.name,
           description: problem.description,
-          data_sets: problem.data_sets.map do |data_set|
+          data_sets: problem.data_sets.order(order: :asc).map do |data_set|
             {
               id: data_set.id,
               label: data_set.label,
@@ -77,36 +81,5 @@ class Api::ContestsController < ApplicationController
         }
       end
     )
-  end
-
-  def json_for_ranking
-    {
-      users: sorted_users.map do |user|
-        {
-          id: user.id,
-          name: user.name,
-          total_score: @contest.user_score(user),
-          problems: @contest.problems.map do |problem|
-            {
-              id: problem.id,
-              data_sets: problem.data_sets.map do |data_set|
-                {
-                  id: data_set.id,
-                  label: data_set.label,
-                  score: data_set.user_score(user),
-                  solved_at: data_set.user_solved_at(user)
-                }
-              end
-            }
-          end
-        }
-      end
-    }
-  end
-
-  def sorted_users
-    @contest.users.sort do |user1, user2|
-      @contest.user_score(user2) <=> @contest.user_score(user1)
-    end
   end
 end

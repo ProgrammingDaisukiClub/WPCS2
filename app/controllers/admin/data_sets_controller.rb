@@ -1,4 +1,4 @@
-class Admin::DataSetsController < ApplicationController
+class Admin::DataSetsController < Admin::ControllerBase
   before_action :set_data_set, only: [:show, :edit, :update, :destroy]
 
   # GET /data_sets/1

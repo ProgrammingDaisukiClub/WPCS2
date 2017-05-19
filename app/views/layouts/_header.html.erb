@@ -12,6 +12,9 @@
         <%= select_tag 'lang', options_for_select([['日本語', 'ja'], ['English', 'en']], I18n.locale),
           class: 'globalHeader--langSelect', onchange: 'this.form.submit()' %>
       <% end %>
+      <% if current_user && current_user.admin_role %>
+        <%= link_to '管理者用ページ', admin_contests_path, class: 'globalHeader--navLink' %>
+      <% end %>
       <% unless current_user %>
         <%= link_to t('layouts.header.sign_in'), new_user_session_path,
           class: 'globalHeader--navLink' + (new_user_session_path == request.path_info ? '__active' : '') %>

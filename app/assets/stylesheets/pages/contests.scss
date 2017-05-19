@@ -4,21 +4,17 @@
 
 
 .container {
-  @include clearfix;
+  display: flex;
+  flex-direction: row;
   width: 100%;
   max-width: 1080px;
   margin-left: auto;
   margin-right: auto;
-  &--border {
-    width: 1px;
-    background-color: #979797;
-    float: left;
-  }
 }
 
 .contestNavigation {
-  float: left;
   width: calc(25% - 1px);
+  border-right: 1px solid #979797;
   &--inner {
     padding: 16px;
   }
@@ -54,24 +50,23 @@
       color: $link-color;
     }
   }
+  &--dataSetCheck__incorrect,
+  &--dataSetCheck__correct {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 16px;
+  }
+  &--dataSetCheck__incorrect {
+    color: #d0d0d0;
+  }
+  &--dataSetCheck__correct {
+    color: #529453
+  }
   &--dataSet {
     display: block;
     font-size: 12px;
     color: #545454;
     padding-left: 16px;
-  }
-  &--dataSetCheck__incorrect,
-  &--dataSetCheck__correct {
-    display: inline-block;
-    margin-left: 8px;
-    font-size: 16px;
-  }
-  &--dataSetCheck__incorrect {
-    display: none;
-    color: #979797;
-  }
-  &--dataSetCheck__correct {
-    color: #529453
   }
   &--submissionsLink {
     display: block;
@@ -92,7 +87,6 @@
 }
 
 .contestHome {
-  float: left;
   width: 75%;
   &--inner {
     padding: 16px;
@@ -149,7 +143,6 @@
 }
 
 .problem {
-  float: left;
   width: 75%;
   &--inner {
     padding: 16px;
@@ -213,6 +206,7 @@
   &--dataSetTabs {
     float: left;
   }
+  &--dataSetTabHeader,
   &--dataSetTab,
   &--dataSetTab__active {
     display: inline-block;
@@ -223,6 +217,9 @@
     border-bottom: 3px solid transparent;
     margin-right: 8px;
     font-size: 14px;
+  }
+  &--dataSetTab,
+  &--dataSetTab__active {
     cursor: pointer;
   }
   &--dataSetTab:hover,
@@ -250,7 +247,7 @@
     padding: 4px;
     line-height: 1.5;
     resize: none;
-    font-size: 14px;
+    font-size: 13px;
   }
   &--submitWrapper {
     text-align: right;
@@ -282,7 +279,6 @@
 }
 
 .submissions {
-  float: left;
   width: 75%;
   &--inner {
     padding: 16px;
@@ -356,7 +352,6 @@
 }
 
 .ranking {
-  float: left;
   width: 75%;
   &--inner {
     padding: 15px;
@@ -389,6 +384,9 @@
     border-collapse: collapse;
     margin-bottom: 8px;
   }
+  &--tableRow__self {
+    background-color: #fff8d3;
+  }
   &--tableOrderHeader,
   &--tableNameHeader,
   &--tableScoreHeader,
@@ -401,16 +399,28 @@
     vertical-align: middle;
     padding: 4px;
   }
+  &--tableOrderHeader,
+  &--tableScoreHeader,
+  &--tableTotalScoreHeader,
   &--tableOrder,
   &--tableScore,
   &--tableTotalScore {
     text-align: center;
   }
-  &--score {
+  &--dataSet {
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+  }
+  &--score,
+  &--score__wrong {
     font-size: 13px;
   }
-  &--solvedTime {
-    font-size: 12px;
+  &--score__wrong {
+    color: red;
+  }
+  &--solvedAt {
+    font-size: 11px;
     color: #999;
   }
   &--pagination {
@@ -424,12 +434,22 @@
   }
 }
 
+.rankingPopup {
+  background-color: #333;
+  opacity: 0.98;
+  padding: 5px;
+  border-radius: 2px;
+  color: white;
+  font-size: 12px;
+}
+
 .submitResults {
   position: fixed;
   top: 20px;
   right: 20px;
   background-color: #fff;
   border: 1px solid #979797;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.20), 0 1px 1px 0 rgba(0, 0, 0, 0.32);
   font-size: 14px;
 
   &--inner {

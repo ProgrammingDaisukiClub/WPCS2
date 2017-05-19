@@ -27,6 +27,8 @@ RSpec.describe Api::ContestsController, type: :controller do
         description: params[:lang] == 'en' ? contest.description_en : contest.description_ja,
         start_at: JSON.parse(contest.start_at.to_json),
         end_at: JSON.parse(contest.end_at.to_json),
+        baseline: contest.score_baseline,
+        current_user_id: user.try(:id),
         joined: user.present? && ContestRegistration.find_by(user_id: user.id).present?
       }
     end
@@ -459,8 +461,10 @@ RSpec.describe Api::ContestsController, type: :controller do
                       {
                         id: data_set.id,
                         label: data_set.label,
+                        correct: data_set.solved_by_during_contest?(user),
                         score: data_set.user_score(user),
-                        solved_at: JSON.parse(data_set.user_solved_at(user).to_json)
+                        solved_at: JSON.parse(data_set.user_solved_at(user).to_json),
+                        wrong_answers: data_set.user_wrong_answers(user)
                       }
                     end
                   }
