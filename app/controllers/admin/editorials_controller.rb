@@ -1,6 +1,6 @@
 class Admin::EditorialsController < Admin::ControllerBase
-  before_action :set_editorial, only: [:show, :edit, :update, :destroy]
-  before_action :set_contest, only: [:update, :create]
+  before_action :set_editorial, only: %i[show edit update destroy]
+  before_action :set_contest, only: %i[update create]
 
   # GET /editorials/1
   # GET /editorials/1.json

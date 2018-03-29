@@ -12,19 +12,20 @@ Style/Documentation:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/DateTime:
+  Enabled: false
+
+Style/MixinUsage:
+  Enabled: false
+
 Metrics/BlockLength:
-  Exclude:
-    - "**/*.rake"
-    - 'spec/**/*.rb'
-    - 'config/**/*.rb'
+  Enabled: false
 
 Metrics/LineLength:
-  Max: 120
-  Exclude:
-    - 'config/**/*.rb'
+  Enabled: false
 
 Metrics/MethodLength:
   Max: 20
 
 Metrics/AbcSize:
-  Max: 20
+  Enabled: false

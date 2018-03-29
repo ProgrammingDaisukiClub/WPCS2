@@ -1,5 +1,5 @@
 class Admin::ProblemsController < Admin::ControllerBase
-  before_action :set_problem, only: [:show, :edit, :update, :destroy]
+  before_action :set_problem, only: %i[show edit update destroy]
 
   # GET /problems/1
   # GET /problems/1.json

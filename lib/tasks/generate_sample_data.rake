@@ -56,7 +56,7 @@ namespace :sample_data do
           problem_id: problem.id,
           input: '1 2 3 4 5',
           output: '1 2 3 4 5',
-          score: (rand(200) + 1) * 10,
+          score: rand(1..200) * 10,
           accuracy: 0,
           order: 1
         )
@@ -65,7 +65,7 @@ namespace :sample_data do
           problem_id: problem.id,
           input: '1 2 3 4 5',
           output: '1 2 3 4 5',
-          score: (rand(200) + 1) * 10,
+          score: rand(1..200) * 10,
           accuracy: 0,
           order: 2
         )

@@ -1,5 +1,5 @@
 class ProblemsController < ApplicationController
-  before_action :raise_not_found, only: %i(show)
+  before_action :raise_not_found, only: %i[show]
 
   def show
     render template: 'contests/show'

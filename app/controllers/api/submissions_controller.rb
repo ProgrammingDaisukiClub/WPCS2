@@ -61,7 +61,7 @@ class Api::SubmissionsController < ApplicationController
   end
 
   def prevent_show?(contest)
-    admin = current_user && current_user.admin_role
+    admin = current_user&.admin_role
     !admin && !contest.ended? && (!signed_in? || !contest.registered_by?(current_user))
   end
 

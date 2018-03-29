@@ -82,7 +82,7 @@ RSpec.describe Api::ContestsController, type: :controller do
       end
     end
 
-    %w(ja en).each do |language|
+    %w[ja en].each do |language|
       let(:lang) { language }
 
       describe 'Case 1: contest NOT found' do
@@ -215,7 +215,7 @@ RSpec.describe Api::ContestsController, type: :controller do
       post :entry, params: params
     end
 
-    %w(ja en).each do |language|
+    %w[ja en].each do |language|
       let(:lang) { language }
 
       describe 'Case 1: contest NOT found' do
@@ -365,13 +365,11 @@ RSpec.describe Api::ContestsController, type: :controller do
     end
 
     before do
-      if (defined? participated) && participated
-        create(:contest_registration, user: user, contest_id: contest.id)
-      end
+      create(:contest_registration, user: user, contest_id: contest.id) if (defined? participated) && participated
       get :ranking, params: params
     end
 
-    %w(ja en).each do |language|
+    %w[ja en].each do |language|
       let(:lang) { language }
 
       describe 'Case 1: contest NOT found' do
