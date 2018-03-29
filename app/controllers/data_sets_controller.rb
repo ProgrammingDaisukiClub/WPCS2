@@ -1,5 +1,5 @@
 class DataSetsController < ApplicationController
-  before_action :set_data_set, only: %i(show)
+  before_action :set_data_set, only: %i[show]
 
   def show
     true_condition1 = (user_signed_in? && @contest.registered_by?(current_user) && @contest.during?) || @contest.ended?

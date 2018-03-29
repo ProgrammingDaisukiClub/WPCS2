@@ -19,7 +19,7 @@ class Api::ContestsController < ApplicationController
       return
     end
 
-    if !signed_in? || @contest.ended? || (current_user && current_user.admin_role)
+    if !signed_in? || @contest.ended? || (current_user&.admin_role)
       render(json: {}, status: 403)
       return
     end

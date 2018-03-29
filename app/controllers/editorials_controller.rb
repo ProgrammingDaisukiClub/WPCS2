@@ -1,5 +1,5 @@
 class EditorialsController < ApplicationController
-  before_action :raise_not_found, only: %i(index)
+  before_action :raise_not_found, only: %i[index]
 
   def show
     render template: 'contests/show'
