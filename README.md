@@ -6,7 +6,9 @@ Waseda Programming Contest System 2
 
 ## Requirements
 
-* Ruby: 2.4.0
+* Ruby: 2.5.1
+
+* Rails: 5.1.6
 
 * Node: 7.5.0
 
@@ -35,7 +37,7 @@ Waseda Programming Contest System 2
   ```
   npm install
   ```
-  
+
 1. Build JavaScripts
   ```
   npm run dev-build    # for development (build)
