@@ -1,4 +1,4 @@
-box: ruby:2.4.0
+box: ruby:2.5.1
 
 services:
   - postgres
@@ -46,12 +46,6 @@ build:
     - script:
       name: Run RSpec
       code: bundle exec rspec
-
-    - script:
-      name: Generate erd
-      code: |
-        RAILS_ENV=test bundle exec rake erd
-        mv erd.pdf ${WERCKER_OUTPUT_DIR}
 
   after-steps:
     - sherzberg/slack-notify:
