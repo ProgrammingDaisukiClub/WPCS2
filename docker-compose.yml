@@ -10,15 +10,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-postgres
-    environment:
-      MYSQL_ROOT_PASSWORD: shikugawa
     volumes_from:
       - db_data
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
   app:
     hostname: app
+    environment:
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD:
+      DATABASE_PORT: 5432
+      DATABASE_HOST: db
     build:
       context: .
       dockerfile: Dockerfile-rails
