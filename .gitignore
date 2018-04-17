@@ -101,3 +101,6 @@ fabric.properties
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Ruby version definition file
+.ruby-version
