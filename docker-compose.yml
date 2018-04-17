@@ -9,7 +9,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: Dockerfile-MySQL
+      dockerfile: Dockerfile-postgres
     environment:
       MYSQL_ROOT_PASSWORD: shikugawa
     volumes_from:
