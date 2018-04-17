@@ -3,13 +3,11 @@ services:
   db_data:
     image: busybox
     volumes:
-      - /var/lib/mysql
+      - /var/lib/postgresql/data
       - /share
 
   db:
-    build:
-      context: .
-      dockerfile: Dockerfile-postgres
+    image: postgres:latest
     volumes_from:
       - db_data
     ports:

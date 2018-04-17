@@ -31,6 +31,10 @@ development:
 
 test:
   <<: *default
+  host: db
+  port: 5432
+  username: <%= ENV.fetch('DATABASE_USER') { 'root' } %>
+  password: <%= ENV.fetch('DATABASE_PASSWORD') { 'password' } %>
   database: wpcs2_test
 
 production:
