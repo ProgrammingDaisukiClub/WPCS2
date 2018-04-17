@@ -1,0 +1,32 @@
+version: '2'
+services:
+  db_data:
+    image: busybox
+    volumes:
+      - /var/lib/postgresql/data
+      - /share
+
+  db:
+    image: postgres:latest
+    volumes_from:
+      - db_data
+    ports:
+      - "5432:5432"
+
+  app:
+    hostname: app
+    environment:
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD:
+      DATABASE_PORT: 5432
+      DATABASE_HOST: db
+    build:
+      context: .
+      dockerfile: Dockerfile-rails
+    command: "bundle exec puma -p 3000"
+    ports:
+      - "3000:3000"
+    volumes_from:
+      - db_data
+    links:
+      - db

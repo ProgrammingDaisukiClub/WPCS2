@@ -68,3 +68,10 @@ Following command is useful for front-end developer. (auto building Javascript)
 ```
 npm run dev-watch
 ```
+
+### How to setup by Docker
+You may need to run following commands after pulling some changes.
+```
+docker-compose build
+docker-compose up -d
+```
