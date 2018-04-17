@@ -28,11 +28,3 @@ default: &default
 development:
   <<: *default
   database: wpcs2_development
-
-test:
-  <<: *default
-  database: wpcs2_test
-
-production:
-  <<: *default
-  database: wpcs2_production
