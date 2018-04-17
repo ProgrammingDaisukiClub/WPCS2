@@ -1,0 +1,31 @@
+version: '2'
+services:
+  db_data:
+    image: busybox
+    volumes:
+      - /var/lib/mysql
+      - /share
+
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile-MySQL
+    environment:
+      MYSQL_ROOT_PASSWORD: shikugawa
+    volumes_from:
+      - db_data
+    ports:
+      - "3306:3306"
+
+  app:
+    hostname: app
+    build:
+      context: .
+      dockerfile: Dockerfile-rails
+    command: "bundle exec puma -p 3000"
+    ports:
+      - "3000:3000"
+    volumes_from:
+      - db_data
+    links:
+      - db
