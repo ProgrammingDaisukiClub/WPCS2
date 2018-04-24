@@ -44,6 +44,20 @@ class Api::ContestsController < ApplicationController
     }, status: 200)
   end
 
+  def validation
+    if @contest.inside?
+      password = params['password']
+      render(json: {
+          'result': password == @contest.password ? 'ok' : 'failed'
+      }, status: 200)
+    else
+      render(json: {
+          'result': 'failed',
+          'message': 'this api is not supported when status == 0 contest'
+      }, status: 200)
+    end
+  end
+
   private
 
   def set_contest

@@ -7,12 +7,23 @@ export interface ContestHomeProps {
   join: () => void;
 }
 
-export default class ContestHome extends React.Component<ContestHomeProps, {}> {
+export interface ContestHomeState {
+  password: string;
+}
+
+export default class ContestHome extends React.Component<ContestHomeProps, ContestHomeState> {
+  constructor(props: ContestHomeProps){
+    super(props)
+    this.state = {
+      password: ""
+    }
+  }
+
   private onJoinButtonClick() {
-    if(this.submitStatus){
+    if(this.submitStatus(this.state.password)){
       this.props.join();
     }else{
-      alert("password is invalid!")
+      alert("password is invalid!");
     }
   }
 
@@ -49,6 +60,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
       case 200:
         const json: any = await responsePasswordValidation.json();
         let validationResult: boolean = json.result == "ok";
+        console.log(validationResult);
         return validationResult;
 
       case 404: throw new Error('404 not found');
@@ -66,11 +78,9 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
           <div className="contestHome--body">
             { !this.props.contest.adminRole && this.props.contest.currentUserId && (!this.props.contest.joined && new Date() < this.props.contest.endAt) &&
               <div className="contestHome--registrationButtonWrapper">
-
                 <form style={ hiddenPasswordForm }>
-                  <input id='password' type='text'/>
+                  <input type='text'　value={ this.state.password } onChange={ (e) => this.setState({ password: e.target.value} ) }　/>
                 </form>
-
                 <span className="contestHome--registrationButton" onClick={ this.onJoinButtonClick.bind(this) }>
                   { t('join') }
                 </span>
@@ -79,9 +89,8 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
             { !this.props.contest.currentUserId &&
               <div className="contestHome--registrationButtonWrapper">
                 <form style={ hiddenPasswordForm }>
-                  <input id='password' type='text'/>
+                  <input type='text'　value={ this.state.password } onChange={ (e) => this.setState({ password: e.target.value} ) }　/>
                 </form>
-
                 <a className="contestHome--registrationButton" href="/users/sign_up">{ t('join') }</a>
               </div>
             }
