@@ -30,7 +30,9 @@ namespace :sample_data do
                 when 2 then DateTime.now - 1.week + 2.hour
                 when 0 then DateTime.now + 1.week + 2.hour
                 end,
-        score_baseline: 0.5
+        score_baseline: 0.5,
+        status: 1,
+        password: "password",
       )
 
       users.each do |user|

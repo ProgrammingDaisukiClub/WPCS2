@@ -48,7 +48,7 @@ class Api::ContestsController < ApplicationController
   end
 
   def hide_problems?
-    !(current_user && current_user.admin_role) && !((@contest.during? && @joined) || @contest.ended?)
+    !(current_user&.admin_role) && !((@contest.during? && @joined) || @contest.ended?)
   end
 
   def hide_editorial?

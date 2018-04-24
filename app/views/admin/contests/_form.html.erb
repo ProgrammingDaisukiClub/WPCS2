@@ -46,6 +46,16 @@
     <%= f.datetime_select :end_at %>
   </div>
 
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.check_box :status, checked_value: 1, unchecked_value: 0 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <%= f.text_field :password %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

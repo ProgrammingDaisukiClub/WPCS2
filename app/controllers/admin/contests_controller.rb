@@ -69,6 +69,7 @@ class Admin::ContestsController < Admin::ControllerBase
   # Never trust parameters from the scary internet, only allow the white list through.
   def contest_params
     params.require(:contest).permit(:description_en, :description_ja,
-                                    :end_at, :name_en, :name_ja, :score_baseline, :start_at)
+                                    :end_at, :name_en, :name_ja, :score_baseline,
+                                    :start_at, :status, :password)
   end
 end
