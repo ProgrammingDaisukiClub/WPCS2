@@ -9,7 +9,11 @@ export interface ContestHomeProps {
 
 export default class ContestHome extends React.Component<ContestHomeProps, {}> {
   private onJoinButtonClick() {
-    this.props.join();
+    if(this.submitStatus){
+      this.props.join();
+    }else{
+      alert("password is invalid!")
+    }
   }
 
   private async fetchContestStatus(){
@@ -31,26 +35,26 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
       return isStatusInside;
   }
 
-  // private async submitStatus(data: string){
-  //   const responsePasswordValidation: Response = await fetch(`/api/contests/${this.props.contest.id}/validate`, {
-  //     body: JSON.stringify(
-  //       {
-  //         'password': data
-  //       }
-  //     ),
-  //     credentials: 'same-origin',
-  //   });
-  //
-  //   switch(responsePasswordValidation.status){
-  //     case 200:
-  //       const json: any = await responsePasswordValidation.json();
-  //       let validationResult: boolean = json.result == "ok";
-  //       return validationResult;
-  //
-  //     case 404: throw new Error('404 not found');
-  //     default: throw new Error('unexpected http status');
-  //   }
-  // }
+  private async submitStatus(data: string){
+    const responsePasswordValidation: Response = await fetch(`/api/contests/${this.props.contest.id}/validate`, {
+      body: JSON.stringify(
+        {
+          'password': data
+        }
+      ),
+      credentials: 'same-origin',
+    });
+
+    switch(responsePasswordValidation.status){
+      case 200:
+        const json: any = await responsePasswordValidation.json();
+        let validationResult: boolean = json.result == "ok";
+        return validationResult;
+
+      case 404: throw new Error('404 not found');
+      default: throw new Error('unexpected http status');
+    }
+  }
 
   public render() {
     let hiddenPasswordForm: any = this.fetchContestStatus() ? {} : { display: "none" };
@@ -74,6 +78,10 @@ export default class ContestHome extends React.Component<ContestHomeProps, {}> {
             }
             { !this.props.contest.currentUserId &&
               <div className="contestHome--registrationButtonWrapper">
+                <form style={ hiddenPasswordForm }>
+                  <input id='password' type='text'/>
+                </form>
+
                 <a className="contestHome--registrationButton" href="/users/sign_up">{ t('join') }</a>
               </div>
             }
