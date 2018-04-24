@@ -37,6 +37,13 @@ class Api::ContestsController < ApplicationController
     render(json: json_for_ranking, status: 200)
   end
 
+  def status
+    contest_status = @contest.status
+    render(json: {
+      "status": contest_status
+    }, status: 200)
+  end
+
   private
 
   def set_contest

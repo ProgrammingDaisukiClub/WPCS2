@@ -27,16 +27,7 @@ Rails.application.routes.draw do
       member do
         post 'entry'
         get  'ranking'
-      end
-      resources 'submissions', only: %w[index create]
-    end
-  end
-
-  namespace :api do
-    resources 'contests', only: %w[show] do
-      member do
-        post 'entry'
-        get  'ranking'
+        get  'status'
       end
       resources 'submissions', only: %w[index create]
     end

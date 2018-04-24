@@ -6,6 +6,11 @@ class Contest < ApplicationRecord
   has_many :users, through: :contest_registrations
   has_one  :editorial, dependent: :destroy
 
+  enum status: {
+      outside: 0,
+      inside: 1
+  }
+
   def name
     send("name_#{I18n.locale}")
   end
