@@ -6,5 +6,3 @@ ADD Gemfile.lock Gemfile.lock
 RUN bundle install
 COPY . /frontend
 WORKDIR /frontend
-RUN npm install webpack -g
-RUN npm install
