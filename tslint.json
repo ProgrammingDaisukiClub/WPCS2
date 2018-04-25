@@ -9,7 +9,7 @@
     // tslint
     "interface-name": false, // https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
     "no-any": false,
-    "no-default-export": false, // required to use react
+    "no-default-export": false, // Required to use react.
     "no-implicit-dependencies": false,
     "no-submodule-imports": false,
     "no-use-before-declare": false, // https://github.com/palantir/tslint/issues/1400
@@ -17,8 +17,8 @@
     "missing-jsdoc": false,
     // tslint-plugin-prettier
     "prettier": true,
-    // Detected by tslint-config-prettier
-    // All conflicting rules are disabled but some tools still do not consider it.
+    // Detected by tslint-config-prettier-check
+    // All conflicting rules are automatically disabled by tslint-config-prettier but some tools still enable them.
     "align": false,
     "eofline": false,
     "import-spacing": false,
