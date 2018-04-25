@@ -19,14 +19,6 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
     }
   }
 
-  private onJoinButtonClick() {
-    if(this.submitStatus(this.state.password)){
-      this.props.join();
-    }else{
-      alert("password is invalid!");
-    }
-  }
-
   private async fetchContestStatus(){
       const responseContestStatus: Response = await fetch(`/api/contests/${this.props.contest.id}/status`, {
         credentials: 'same-origin',
@@ -46,11 +38,12 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
       return isStatusInside;
   }
 
-  private async submitStatus(data: string){
-    const responsePasswordValidation: Response = await fetch(`/api/contests/${this.props.contest.id}/validate`, {
+  private async submitPasswordValidationAPI(){
+    const responsePasswordValidation: Response = await fetch(`/api/contests/${this.props.contest.id}/validation`, {
+      method: 'POST',
       body: JSON.stringify(
         {
-          'password': data
+          'password': this.state.password
         }
       ),
       credentials: 'same-origin',
@@ -59,9 +52,13 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
     switch(responsePasswordValidation.status){
       case 200:
         const json: any = await responsePasswordValidation.json();
-        let validationResult: boolean = json.result == "ok";
-        console.log(validationResult);
-        return validationResult;
+        const submitStatus: boolean = json.status == "ok"
+
+        if(submitStatus){
+          this.props.join();
+        }else{
+          alert("password is invalid!");
+        }
 
       case 404: throw new Error('404 not found');
       default: throw new Error('unexpected http status');
@@ -79,9 +76,9 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
             { !this.props.contest.adminRole && this.props.contest.currentUserId && (!this.props.contest.joined && new Date() < this.props.contest.endAt) &&
               <div className="contestHome--registrationButtonWrapper">
                 <form style={ hiddenPasswordForm }>
-                  <input type='text'　value={ this.state.password } onChange={ (e) => this.setState({ password: e.target.value} ) }　/>
+                  <input type='text'　value={ this.state.password } onChange={ (e) => this.setState({ password: e.target.value}) }　/>
                 </form>
-                <span className="contestHome--registrationButton" onClick={ this.onJoinButtonClick.bind(this) }>
+                <span className="contestHome--registrationButton" onClick={ () => this.submitPasswordValidationAPI() }>
                   { t('join') }
                 </span>
               </div>

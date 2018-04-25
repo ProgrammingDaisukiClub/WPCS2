@@ -28,7 +28,7 @@ Rails.application.routes.draw do
         post 'entry'
         get  'ranking'
         get  'status'
-        get  'validation'
+        post 'validation'
       end
       resources 'submissions', only: %w[index create]
     end

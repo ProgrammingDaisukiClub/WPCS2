@@ -1,6 +1,7 @@
 class Api::ContestsController < ApplicationController
   include Api::ContestsRankingJson
 
+  protect_from_forgery :except => ['validation']
   before_action :set_contest
 
   def show
@@ -45,7 +46,7 @@ class Api::ContestsController < ApplicationController
   end
 
   def validation
-    if @contest.inside?
+    if @contest.status == "inside"
       password = params['password']
       render(json: {
           'result': password == @contest.password ? 'ok' : 'failed'
