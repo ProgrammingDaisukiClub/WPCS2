@@ -46,7 +46,7 @@ class Api::ContestsController < ApplicationController
   end
 
   def validation
-    if @contest.status == 'inside'
+    if @contest.inside?
       password = params['password']
       render(json: {
                'result': password == @contest.password ? 'ok' : 'failed'

@@ -9,13 +9,15 @@ export interface ContestHomeProps {
 
 export interface ContestHomeState {
   password: string;
+  passwordFormStyleState: any;
 }
 
 export default class ContestHome extends React.Component<ContestHomeProps, ContestHomeState> {
   constructor(props: ContestHomeProps){
     super(props)
     this.state = {
-      password: ""
+      password: "",
+      passwordFormStyleState: {}
     }
   }
 
@@ -35,12 +37,19 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
       }
 
       let isStatusInside: boolean = status == "inside";
-      return isStatusInside;
+
+      if(!isStatusInside){
+          this.setState({ passwordFormStyleState: { display: "none" } })
+      }
   }
 
   private async submitPasswordValidationAPI(){
     const responsePasswordValidation: Response = await fetch(`/api/contests/${this.props.contest.id}/validation`, {
       method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(
         {
           'password': this.state.password
@@ -52,13 +61,14 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
     switch(responsePasswordValidation.status){
       case 200:
         const json: any = await responsePasswordValidation.json();
-        const submitStatus: boolean = json.status == "ok"
+        const submitStatus: boolean = json.result == "ok"
 
         if(submitStatus){
           this.props.join();
         }else{
           alert("password is invalid!");
         }
+        break;
 
       case 404: throw new Error('404 not found');
       default: throw new Error('unexpected http status');
@@ -66,7 +76,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
   }
 
   public render() {
-    let hiddenPasswordForm: any = this.fetchContestStatus() ? {} : { display: "none" };
+    this.fetchContestStatus();
 
     return (
       <div className="contestHome">
@@ -75,7 +85,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
           <div className="contestHome--body">
             { !this.props.contest.adminRole && this.props.contest.currentUserId && (!this.props.contest.joined && new Date() < this.props.contest.endAt) &&
               <div className="contestHome--registrationButtonWrapper">
-                <form style={ hiddenPasswordForm }>
+                <form style={ this.state.passwordFormStyleState }>
                   <input type='text'　value={ this.state.password } onChange={ (e) => this.setState({ password: e.target.value}) }　/>
                 </form>
                 <span className="contestHome--registrationButton" onClick={ () => this.submitPasswordValidationAPI() }>
@@ -85,7 +95,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
             }
             { !this.props.contest.currentUserId &&
               <div className="contestHome--registrationButtonWrapper">
-                <form style={ hiddenPasswordForm }>
+                <form style={ this.state.passwordFormStyleState }>
                   <input type='text'　value={ this.state.password } onChange={ (e) => this.setState({ password: e.target.value} ) }　/>
                 </form>
                 <a className="contestHome--registrationButton" href="/users/sign_up">{ t('join') }</a>
