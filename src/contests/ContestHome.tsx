@@ -9,6 +9,7 @@ export interface ContestHomeProps {
 
 export interface ContestHomeState {
   password: string;
+  contestStatus: string;
   passwordFormStyleState: any;
 }
 
@@ -17,6 +18,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
     super(props)
     this.state = {
       password: "",
+      contestStatus: "",
       passwordFormStyleState: {}
     }
   }
@@ -38,40 +40,48 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
 
       let isStatusInside: boolean = status == "inside";
 
+      this.setState({ contestStatus: status })
+
       if(!isStatusInside){
-          this.setState({ passwordFormStyleState: { display: "none" } })
+          this.setState({
+            passwordFormStyleState: { display: "none" }
+          })
       }
   }
 
   private async submitPasswordValidationAPI(){
-    const responsePasswordValidation: Response = await fetch(`/api/contests/${this.props.contest.id}/validation`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(
-        {
-          'password': this.state.password
-        }
-      ),
-      credentials: 'same-origin',
-    });
+    if(this.state.contestStatus == "inside"){
+      const responsePasswordValidation: Response = await fetch(`/api/contests/${this.props.contest.id}/validation`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+          {
+            'password': this.state.password
+          }
+        ),
+        credentials: 'same-origin',
+      });
 
-    switch(responsePasswordValidation.status){
-      case 200:
-        const json: any = await responsePasswordValidation.json();
-        const submitStatus: boolean = json.result == "ok"
+      switch(responsePasswordValidation.status){
+        case 200:
+          const json: any = await responsePasswordValidation.json();
+          const submitStatus: boolean = json.result == "ok"
 
-        if(submitStatus){
-          this.props.join();
-        }else{
-          alert("password is invalid!");
-        }
-        break;
+          if(submitStatus){
+            this.props.join();
+          }else{
+            alert("password is invalid!");
+          }
+          break;
 
-      case 404: throw new Error('404 not found');
-      default: throw new Error('unexpected http status');
+        case 404: throw new Error('404 not found');
+        default: throw new Error('unexpected http status');
+      }
+    }else{
+      this.props.join();
     }
   }
 
