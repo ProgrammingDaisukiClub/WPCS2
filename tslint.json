@@ -1,14 +1,52 @@
 {
-  "extends": "tslint-microsoft-contrib/recommended_ruleset",
+  "extends": [
+    "tslint-config-prettier",
+    "tslint-microsoft-contrib",
+    "tslint-plugin-prettier",
+    "tslint-react"
+  ],
   "rules": {
-    "interface-name": false, // c.f. https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
-    "missing-jsdoc": false,
+    // tslint
+    "interface-name": false, // https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
+    "no-any": false,
     "no-default-export": false, // required to use react
-    "no-use-before-declare": false // due to https://github.com/palantir/tslint/issues/1400
+    "no-implicit-dependencies": false,
+    "no-submodule-imports": false,
+    "no-use-before-declare": false, // https://github.com/palantir/tslint/issues/1400
+    // tslint-microsoft-contrib
+    "missing-jsdoc": false,
+    // tslint-plugin-prettier
+    "prettier": true,
+    // Detected by tslint-config-prettier
+    // All conflicting rules are disabled but some tools still do not consider it.
+    "align": false,
+    "eofline": false,
+    "import-spacing": false,
+    "indent": false,
+    "jsx-alignment": false,
+    "jsx-curly-spacing": false,
+    "jsx-equals-spacing": false,
+    "jsx-no-multiline-js": false,
+    "jsx-wrap-multiline": false,
+    "linebreak-style": false,
+    "max-line-length": false,
+    "new-parens": false,
+    "no-consecutive-blank-lines": false,
+    "no-irregular-whitespace": false,
+    "no-trailing-whitespace": false,
+    "no-unnecessary-semicolons": false,
+    "number-literal-format": false,
+    "object-literal-key-quotes": false,
+    "one-line": false,
+    "quotemark": false,
+    "semicolon": false,
+    "space-within-parens": false,
+    "trailing-comma": false,
+    "whitespace": false
   },
-  "jsRules": {
-  },
+  "jsRules": {},
   "rulesDirectory": [
+    "tslint-plugin-prettier",
     "node_modules/tslint-microsoft-contrib"
   ]
 }
