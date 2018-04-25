@@ -7,8 +7,8 @@ class Contest < ApplicationRecord
   has_one  :editorial, dependent: :destroy
 
   enum status: {
-      outside: 0,
-      inside: 1
+    outside: 0,
+    inside: 1
   }
 
   def name

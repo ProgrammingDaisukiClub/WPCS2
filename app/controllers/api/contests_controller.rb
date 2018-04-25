@@ -1,7 +1,7 @@
 class Api::ContestsController < ApplicationController
   include Api::ContestsRankingJson
 
-  protect_from_forgery :except => ['validation']
+  protect_from_forgery except: ['validation']
   before_action :set_contest
 
   def show
@@ -41,21 +41,21 @@ class Api::ContestsController < ApplicationController
   def status
     contest_status = @contest.status
     render(json: {
-      "status": contest_status
-    }, status: 200)
+             "status": contest_status
+           }, status: 200)
   end
 
   def validation
-    if @contest.status == "inside"
+    if @contest.status == 'inside'
       password = params['password']
       render(json: {
-          'result': password == @contest.password ? 'ok' : 'failed'
-      }, status: 200)
+               'result': password == @contest.password ? 'ok' : 'failed'
+             }, status: 200)
     else
       render(json: {
-          'result': 'failed',
-          'message': 'this api is not supported when status == 0 contest'
-      }, status: 200)
+               'result': 'failed',
+               'message': 'this api is not supported when status == 0 contest'
+             }, status: 200)
     end
   end
 
