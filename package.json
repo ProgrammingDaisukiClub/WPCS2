@@ -9,7 +9,7 @@
   "scripts": {
     "dev-build": "NODE_ENV=development webpack --progress --colors",
     "dev-watch": "NODE_ENV=development webpack --progress --colors --watch",
-    "fix": "tslint --project tsconfig.json --config tslint.json --fix",
+    "fix": "npm run prettier && tslint --project tsconfig.json --config tslint.json --fix",
     "prod": "NODE_ENV=production webpack",
     "heroku-postbuild": "npm run dev-build",
     "tslint": "tslint --project tsconfig.json --config tslint.json",
