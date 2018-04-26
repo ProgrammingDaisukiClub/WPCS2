@@ -31,21 +31,21 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
       switch(responseContestStatus.status) {
         case 200:
           const json: any = await responseContestStatus.json();
-          status = json.status
+          const status: string = json.status;
+          let isStatusInside: boolean = status == "inside";
+
+          this.setState({ contestStatus: status })
+
+          if(!isStatusInside){
+              this.setState({
+                passwordFormStyleState: { display: "none" }
+              })
+          }
+
           break;
 
         case 404: throw new Error('404 not found');
         default: throw new Error('unexpected http status');
-      }
-
-      let isStatusInside: boolean = status == "inside";
-
-      this.setState({ contestStatus: status })
-
-      if(!isStatusInside){
-          this.setState({
-            passwordFormStyleState: { display: "none" }
-          })
       }
   }
 
