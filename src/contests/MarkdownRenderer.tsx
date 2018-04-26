@@ -11,21 +11,21 @@ export interface Props {
   text: string;
 }
 
-export default class MarkdownRenderer extends React.Component<Props, {}> {
+export default class MarkdownRenderer extends React.Component<Props> {
   private renderer: MarkedRenderer;
 
   constructor(props: Props) {
     super(props);
     this.renderer = new marked.Renderer();
     this.renderer.code = (str: string) => {
-      return '<div class="markdown--code">' + str.replace(/\n/g, "<br/>") + '</div>' ;
+      return '<div class="markdown--code">' + str.replace(/\n/g, '<br/>') + '</div>';
     };
     marked.setOptions({ renderer: this.renderer });
   }
 
   private renderKatexFragments(text: string): string {
-    const items = text.split("$");
-    let result = "";
+    const items = text.split('$');
+    let result = '';
     for (let i = 0; i < items.length; i++) {
       result += i % 2 == 0 ? items[i] : katex.renderToString(items[i]);
     }
@@ -33,10 +33,6 @@ export default class MarkdownRenderer extends React.Component<Props, {}> {
   }
 
   public render() {
-    return (
-      <div className='markdown-body'>
-        { renderHTML(marked(this.renderKatexFragments(this.props.text))) }
-      </div>
-    );
+    return <div className="markdown-body">{renderHTML(marked(this.renderKatexFragments(this.props.text)))}</div>;
   }
 }

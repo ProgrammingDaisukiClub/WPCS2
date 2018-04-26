@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 import ContestObject from 'contests/ContestObject';
-import ProblemObject from 'contests/ProblemObject';
 import MarkdownRenderer from 'contests/MarkdownRenderer';
+import ProblemObject from 'contests/ProblemObject';
 
 export interface ProblemProps {
   contest: ContestObject;
   problem: ProblemObject;
-  changeAnswerForm: (problemId: number, dataSetId: number, answer: string) => void;
-  submit: (problemId: number, dataSetId: number) => void;
+  changeAnswerForm(problemId: number, dataSetId: number, answer: string): void;
+  submit(problemId: number, dataSetId: number): void;
 }
 
 export interface ProblemState {
@@ -22,21 +22,21 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
     super();
 
     this.state = {
-      dataSetTabId: props.problem.dataSets[0].id
-    }
+      dataSetTabId: props.problem.dataSets[0].id,
+    };
   }
 
   public componentDidMount() {
     this.timerId = setInterval(() => {
       this.forceUpdate();
-    }, 10000)
+    }, 10000);
   }
 
   public componentWillReceiveProps(props: ProblemProps) {
-    if(this.props.problem.id !== props.problem.id) {
+    if (this.props.problem.id !== props.problem.id) {
       this.setState({
         dataSetTabId: props.problem.dataSets[0].id,
-      })
+      });
     }
   }
 
@@ -62,7 +62,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
     this.props.submit(this.props.problem.id, this.state.dataSetTabId);
   }
 
-  public onAnswerChange(event: React.FormEvent<HTMLElement> ) {
+  public onAnswerChange(event: React.FormEvent<HTMLElement>) {
     const input = event.target as HTMLInputElement;
     this.props.changeAnswerForm(this.props.problem.id, this.state.dataSetTabId, input.value);
   }
@@ -75,60 +75,73 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
     return (
       <div className="problem">
         <div className="problem--inner">
-          <h2 className="problem--header">{ this.props.problem.task } - { this.props.problem.name }</h2>
+          <h2 className="problem--header">
+            {this.props.problem.task} - {this.props.problem.name}
+          </h2>
           <div className="problem--body">
             <div className="problem--score">
-              <div className="problem--scoreHeader">{ t('score') }</div>
-              { this.props.problem.dataSets.map((dataSet) => (
-                <div className="problem--scoreBody" key={ dataSet.id }>
-                  { dataSet.label }: { this.currentScore(dataSet.maxScore) } / { dataSet.maxScore }点
+              <div className="problem--scoreHeader">{t('score')}</div>
+              {this.props.problem.dataSets.map(dataSet => (
+                <div className="problem--scoreBody" key={dataSet.id}>
+                  {dataSet.label}: {this.currentScore(dataSet.maxScore)} / {dataSet.maxScore}点
                 </div>
-              )) }
+              ))}
             </div>
             <div className="problem--description">
               <div className="problem--descriptionBody">
-                <MarkdownRenderer text= { this.props.problem.description } />
+                <MarkdownRenderer text={this.props.problem.description} />
               </div>
             </div>
             <div className="problem--submission">
-              <div className="problem--submissionHeader">{ t('submission') }</div>
-              { this.props.contest.currentUserId ?
-                <form onSubmit={ (e) => this.onFormSubmit(e) }>
+              <div className="problem--submissionHeader">{t('submission')}</div>
+              {this.props.contest.currentUserId ? (
+                <form onSubmit={e => this.onFormSubmit(e)}>
                   <div className="problem--submissionForm">
                     <div className="problem--submissionDataSets">
                       <ul className="problem--dataSetTabs">
                         <li className="problem--dataSetTabHeader">データセット</li>
-                        { this.props.problem.dataSets.map((dataSet) => (
+                        {this.props.problem.dataSets.map(dataSet => (
                           <li
-                            key={ dataSet.id }
-                            className={ `problem--dataSetTab${ dataSet.id === this.state.dataSetTabId ? '__active' : '' }` }
-                            onClick={ () => this.onTabClick(dataSet.id) }>
-                            <i className={ dataSet.id === this.state.dataSetTabId ? 'fa fa-check-square-o' : 'fa fa-square-o' }></i> { dataSet.label }
+                            key={dataSet.id}
+                            className={`problem--dataSetTab${dataSet.id === this.state.dataSetTabId ? '__active' : ''}`}
+                            onClick={() => this.onTabClick(dataSet.id)}
+                          >
+                            <i
+                              className={
+                                dataSet.id === this.state.dataSetTabId ? 'fa fa-check-square-o' : 'fa fa-square-o'
+                              }
+                            />{' '}
+                            {dataSet.label}
                           </li>
-                        )) }
+                        ))}
                       </ul>
-                      <a className="problem--dataSetDownloadLink" href={ this.props.problem.id + "/data_sets/"+ this.state.dataSetTabId }>
-                        <i className="fa fa-download"></i> { this.selectedDataSet().label + "のダウンロード" }
+                      <a
+                        className="problem--dataSetDownloadLink"
+                        href={this.props.problem.id + '/data_sets/' + this.state.dataSetTabId}
+                      >
+                        <i className="fa fa-download" /> {this.selectedDataSet().label + 'のダウンロード'}
                       </a>
                     </div>
                     <textarea
                       className="problem--answer"
                       name="answer"
                       placeholder={
-                        "このテキストボックスに解答（作成したプログラムにデータセットを入力して得られた実行結果）を貼り付けて、右下の提出ボタンを押してください。\n\n" +
-                        "入力となるデータセットはフォームの右上のリンクからダウンロードできます。\n" +
-                        "データセットは2種類あるので、SmallもしくはLargeを押して選択してから、ダウンロードしてください。"
+                        'このテキストボックスに解答（作成したプログラムにデータセットを入力して得られた実行結果）を貼り付けて、右下の提出ボタンを押してください。\n\n' +
+                        '入力となるデータセットはフォームの右上のリンクからダウンロードできます。\n' +
+                        'データセットは2種類あるので、SmallもしくはLargeを押して選択してから、ダウンロードしてください。'
                       }
-                      value={ this.selectedDataSet().answer }
-                      rows={ Math.max(6, Math.min(18, this.selectedDataSet().answer.split("\n").length))}
-                      onChange={ (e) => this.onAnswerChange(e) }
+                      value={this.selectedDataSet().answer}
+                      rows={Math.max(6, Math.min(18, this.selectedDataSet().answer.split('\n').length))}
+                      onChange={e => this.onAnswerChange(e)}
                     />
                   </div>
                   <div className="problem--submitWrapper">
-                    <input className="problem--submit" type="submit" value={ t('submit') } />
+                    <input className="problem--submit" type="submit" value={t('submit')} />
                   </div>
-                </form> : <p>解答を提出するためにはログインが必要です</p>
-              }
+                </form>
+              ) : (
+                <p>解答を提出するためにはログインが必要です</p>
+              )}
             </div>
           </div>
         </div>

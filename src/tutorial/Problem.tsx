@@ -6,10 +6,8 @@ export interface Props {
   };
 }
 
-export default class Problem extends React.Component<Props, {}> {
+export default class Problem extends React.Component<Props> {
   public render() {
-    return (
-      <div>Problem{ this.props.params.problemId }</div>
-    );
+    return <div>Problem{this.props.params.problemId}</div>;
   }
 }

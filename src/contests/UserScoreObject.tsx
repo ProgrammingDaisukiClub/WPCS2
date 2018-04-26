@@ -4,7 +4,7 @@ interface UserScoreObject {
   id: number;
   totalScore: number;
   name: string;
-  problems: [ ProblemScoreObject ];
+  problems: [ProblemScoreObject];
 }
 
 export default UserScoreObject;

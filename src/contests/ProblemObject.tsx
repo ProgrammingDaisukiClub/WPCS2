@@ -1,4 +1,4 @@
-import DataSetObject from 'contests/DataSetObject'
+import DataSetObject from 'contests/DataSetObject';
 
 interface ProblemObject {
   id: number;

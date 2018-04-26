@@ -1,5 +1,5 @@
-import ProblemObject from 'contests/ProblemObject';
 import EditorialObject from 'contests/EditorialObject';
+import ProblemObject from 'contests/ProblemObject';
 
 interface ContestObject {
   id: number;

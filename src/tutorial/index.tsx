@@ -9,12 +9,12 @@ import ProblemStatementParseTest from 'tutorial/ProblemStatementParseTest';
 import Ranking from 'tutorial/Ranking';
 
 ReactDOM.render(
-  <Router history={ browserHistory }>
-    <Route path='react_tutorial' component={ App }>
-      <IndexRoute component={ ContestHome } />
-      <Route path='problems/:problemId' component={ Problem } />
-      <Route path='ranking' component={ Ranking } />
-      <Route path='statement_test' component={ ProblemStatementParseTest } />
+  <Router history={browserHistory}>
+    <Route path="react_tutorial" component={App}>
+      <IndexRoute component={ContestHome} />
+      <Route path="problems/:problemId" component={Problem} />
+      <Route path="ranking" component={Ranking} />
+      <Route path="statement_test" component={ProblemStatementParseTest} />
     </Route>
   </Router>,
   document.getElementById('app')
