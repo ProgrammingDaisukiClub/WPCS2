@@ -5,7 +5,7 @@ import { Link } from 'react-router';
  * A class of sample react application root component.
  */
 export default class App extends React.Component {
-  public render() {
+  public render(): JSX.Element {
     return (
       <div>
         <div>

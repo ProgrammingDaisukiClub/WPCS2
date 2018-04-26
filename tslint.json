@@ -1,20 +1,27 @@
 {
-  "extends": [
-    "tslint-config-prettier",
-    "tslint-microsoft-contrib",
-    "tslint-plugin-prettier",
-    "tslint-react"
-  ],
+  "extends": ["tslint-config-prettier", "tslint-microsoft-contrib", "tslint-plugin-prettier", "tslint-react"],
   "rules": {
+    // You should enable followings in the future.
+    "jsx-no-bind": false,
+    "jsx-no-lambda": false,
+    "no-shadowed-variable": false,
+    "react-this-binding-issue": false,
     // tslint
+    "completed-docs": false,
     "interface-name": false, // https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
     "no-any": false,
     "no-default-export": false, // Required to use react.
+    "no-floating-promises": false,
     "no-implicit-dependencies": false,
+    "no-import-side-effect": false, // Required to use whatwg-fetch.
     "no-submodule-imports": false,
+    "no-unsafe-any": false,
     "no-use-before-declare": false, // https://github.com/palantir/tslint/issues/1400
+    "strict-boolean-expressions": false,
     // tslint-microsoft-contrib
     "missing-jsdoc": false,
+    "no-increment-decrement": false,
+    "no-multiline-string": false,
     // tslint-plugin-prettier
     "prettier": true,
     // Detected by tslint-config-prettier-check
@@ -45,8 +52,5 @@
     "whitespace": false
   },
   "jsRules": {},
-  "rulesDirectory": [
-    "tslint-plugin-prettier",
-    "node_modules/tslint-microsoft-contrib"
-  ]
+  "rulesDirectory": ["tslint-plugin-prettier", "node_modules/tslint-microsoft-contrib"]
 }

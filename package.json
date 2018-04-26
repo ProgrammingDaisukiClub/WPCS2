@@ -12,7 +12,7 @@
     "fix": "npm run prettier && tslint --project tsconfig.json --config tslint.json --fix",
     "prod": "NODE_ENV=production webpack",
     "heroku-postbuild": "npm run dev-build",
-    "tslint": "tslint --project tsconfig.json --config tslint.json",
+    "tslint": "tslint --project tsconfig.json",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "lint": "npm run tslint",
     "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx,json}"

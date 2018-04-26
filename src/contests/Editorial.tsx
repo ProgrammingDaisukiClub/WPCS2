@@ -13,7 +13,7 @@ export default class Editorial extends React.Component<EditorialProps> {
     this.state = {};
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (this.props.editorial) {
       return (
         <div className="editorial">

@@ -17,25 +17,26 @@ export default class SubmitResults extends React.Component<SubmitResultsProps> {
     this.state = {};
   }
 
-  public results() {
+  public results(): SubmissionObject[] {
     return this.props.submissions.filter((submission: SubmissionObject) => {
       return this.props.submitResults.includes(submission.id);
     });
   }
 
-  public createdAt(date: Date) {
+  public createdAt(date: Date): string {
     const yyyy: number = date.getFullYear();
     const mm: number = date.getMonth() + 1;
     const dd: number = date.getDate();
     const HH: number = date.getHours();
     const MM: number = date.getMinutes();
     const SS: number = date.getSeconds();
+
     return `${yyyy}/${mm < 10 ? '0' : ''}${mm}/${dd < 10 ? '0' : ''}${dd} ${HH < 10 ? '0' : ''}${HH}:${
       MM < 10 ? '0' : ''
     }${MM}:${SS < 10 ? '0' : ''}${SS}`;
   }
 
-  public judgeStatus(status: number) {
+  public judgeStatus(status: number): string {
     switch (status) {
       case JUDGE_STATUS.WJ:
         return 'WJ';
@@ -43,14 +44,15 @@ export default class SubmitResults extends React.Component<SubmitResultsProps> {
         return 'WA';
       case JUDGE_STATUS.AC:
         return 'AC';
+      default:
     }
   }
 
-  public onCloseClick() {
+  public onCloseClick(): void {
     this.props.closeSubmitResults();
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (this.results().length === 0) {
       return null;
     }
@@ -74,7 +76,7 @@ export default class SubmitResults extends React.Component<SubmitResultsProps> {
             </div>
           ))}
           <div className="submitResults--footer">
-            <span className="submitResults--close" onClick={this.onCloseClick.bind(this)}>
+            <span role="button" className="submitResults--close" onClick={this.onCloseClick.bind(this)}>
               {t('close')}
             </span>
           </div>

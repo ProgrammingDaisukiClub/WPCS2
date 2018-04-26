@@ -7,7 +7,7 @@ export interface Props {
 }
 
 export default class Problem extends React.Component<Props> {
-  public render() {
+  public render(): JSX.Element {
     return <div>Problem{this.props.params.problemId}</div>;
   }
 }

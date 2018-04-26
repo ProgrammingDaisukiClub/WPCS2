@@ -10,11 +10,7 @@ export interface ContestHomeProps {
 }
 
 export default class ContestHome extends React.Component<ContestHomeProps> {
-  private onJoinButtonClick() {
-    this.props.join();
-  }
-
-  public render() {
+  public render(): JSX.Element {
     return (
       <div className="contestHome">
         <div className="contestHome--inner">
@@ -24,7 +20,11 @@ export default class ContestHome extends React.Component<ContestHomeProps> {
               this.props.contest.currentUserId &&
               (!this.props.contest.joined && new Date() < this.props.contest.endAt) && (
                 <div className="contestHome--registrationButtonWrapper">
-                  <span className="contestHome--registrationButton" onClick={this.onJoinButtonClick.bind(this)}>
+                  <span
+                    role="button"
+                    className="contestHome--registrationButton"
+                    onClick={this.onJoinButtonClick.bind(this)}
+                  >
                     {t('join')}
                   </span>
                 </div>
@@ -41,5 +41,9 @@ export default class ContestHome extends React.Component<ContestHomeProps> {
         </div>
       </div>
     );
+  }
+
+  private onJoinButtonClick(): void {
+    this.props.join();
   }
 }

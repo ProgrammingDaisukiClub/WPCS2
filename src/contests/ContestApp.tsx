@@ -50,21 +50,21 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     };
   }
 
-  public componentWillMount() {
+  public componentWillMount(): void {
     this.fetchContest();
   }
 
-  public componentWillUnmount() {
-    if (this.rankingRequestTimerId) {
+  public componentWillUnmount(): void {
+    if (this.rankingRequestTimerId !== 0) {
       clearInterval(this.rankingRequestTimerId);
     }
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.initTimer();
   }
 
-  public async fetchContest() {
+  public async fetchContest(): Promise<void> {
     const responseContest: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
       credentials: 'same-origin',
     });
@@ -152,12 +152,12 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       submissions,
     });
 
-    if (contest.problems) {
+    if (contest.problems !== undefined) {
       this.fetchRanking();
     }
   }
 
-  public async join() {
+  public async join(): Promise<void> {
     const formData: FormData = new FormData();
     formData.append(this.csrfParam, this.csrfToken);
 
@@ -183,14 +183,14 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     }
   }
 
-  public async submit(problemId: number, dataSetId: number) {
-    const contest = this.state.contest;
-    const problems = contest.problems;
-    const problemIndex = problems.findIndex(problem => problem.id === problemId);
-    const problem = problems[problemIndex];
-    const dataSets = problem.dataSets;
-    const dataSetIndex = dataSets.findIndex(dataSet => dataSet.id === dataSetId);
-    const dataSet = dataSets[dataSetIndex];
+  public async submit(problemId: number, dataSetId: number): Promise<void> {
+    const contest: ContestObject = this.state.contest;
+    const problems: ProblemObject[] = contest.problems;
+    const problemIndex: number = problems.findIndex((problem: ProblemObject) => problem.id === problemId);
+    const problem: ProblemObject = problems[problemIndex];
+    const dataSets: DataSetObject[] = problem.dataSets;
+    const dataSetIndex: number = dataSets.findIndex((dataSet: DataSetObject) => dataSet.id === dataSetId);
+    const dataSet: DataSetObject = dataSets[dataSetIndex];
 
     const formData: FormData = new FormData();
     formData.append(this.csrfParam, this.csrfToken);
@@ -210,10 +210,10 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
         const json: any = await response.json();
         const contest: ContestObject = this.state.contest;
         const problems: ProblemObject[] = contest.problems;
-        const problemIndex: number = problems.findIndex(problem => problem.id === problemId);
+        const problemIndex: number = problems.findIndex((problem: ProblemObject) => problem.id === problemId);
         const problem: ProblemObject = problems[problemIndex];
         const dataSets: DataSetObject[] = problem.dataSets;
-        const dataSetIndex: number = dataSets.findIndex(dataSet => dataSet.id === dataSetId);
+        const dataSetIndex: number = dataSets.findIndex((dataSet: DataSetObject) => dataSet.id === dataSetId);
         const dataSet: DataSetObject = dataSets[dataSetIndex];
 
         const state: ContestAppState = {
@@ -263,7 +263,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     }
   }
 
-  public async fetchRanking() {
+  public async fetchRanking(): Promise<void> {
     const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/ranking${t('locale')}`, {
       credentials: 'same-origin',
     });
@@ -294,6 +294,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
         throw new Error('403 forbidden');
       case 404:
         throw new Error('404 not found');
+      default:
     }
 
     this.setState({ users });
@@ -303,39 +304,37 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     }
   }
 
-  public closeSubmitResults() {
+  public closeSubmitResults(): void {
     this.setState({
       ...this.state,
       submitResults: [],
     });
   }
 
-  public async initTimer() {
-    const time = await this.fetchTime();
-    const now = new Date();
+  public async initTimer(): Promise<void> {
+    const time: TimerObject = await this.fetchTime();
+    const now: Date = new Date();
 
     if (now <= time.startAt) {
-      setInterval(
-        function() {
-          this.beforeContestTimer(time.startAt);
-        }.bind(this),
-        1000
-      );
+      setInterval(() => {
+        this.beforeContestTimer(time.startAt);
+      }, 1000);
     }
   }
 
-  public async beforeContestTimer(startAt: Date) {
-    const now = new Date();
-    const startTime = startAt;
+  public async beforeContestTimer(startAt: Date): Promise<void> {
+    const now: Date = new Date();
+    const startTime: Date = startAt;
 
     if (now < startAt) {
+      //
     } else if (now >= startTime) {
       alert('コンテストを開始します');
       location.reload();
     }
   }
 
-  public async fetchTime() {
+  public async fetchTime(): Promise<TimerObject> {
     let fetchedTime: TimerObject;
     const responseTime: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
       credentials: 'same-origin',
@@ -354,17 +353,18 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       default:
         throw new Error('unexpected http status');
     }
+
     return fetchedTime;
   }
 
-  public changeAnswerForm(problemId: number, dataSetId: number, answer: string) {
-    const contest = this.state.contest;
-    const problems = contest.problems;
-    const problemIndex = problems.findIndex(problem => problem.id === problemId);
-    const problem = problems[problemIndex];
-    const dataSets = problem.dataSets;
-    const dataSetIndex = dataSets.findIndex(dataSet => dataSet.id === dataSetId);
-    const dataSet = dataSets[dataSetIndex];
+  public changeAnswerForm(problemId: number, dataSetId: number, answer: string): void {
+    const contest: ContestObject = this.state.contest;
+    const problems: ProblemObject[] = contest.problems;
+    const problemIndex: number = problems.findIndex((problem: ProblemObject) => problem.id === problemId);
+    const problem: ProblemObject = problems[problemIndex];
+    const dataSets: DataSetObject[] = problem.dataSets;
+    const dataSetIndex: number = dataSets.findIndex((dataSet: DataSetObject) => dataSet.id === dataSetId);
+    const dataSet: DataSetObject = dataSets[dataSetIndex];
 
     this.setState({
       contest: {
@@ -388,7 +388,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     });
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (!this.state.initialized) {
       return (
         <div className="container">
@@ -409,7 +409,9 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           this.state.contest.problems && (
             <Problem
               contest={this.state.contest}
-              problem={this.state.contest.problems.find(problem => problem.id === +this.props.params.problemId)}
+              problem={this.state.contest.problems.find(
+                (problem: ProblemObject) => problem.id === +this.props.params.problemId
+              )}
               changeAnswerForm={this.changeAnswerForm.bind(this)}
               submit={this.submit.bind(this)}
             />

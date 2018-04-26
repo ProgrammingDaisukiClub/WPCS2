@@ -24,7 +24,7 @@ export default class Ranking extends React.Component<RankingProps, RankingState>
     };
   }
 
-  public onPaginationClick(nextPage: number) {
+  public onPaginationClick(nextPage: number): void {
     this.setState({
       currentPage: nextPage,
     });
@@ -34,11 +34,12 @@ export default class Ranking extends React.Component<RankingProps, RankingState>
     const diff: number = Math.floor((+solvedAt - +startAt) / 1000);
     const minutes: number = Math.floor(diff / 60);
     const seconds: number = diff % 60;
+
     return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
-  public render() {
-    const usersPerPage = 50;
+  public render(): JSX.Element {
+    const usersPerPage: number = 50;
     const pageOffset: number = (this.state.currentPage - 1) * usersPerPage;
     const pageLength: number = Math.ceil(this.props.users.length / usersPerPage);
 
@@ -65,7 +66,7 @@ export default class Ranking extends React.Component<RankingProps, RankingState>
                   .slice(pageOffset, pageOffset + usersPerPage)
                   .map((user: UserScoreObject, index: number) => (
                     <tr
-                      className={`ranking--tableRow${user.id == this.props.contest.currentUserId ? '__self' : ''}`}
+                      className={`ranking--tableRow${user.id === this.props.contest.currentUserId ? '__self' : ''}`}
                       key={user.id}
                     >
                       <td className="ranking--tableOrder">{pageOffset + index + 1}</td>
@@ -112,9 +113,16 @@ export default class Ranking extends React.Component<RankingProps, RankingState>
             <ul>
               {Array(pageLength)
                 .fill(0)
-                .map((v, i) => v + i + 1)
-                .map(page => (
-                  <li key={page} className="ranking--pagination" onClick={() => this.onPaginationClick(page)}>
+                .map((v: number, i: number) => v + i + 1)
+                .map((page: any) => (
+                  <li
+                    role="button"
+                    key={page}
+                    className="ranking--pagination"
+                    onClick={(): void => {
+                      this.onPaginationClick(page);
+                    }}
+                  >
                     {page}
                   </li>
                 ))}

@@ -3,7 +3,7 @@ import * as React from 'react';
 import MarkdownRenderer from 'contests/MarkdownRenderer';
 
 export default class ProblemStatementParseTest extends React.Component {
-  public render() {
+  public render(): JSX.Element {
     return (
       <div>
         <MarkdownRenderer text="# This is a test header\n\nthis is a **test** *content*." />

@@ -15,7 +15,7 @@ export default class Navigation extends React.Component<NavigationProps> {
     this.state = {};
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <div className="contestNavigation">
         <nav className="contestNavigation--inner">

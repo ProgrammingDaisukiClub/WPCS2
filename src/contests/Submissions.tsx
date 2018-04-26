@@ -19,19 +19,20 @@ export default class Submissions extends React.Component<SubmissionsProps> {
     this.state = {};
   }
 
-  public createdAt(date: Date) {
+  public createdAt(date: Date): string {
     const yyyy: number = date.getFullYear();
     const mm: number = date.getMonth() + 1;
     const dd: number = date.getDate();
     const HH: number = date.getHours();
     const MM: number = date.getMinutes();
     const SS: number = date.getSeconds();
+
     return `${yyyy}/${mm < 10 ? '0' : ''}${mm}/${dd < 10 ? '0' : ''}${dd} ${HH < 10 ? '0' : ''}${HH}:${
       MM < 10 ? '0' : ''
     }${MM}:${SS < 10 ? '0' : ''}${SS}`;
   }
 
-  public problemName(problemId: number) {
+  public problemName(problemId: number): JSX.Element {
     const name: string = this.props.contest.problems.find((problem: ProblemObject) => {
       return problem.id === problemId;
     }).name;
@@ -39,7 +40,7 @@ export default class Submissions extends React.Component<SubmissionsProps> {
     return <Link to={`/contests/${this.props.contest.id}/problems/${problemId}`}>{name}</Link>;
   }
 
-  public dataSetLabel(problemId: number, dataSetId: number) {
+  public dataSetLabel(problemId: number, dataSetId: number): string {
     return this.props.contest.problems
       .find((problem: ProblemObject) => {
         return problem.id === problemId;
@@ -49,7 +50,7 @@ export default class Submissions extends React.Component<SubmissionsProps> {
       }).label;
   }
 
-  public judgeStatus(status: number) {
+  public judgeStatus(status: number): string {
     switch (status) {
       case JUDGE_STATUS.WJ:
         return 'WJ';
@@ -57,10 +58,11 @@ export default class Submissions extends React.Component<SubmissionsProps> {
         return 'WA';
       case JUDGE_STATUS.AC:
         return 'AC';
+      default:
     }
   }
 
-  public render() {
+  public render(): JSX.Element {
     return (
       <div className="submissions">
         <div className="submissions--inner">
@@ -77,7 +79,7 @@ export default class Submissions extends React.Component<SubmissionsProps> {
                 </tr>
               </thead>
               <tbody>
-                {this.props.submissions.map(submission => (
+                {this.props.submissions.map((submission: SubmissionObject) => (
                   <tr key={submission.id}>
                     <td className="submissions--createdAt">{this.createdAt(submission.createdAt)}</td>
                     <td className="submissions--problemName">{this.problemName(submission.problemId)}</td>
