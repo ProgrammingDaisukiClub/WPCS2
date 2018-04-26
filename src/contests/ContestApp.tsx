@@ -28,9 +28,9 @@ export interface ContestAppProps extends React.Props<ContestApp> {
 export interface ContestAppState {
   initialized: boolean;
   contest?: ContestObject;
-  submissions?: [SubmissionObject];
-  users?: [UserScoreObject];
-  submitResults: [number];
+  submissions?: SubmissionObject[];
+  users?: UserScoreObject[];
+  submitResults: number[];
 }
 
 export default class ContestApp extends React.Component<ContestAppProps, ContestAppState> {
@@ -115,7 +115,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
         throw new Error('unexpected http status');
     }
 
-    let submissions: [SubmissionObject];
+    let submissions: SubmissionObject[];
     if (contest.problems) {
       const responseSubmissions: Response = await fetch(
         `/api/contests/${this.props.params.contestId}/submissions${t('locale')}`,
@@ -209,10 +209,10 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       case 201:
         const json: any = await response.json();
         const contest: ContestObject = this.state.contest;
-        const problems: [ProblemObject] = contest.problems;
+        const problems: ProblemObject[] = contest.problems;
         const problemIndex: number = problems.findIndex(problem => problem.id === problemId);
         const problem: ProblemObject = problems[problemIndex];
-        const dataSets: [DataSetObject] = problem.dataSets;
+        const dataSets: DataSetObject[] = problem.dataSets;
         const dataSetIndex: number = dataSets.findIndex(dataSet => dataSet.id === dataSetId);
         const dataSet: DataSetObject = dataSets[dataSetIndex];
 
@@ -268,7 +268,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       credentials: 'same-origin',
     });
 
-    let users: [UserScoreObject];
+    let users: UserScoreObject[];
     switch (response.status) {
       case 200:
         const json: any = await response.json();

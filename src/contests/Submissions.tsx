@@ -10,7 +10,7 @@ import JUDGE_STATUS from 'contests/JUDGE_STATUS';
 
 export interface SubmissionsProps extends React.Props<Submissions> {
   contest: ContestObject;
-  submissions: [SubmissionObject];
+  submissions: SubmissionObject[];
 }
 
 export default class Submissions extends React.Component<SubmissionsProps> {

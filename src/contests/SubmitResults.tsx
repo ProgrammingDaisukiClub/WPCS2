@@ -6,8 +6,8 @@ import SubmissionObject from 'contests/SubmissionObject';
 import JUDGE_STATUS from 'contests/JUDGE_STATUS';
 
 export interface SubmitResultsProps extends React.Props<SubmitResults> {
-  submissions: [SubmissionObject];
-  submitResults: [number];
+  submissions: SubmissionObject[];
+  submitResults: number[];
   closeSubmitResults(): void;
 }
 

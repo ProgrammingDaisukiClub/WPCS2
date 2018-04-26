@@ -5,7 +5,7 @@ interface ProblemObject {
   task: string;
   name: string;
   description: string;
-  dataSets: [DataSetObject];
+  dataSets: DataSetObject[];
 }
 
 export default ProblemObject;

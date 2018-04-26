@@ -8,7 +8,7 @@ import UserScoreObject from 'contests/UserScoreObject';
 
 interface RankingProps {
   contest: ContestObject;
-  users: [UserScoreObject];
+  users: UserScoreObject[];
 }
 
 interface RankingState {
