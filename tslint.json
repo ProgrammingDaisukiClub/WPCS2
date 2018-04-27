@@ -1,11 +1,6 @@
 {
   "extends": ["tslint-config-prettier", "tslint-microsoft-contrib", "tslint-plugin-prettier", "tslint-react"],
   "rules": {
-    // You should enable followings in the future.
-    "jsx-no-bind": false,
-    "jsx-no-lambda": false,
-    "no-shadowed-variable": false,
-    "react-this-binding-issue": false,
     // tslint
     "completed-docs": false,
     "interface-name": false, // https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
@@ -24,6 +19,12 @@
     "no-multiline-string": false,
     // tslint-plugin-prettier
     "prettier": true,
+
+    // You should enable followings in the future.
+    "jsx-no-bind": false,
+    "jsx-no-lambda": false,
+    "no-shadowed-variable": false,
+    "react-this-binding-issue": false,
     // Detected by tslint-config-prettier-check
     // All conflicting rules are automatically disabled by tslint-config-prettier but some tools still enable them.
     "align": false,
