@@ -1,6 +1,17 @@
 {
-  "extends": ["tslint-config-prettier", "tslint-microsoft-contrib", "tslint-plugin-prettier", "tslint-react"],
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-microsoft-contrib",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
+  ],
   "rules": {
+    // You should enable followings in the future.
+    "jsx-no-bind": false,
+    "jsx-no-lambda": false,
+    "no-shadowed-variable": false,
+    "react-this-binding-issue": false,
     // tslint
     "completed-docs": false,
     "interface-name": false, // https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
@@ -18,39 +29,7 @@
     "no-increment-decrement": false,
     "no-multiline-string": false,
     // tslint-plugin-prettier
-    "prettier": true,
-
-    // You should enable followings in the future.
-    "jsx-no-bind": false,
-    "jsx-no-lambda": false,
-    "no-shadowed-variable": false,
-    "react-this-binding-issue": false,
-    // Detected by tslint-config-prettier-check
-    // All conflicting rules are automatically disabled by tslint-config-prettier but some tools still enable them.
-    "align": false,
-    "eofline": false,
-    "import-spacing": false,
-    "indent": false,
-    "jsx-alignment": false,
-    "jsx-curly-spacing": false,
-    "jsx-equals-spacing": false,
-    "jsx-no-multiline-js": false,
-    "jsx-wrap-multiline": false,
-    "linebreak-style": false,
-    "max-line-length": false,
-    "new-parens": false,
-    "no-consecutive-blank-lines": false,
-    "no-irregular-whitespace": false,
-    "no-trailing-whitespace": false,
-    "no-unnecessary-semicolons": false,
-    "number-literal-format": false,
-    "object-literal-key-quotes": false,
-    "one-line": false,
-    "quotemark": false,
-    "semicolon": false,
-    "space-within-parens": false,
-    "trailing-comma": false,
-    "whitespace": false
+    "prettier": true
   },
   "jsRules": {},
   "rulesDirectory": ["tslint-plugin-prettier", "node_modules/tslint-microsoft-contrib"]

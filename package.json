@@ -12,7 +12,7 @@
     "prod": "NODE_ENV=production webpack",
     "heroku-postbuild": "npm run dev-build",
     "lint": "npm run tslint",
-    "fix": "npm run prettier && npm run tslint-fix",
+    "fix": "npm run tslint-fix",
     "tslint": "tslint --project tsconfig.json",
     "tslint-fix": "tslint --fix --project tsconfig.json",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
@@ -24,7 +24,7 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": ["prettier --write", "tslint --fix", "git add"]
+    "src/**/*.{ts,tsx}": ["tslint --fix", "git add"]
   },
   "repository": {
     "type": "git",
