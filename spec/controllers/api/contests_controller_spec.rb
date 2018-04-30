@@ -20,73 +20,145 @@ RSpec.describe Api::ContestsController, type: :controller do
       get :status, params: params
     end
 
-    let(:user){ create(:user) }
+    let(:user) { create(:user) }
 
     %w[ja en].each do |language|
       let(:lang) { language }
 
       context '開催していないコンテスト' do
         context 'コンテストがオープンの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_open)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
           end
+
+          context 'パラメーターが妥当である時' do
+            let(:expect_response) do
+              {
+                'status' => 'outside'
+              }
+            end
+
+            it '妥当なレスポンスを返却する' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
         end
 
         context 'コンテストがクローズドの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_closed)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
+          end
+
+          context 'パラメーターが妥当である時' do
+            let(:expect_response) do
+              {
+                'status' => 'inside'
+              }
+            end
+
+            it '妥当なレスポンスを返却する' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
           end
         end
       end
 
       context '開催中のコンテスト' do
         context 'コンテストがオープンの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_open)
-           }
-
-           it '200を返却する' do
-             expect(response.status).to eq 200
-           end
-        end
-
-        context 'コンテストがクローズドの時' do
-          let(:contest) {
-            create(:contest_preparing_closed)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
+          end
+
+          context 'パラメーターが妥当である時' do
+            let(:expect_response) do
+              {
+                'status' => 'outside'
+              }
+            end
+
+            it '妥当なレスポンスを返却する' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+
+        context 'コンテストがクローズドの時' do
+          let(:contest) do
+            create(:contest_preparing_closed)
+          end
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+
+          context 'パラメーターが妥当である時' do
+            let(:expect_response) do
+              {
+                'status' => 'inside'
+              }
+            end
+
+            it '妥当なレスポンスを返却する' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
           end
         end
       end
 
       context '終了したコンテスト' do
         context 'コンテストがオープンの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_open)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
           end
+
+          context 'パラメーターが妥当である時' do
+            let(:expect_response) do
+              {
+                'status' => 'outside'
+              }
+            end
+
+            it '妥当なレスポンスを返却する' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
         end
 
         context 'コンテストがクローズドの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_closed)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
+          end
+
+          context 'パラメーターが妥当である時' do
+            let(:expect_response) do
+              {
+                'status' => 'inside'
+              }
+            end
+
+            it '妥当なレスポンスを返却する' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
           end
         end
       end
@@ -95,20 +167,20 @@ RSpec.describe Api::ContestsController, type: :controller do
 
   describe 'POST /api/contests/:id/validation' do
     before do
-      params.merge!(password: 'password')
+      params[:password] = 'password'
       post :validation, params: params
     end
 
-    let(:user){ create(:user) }
+    let(:user) { create(:user) }
 
     %w[ja en].each do |language|
       let(:lang) { language }
 
       context '開催していないコンテスト' do
         context 'コンテストがオープンの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_open)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
@@ -117,8 +189,8 @@ RSpec.describe Api::ContestsController, type: :controller do
           context '妥当なパスワードを入力した時' do
             let(:expect_response) do
               {
-                "result" => "failed",
-                "message" => "this api is not supported when status == 0 contest"
+                'result' => 'failed',
+                'message' => 'this api is not supported when status == 0 contest'
               }
             end
 
@@ -129,9 +201,9 @@ RSpec.describe Api::ContestsController, type: :controller do
         end
 
         context 'コンテストがクローズドの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_closed)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
@@ -140,7 +212,7 @@ RSpec.describe Api::ContestsController, type: :controller do
           context '妥当なパスワードを入力した時' do
             let(:expect_response) do
               {
-                "result" => "ok"
+                'result' => 'ok'
               }
             end
 
@@ -153,19 +225,19 @@ RSpec.describe Api::ContestsController, type: :controller do
 
       context '開催中のコンテスト' do
         context 'コンテストがオープンの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_open)
-           }
+          end
 
-           it '200を返却する' do
-             expect(response.status).to eq 200
-           end
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
         end
 
         context 'コンテストがクローズドの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_closed)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
@@ -175,9 +247,9 @@ RSpec.describe Api::ContestsController, type: :controller do
 
       context '終了したコンテスト' do
         context 'コンテストがオープンの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_open)
-          }
+          end
 
           it '200を返却する' do
             post :validation, params: params
@@ -187,8 +259,8 @@ RSpec.describe Api::ContestsController, type: :controller do
           context '妥当なパスワードを入力した時' do
             let(:expect_response) do
               {
-                "result" => "failed",
-                "message" => "this api is not supported when status == 0 contest"
+                'result' => 'failed',
+                'message' => 'this api is not supported when status == 0 contest'
               }
             end
 
@@ -199,9 +271,9 @@ RSpec.describe Api::ContestsController, type: :controller do
         end
 
         context 'コンテストがクローズドの時' do
-          let(:contest) {
+          let(:contest) do
             create(:contest_preparing_closed)
-          }
+          end
 
           it '200を返却する' do
             expect(response.status).to eq 200
@@ -210,7 +282,7 @@ RSpec.describe Api::ContestsController, type: :controller do
           context '妥当なパスワードを入力した時' do
             let(:expect_response) do
               {
-                "result" => "ok"
+                'result' => 'ok'
               }
             end
 
