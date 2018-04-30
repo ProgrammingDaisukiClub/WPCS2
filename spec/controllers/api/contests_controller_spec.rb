@@ -25,138 +25,138 @@ RSpec.describe Api::ContestsController, type: :controller do
     %w[ja en].each do |language|
       let(:lang) { language }
 
-      context '開催していないコンテスト' do
-        context 'コンテストがオープンの時' do
+      context 'preparing contest' do
+        context 'when contest opened' do
           let(:contest) do
             create(:contest_preparing_open)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context 'パラメーターが妥当である時' do
+          context 'when paramater is valid' do
             let(:expect_response) do
               {
                 'status' => 'outside'
               }
             end
 
-            it '妥当なレスポンスを返却する' do
+            it 'return valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
         end
 
-        context 'コンテストがクローズドの時' do
+        context 'when contest is closed' do
           let(:contest) do
             create(:contest_preparing_closed)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context 'パラメーターが妥当である時' do
+          context 'when paramater is valid' do
             let(:expect_response) do
               {
                 'status' => 'inside'
               }
             end
 
-            it '妥当なレスポンスを返却する' do
+            it 'return valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
         end
       end
 
-      context '開催中のコンテスト' do
-        context 'コンテストがオープンの時' do
+      context 'opening contest' do
+        context 'when contest is opened' do
           let(:contest) do
             create(:contest_preparing_open)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context 'パラメーターが妥当である時' do
+          context 'when paramater is valid' do
             let(:expect_response) do
               {
                 'status' => 'outside'
               }
             end
 
-            it '妥当なレスポンスを返却する' do
+            it 'return valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
         end
 
-        context 'コンテストがクローズドの時' do
+        context 'when contest is closed' do
           let(:contest) do
             create(:contest_preparing_closed)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context 'パラメーターが妥当である時' do
+          context 'when paramater is valid' do
             let(:expect_response) do
               {
                 'status' => 'inside'
               }
             end
 
-            it '妥当なレスポンスを返却する' do
+            it 'return valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
         end
       end
 
-      context '終了したコンテスト' do
-        context 'コンテストがオープンの時' do
+      context 'ended contest' do
+        context 'when contest is open' do
           let(:contest) do
             create(:contest_preparing_open)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context 'パラメーターが妥当である時' do
+          context 'when paramater is valid' do
             let(:expect_response) do
               {
                 'status' => 'outside'
               }
             end
 
-            it '妥当なレスポンスを返却する' do
+            it 'return valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
         end
 
-        context 'コンテストがクローズドの時' do
+        context 'when contest is closed' do
           let(:contest) do
             create(:contest_preparing_closed)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context 'パラメーターが妥当である時' do
+          context 'when paramater is valid' do
             let(:expect_response) do
               {
                 'status' => 'inside'
               }
             end
 
-            it '妥当なレスポンスを返却する' do
+            it 'return valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
@@ -176,17 +176,17 @@ RSpec.describe Api::ContestsController, type: :controller do
     %w[ja en].each do |language|
       let(:lang) { language }
 
-      context '開催していないコンテスト' do
-        context 'コンテストがオープンの時' do
+      context 'preparing contest' do
+        context 'when contest is open' do
           let(:contest) do
             create(:contest_preparing_open)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context '妥当なパスワードを入力した時' do
+          context 'when input valid password' do
             let(:expect_response) do
               {
                 'result' => 'failed',
@@ -194,69 +194,69 @@ RSpec.describe Api::ContestsController, type: :controller do
               }
             end
 
-            it '妥当なレスポンスである' do
+            it 'valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
         end
 
-        context 'コンテストがクローズドの時' do
+        context 'when contest is closed' do
           let(:contest) do
             create(:contest_preparing_closed)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context '妥当なパスワードを入力した時' do
+          context 'when input valid password' do
             let(:expect_response) do
               {
                 'result' => 'ok'
               }
             end
 
-            it '妥当なレスポンスである' do
+            it 'valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
         end
       end
 
-      context '開催中のコンテスト' do
-        context 'コンテストがオープンの時' do
+      context 'opening contest' do
+        context 'when contest is opening' do
           let(:contest) do
             create(:contest_preparing_open)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
         end
 
-        context 'コンテストがクローズドの時' do
+        context 'when context is closed' do
           let(:contest) do
             create(:contest_preparing_closed)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
         end
       end
 
-      context '終了したコンテスト' do
-        context 'コンテストがオープンの時' do
+      context 'ended contest' do
+        context 'when context is opening' do
           let(:contest) do
             create(:contest_preparing_open)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             post :validation, params: params
             expect(response.status).to eq 200
           end
 
-          context '妥当なパスワードを入力した時' do
+          context 'when input valid password' do
             let(:expect_response) do
               {
                 'result' => 'failed',
@@ -264,29 +264,29 @@ RSpec.describe Api::ContestsController, type: :controller do
               }
             end
 
-            it '妥当なレスポンスである' do
+            it 'valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
         end
 
-        context 'コンテストがクローズドの時' do
+        context 'when contest is closed' do
           let(:contest) do
             create(:contest_preparing_closed)
           end
 
-          it '200を返却する' do
+          it 'return 200' do
             expect(response.status).to eq 200
           end
 
-          context '妥当なパスワードを入力した時' do
+          context 'when input valid password' do
             let(:expect_response) do
               {
                 'result' => 'ok'
               }
             end
 
-            it '妥当なレスポンスである' do
+            it 'valid response' do
               expect(JSON.parse(response.body)).to eq expect_response
             end
           end
