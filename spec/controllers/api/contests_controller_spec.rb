@@ -15,6 +15,84 @@ RSpec.describe Api::ContestsController, type: :controller do
     end
   end
 
+  describe 'GET /api/contests/:id/status' do
+    before do
+      get :status, params: params
+    end
+
+    let(:user){ create(:user) }
+
+    %w[ja en].each do |language|
+      let(:lang) { language }
+
+      context '開催していないコンテスト' do
+        context 'コンテストがオープンの時' do
+          let(:contest) {
+            create(:contest_preparing_open)
+           }
+
+           it '200を返却する' do
+             expect(response.status).to eq 200
+           end
+        end
+
+        context 'コンテストがクローズドの時' do
+          let(:contest) {
+            create(:contest_preparing_closed)
+          }
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+        end
+      end
+
+      context '開催中のコンテスト' do
+        context 'コンテストがオープンの時' do
+          let(:contest) {
+            create(:contest_preparing_open)
+           }
+
+           it '200を返却する' do
+             expect(response.status).to eq 200
+           end
+        end
+
+        context 'コンテストがクローズドの時' do
+          let(:contest) {
+            create(:contest_preparing_closed)
+          }
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+        end
+      end
+
+      context '終了したコンテスト' do
+        context 'コンテストがオープンの時' do
+          let(:contest) {
+            create(:contest_preparing_open)
+          }
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+        end
+
+        context 'コンテストがクローズドの時' do
+          let(:contest) {
+            create(:contest_preparing_closed)
+          }
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+        end
+      end
+    end
+  end
+
   describe 'GET /api/contents/:id' do
     before do
       get :show, params: params
