@@ -9,7 +9,7 @@ class CreateContests < ActiveRecord::Migration[5.0]
       t.datetime :end_at,       null: false
       t.float :score_baseline,  null: false
       t.string :password
-      t.integer :status,        null: false # 0:outside, 1:inside
+      t.integer :status
 
       t.timestamps null: false
     end

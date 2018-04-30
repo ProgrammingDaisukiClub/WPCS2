@@ -41,7 +41,7 @@ class Api::ContestsController < ApplicationController
   def status
     contest_status = @contest.status
     render(json: {
-             "status": contest_status
+             'status': contest_status
            }, status: 200)
   end
 

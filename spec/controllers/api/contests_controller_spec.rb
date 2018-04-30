@@ -29,11 +29,11 @@ RSpec.describe Api::ContestsController, type: :controller do
         context 'コンテストがオープンの時' do
           let(:contest) {
             create(:contest_preparing_open)
-           }
+          }
 
-           it '200を返却する' do
-             expect(response.status).to eq 200
-           end
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
         end
 
         context 'コンテストがクローズドの時' do
@@ -87,6 +87,136 @@ RSpec.describe Api::ContestsController, type: :controller do
 
           it '200を返却する' do
             expect(response.status).to eq 200
+          end
+        end
+      end
+    end
+  end
+
+  describe 'POST /api/contests/:id/validation' do
+    before do
+      params.merge!(password: 'password')
+      post :validation, params: params
+    end
+
+    let(:user){ create(:user) }
+
+    %w[ja en].each do |language|
+      let(:lang) { language }
+
+      context '開催していないコンテスト' do
+        context 'コンテストがオープンの時' do
+          let(:contest) {
+            create(:contest_preparing_open)
+          }
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+
+          context '妥当なパスワードを入力した時' do
+            let(:expect_response) do
+              {
+                "result" => "failed",
+                "message" => "this api is not supported when status == 0 contest"
+              }
+            end
+
+            it '妥当なレスポンスである' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+
+        context 'コンテストがクローズドの時' do
+          let(:contest) {
+            create(:contest_preparing_closed)
+          }
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+
+          context '妥当なパスワードを入力した時' do
+            let(:expect_response) do
+              {
+                "result" => "ok"
+              }
+            end
+
+            it '妥当なレスポンスである' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+      end
+
+      context '開催中のコンテスト' do
+        context 'コンテストがオープンの時' do
+          let(:contest) {
+            create(:contest_preparing_open)
+           }
+
+           it '200を返却する' do
+             expect(response.status).to eq 200
+           end
+        end
+
+        context 'コンテストがクローズドの時' do
+          let(:contest) {
+            create(:contest_preparing_closed)
+          }
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+        end
+      end
+
+      context '終了したコンテスト' do
+        context 'コンテストがオープンの時' do
+          let(:contest) {
+            create(:contest_preparing_open)
+          }
+
+          it '200を返却する' do
+            post :validation, params: params
+            expect(response.status).to eq 200
+          end
+
+          context '妥当なパスワードを入力した時' do
+            let(:expect_response) do
+              {
+                "result" => "failed",
+                "message" => "this api is not supported when status == 0 contest"
+              }
+            end
+
+            it '妥当なレスポンスである' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+
+        context 'コンテストがクローズドの時' do
+          let(:contest) {
+            create(:contest_preparing_closed)
+          }
+
+          it '200を返却する' do
+            expect(response.status).to eq 200
+          end
+
+          context '妥当なパスワードを入力した時' do
+            let(:expect_response) do
+              {
+                "result" => "ok"
+              }
+            end
+
+            it '妥当なレスポンスである' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
           end
         end
       end
