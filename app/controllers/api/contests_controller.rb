@@ -1,6 +1,7 @@
 class Api::ContestsController < ApplicationController
   include Api::ContestsRankingJson
 
+  protect_from_forgery except: ['validation']
   before_action :set_contest
 
   def show
@@ -37,6 +38,27 @@ class Api::ContestsController < ApplicationController
     render(json: json_for_ranking, status: 200)
   end
 
+  def status
+    contest_status = @contest.status
+    render(json: {
+             'status': contest_status
+           }, status: 200)
+  end
+
+  def validation
+    if @contest.inside?
+      password = params['password']
+      render(json: {
+               'result': password == @contest.password ? 'ok' : 'failed'
+             }, status: 200)
+    else
+      render(json: {
+               'result': 'failed',
+               'message': 'this api is not supported when status == 0 contest'
+             }, status: 200)
+    end
+  end
+
   private
 
   def set_contest
@@ -48,7 +70,7 @@ class Api::ContestsController < ApplicationController
   end
 
   def hide_problems?
-    !(current_user && current_user.admin_role) && !((@contest.during? && @joined) || @contest.ended?)
+    !(current_user&.admin_role) && !((@contest.during? && @joined) || @contest.ended?)
   end
 
   def hide_editorial?
