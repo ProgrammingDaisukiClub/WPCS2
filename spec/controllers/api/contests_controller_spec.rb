@@ -15,6 +15,286 @@ RSpec.describe Api::ContestsController, type: :controller do
     end
   end
 
+  describe 'GET /api/contests/:id/status' do
+    before do
+      get :status, params: params
+    end
+
+    let(:user) { create(:user) }
+
+    %w[ja en].each do |language|
+      let(:lang) { language }
+
+      context 'preparing contest' do
+        context 'when contest opened' do
+          let(:contest) do
+            create(:contest_preparing_open)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when paramater is valid' do
+            let(:expect_response) do
+              {
+                'status' => 'outside'
+              }
+            end
+
+            it 'return valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+
+        context 'when contest is closed' do
+          let(:contest) do
+            create(:contest_preparing_closed)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when paramater is valid' do
+            let(:expect_response) do
+              {
+                'status' => 'inside'
+              }
+            end
+
+            it 'return valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+      end
+
+      context 'opening contest' do
+        context 'when contest is opened' do
+          let(:contest) do
+            create(:contest_preparing_open)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when paramater is valid' do
+            let(:expect_response) do
+              {
+                'status' => 'outside'
+              }
+            end
+
+            it 'return valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+
+        context 'when contest is closed' do
+          let(:contest) do
+            create(:contest_preparing_closed)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when paramater is valid' do
+            let(:expect_response) do
+              {
+                'status' => 'inside'
+              }
+            end
+
+            it 'return valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+      end
+
+      context 'ended contest' do
+        context 'when contest is open' do
+          let(:contest) do
+            create(:contest_preparing_open)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when paramater is valid' do
+            let(:expect_response) do
+              {
+                'status' => 'outside'
+              }
+            end
+
+            it 'return valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+
+        context 'when contest is closed' do
+          let(:contest) do
+            create(:contest_preparing_closed)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when paramater is valid' do
+            let(:expect_response) do
+              {
+                'status' => 'inside'
+              }
+            end
+
+            it 'return valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+      end
+    end
+  end
+
+  describe 'POST /api/contests/:id/validation' do
+    before do
+      params[:password] = 'password'
+      post :validation, params: params
+    end
+
+    let(:user) { create(:user) }
+
+    %w[ja en].each do |language|
+      let(:lang) { language }
+
+      context 'preparing contest' do
+        context 'when contest is open' do
+          let(:contest) do
+            create(:contest_preparing_open)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when input valid password' do
+            let(:expect_response) do
+              {
+                'result' => 'failed',
+                'message' => 'this api is not supported when status == 0 contest'
+              }
+            end
+
+            it 'valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+
+        context 'when contest is closed' do
+          let(:contest) do
+            create(:contest_preparing_closed)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when input valid password' do
+            let(:expect_response) do
+              {
+                'result' => 'ok'
+              }
+            end
+
+            it 'valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+      end
+
+      context 'opening contest' do
+        context 'when contest is opening' do
+          let(:contest) do
+            create(:contest_preparing_open)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+        end
+
+        context 'when context is closed' do
+          let(:contest) do
+            create(:contest_preparing_closed)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+        end
+      end
+
+      context 'ended contest' do
+        context 'when context is opening' do
+          let(:contest) do
+            create(:contest_preparing_open)
+          end
+
+          it 'return 200' do
+            post :validation, params: params
+            expect(response.status).to eq 200
+          end
+
+          context 'when input valid password' do
+            let(:expect_response) do
+              {
+                'result' => 'failed',
+                'message' => 'this api is not supported when status == 0 contest'
+              }
+            end
+
+            it 'valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+
+        context 'when contest is closed' do
+          let(:contest) do
+            create(:contest_preparing_closed)
+          end
+
+          it 'return 200' do
+            expect(response.status).to eq 200
+          end
+
+          context 'when input valid password' do
+            let(:expect_response) do
+              {
+                'result' => 'ok'
+              }
+            end
+
+            it 'valid response' do
+              expect(JSON.parse(response.body)).to eq expect_response
+            end
+          end
+        end
+      end
+    end
+  end
+
   describe 'GET /api/contents/:id' do
     before do
       get :show, params: params

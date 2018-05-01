@@ -26,4 +26,31 @@ FactoryGirl.define do
     start_at 2.week.ago
     end_at   1.week.ago
   end
+
+  factory :contest_preparing_open, parent: :contest_preparing do
+    status 0
+  end
+
+  factory :contest_preparing_closed, parent: :contest_preparing do
+    status 1
+    password 'password'
+  end
+
+  factory :contest_holding_open, parent: :contest_preparing do
+    status 0
+  end
+
+  factory :contest_holding_closed, parent: :contest_preparing do
+    status 1
+    password 'password'
+  end
+
+  factory :contest_ended_open, parent: :contest_preparing do
+    status 0
+  end
+
+  factory :contest_ended_closed, parent: :contest_preparing do
+    status 1
+    password 'password'
+  end
 end

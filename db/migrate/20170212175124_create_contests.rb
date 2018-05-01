@@ -8,6 +8,8 @@ class CreateContests < ActiveRecord::Migration[5.0]
       t.datetime :start_at,     null: false
       t.datetime :end_at,       null: false
       t.float :score_baseline,  null: false
+      t.string :password
+      t.integer :status
 
       t.timestamps null: false
     end
