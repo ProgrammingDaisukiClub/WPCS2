@@ -39,9 +39,9 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
                     <input
                       type="text"
                       value={this.state.password}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                        this.setState({ password: e.target.value });
-                      }}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                        this.setState({ password: e.target.value })
+                      }
                     />
                   </form>
                   <span
@@ -61,9 +61,9 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
                   <input
                     type="text"
                     value={this.state.password}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                      this.setState({ password: e.target.value });
-                    }}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                      this.setState({ password: e.target.value })
+                    }
                   />
                 </form>
                 <a className="contestHome--registrationButton" href="/users/sign_up">

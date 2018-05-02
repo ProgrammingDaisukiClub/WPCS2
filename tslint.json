@@ -23,6 +23,7 @@
     "no-submodule-imports": false,
     "no-unsafe-any": false,
     "no-use-before-declare": false, // https://github.com/palantir/tslint/issues/1400
+    "no-void-expression": [true, "ignore-arrow-function-shorthand"],
     "strict-boolean-expressions": false,
     // tslint-microsoft-contrib
     "missing-jsdoc": false,
