@@ -1,21 +1,21 @@
 import * as React from 'react';
 
 import ContestObject from 'contests/ContestObject';
-import ProblemObject from 'contests/ProblemObject';
 import DataSetObject from 'contests/DataSetObject';
+import ProblemObject from 'contests/ProblemObject';
 import SubmissionObject from 'contests/SubmissionObject';
-import UserScoreObject from 'contests/UserScoreObject';
 import TimerObject from 'contests/TimerObject';
+import UserScoreObject from 'contests/UserScoreObject';
 
 import JUDGE_STATUS from 'contests/JUDGE_STATUS';
 
-import Navigation from 'contests/Navigation';
 import ContestHome from 'contests/ContestHome';
-import Problem from 'contests/Problem';
-import Submissions from 'contests/Submissions';
-import Ranking from 'contests/Ranking';
-import SubmitResults from 'contests/SubmitResults';
 import Editorial from 'contests/Editorial';
+import Navigation from 'contests/Navigation';
+import Problem from 'contests/Problem';
+import Ranking from 'contests/Ranking';
+import Submissions from 'contests/Submissions';
+import SubmitResults from 'contests/SubmitResults';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   children: React.ReactElement<any>;
@@ -28,9 +28,9 @@ export interface ContestAppProps extends React.Props<ContestApp> {
 export interface ContestAppState {
   initialized: boolean;
   contest?: ContestObject;
-  submissions?: [ SubmissionObject ];
-  users?: [ UserScoreObject ];
-  submitResults: [ number ];
+  submissions?: SubmissionObject[];
+  users?: UserScoreObject[];
+  submitResults: number[];
 }
 
 export default class ContestApp extends React.Component<ContestAppProps, ContestAppState> {
@@ -46,31 +46,31 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
     this.state = {
       initialized: false,
-      submitResults: [] as [ number ]
+      submitResults: [] as [number],
     };
   }
 
-  public componentWillMount() {
+  public componentWillMount(): void {
     this.fetchContest();
   }
 
-  public componentWillUnmount() {
-    if(this.rankingRequestTimerId) {
+  public componentWillUnmount(): void {
+    if (this.rankingRequestTimerId !== 0) {
       clearInterval(this.rankingRequestTimerId);
     }
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     this.initTimer();
   }
 
-  public async fetchContest() {
+  public async fetchContest(): Promise<void> {
     const responseContest: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
       credentials: 'same-origin',
     });
 
     let contest: ContestObject;
-    switch(responseContest.status) {
+    switch (responseContest.status) {
       case 200:
         const json: any = await responseContest.json();
         contest = {
@@ -82,9 +82,9 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           adminRole: json.admin_role,
           startAt: new Date(json.start_at),
           endAt: new Date(json.end_at),
-          baseline: json.baseline
+          baseline: json.baseline,
         };
-        if(json.problems) {
+        if (json.problems) {
           Object.assign(contest, {
             problems: json.problems.map((problem: any, index: number) => ({
               id: problem.id,
@@ -97,29 +97,34 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
                 maxScore: dataSet.max_score,
                 correct: dataSet.correct,
                 score: dataSet.score,
-                answer: ''
-              }))
-            }))
+                answer: '',
+              })),
+            })),
           });
         }
-        if(json.editorial) {
+        if (json.editorial) {
           Object.assign(contest, {
-            editorial: json.editorial
+            editorial: json.editorial,
           });
         }
         break;
 
-      case 404: throw new Error('404 not found');
-      default: throw new Error('unexpected http status');
+      case 404:
+        throw new Error('404 not found');
+      default:
+        throw new Error('unexpected http status');
     }
 
-    let submissions: [ SubmissionObject ];
-    if(contest.problems) {
-      const responseSubmissions: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions${t('locale')}`, {
-        credentials: 'same-origin',
-      });
+    let submissions: SubmissionObject[];
+    if (contest.problems) {
+      const responseSubmissions: Response = await fetch(
+        `/api/contests/${this.props.params.contestId}/submissions${t('locale')}`,
+        {
+          credentials: 'same-origin',
+        }
+      );
 
-      switch(responseSubmissions.status) {
+      switch (responseSubmissions.status) {
         case 200:
           const json: any = await responseSubmissions.json();
           submissions = json.map((submission: any) => ({
@@ -128,13 +133,16 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             dataSetId: submission.data_set_id,
             judgeStatus: submission.judge_status,
             score: submission.score || 0,
-            createdAt: new Date(submission.created_at)
+            createdAt: new Date(submission.created_at),
           }));
           break;
 
-        case 403: throw new Error('403 forbidden');
-        case 404: throw new Error('404 not found');
-        default: throw new Error('unexpected http status');
+        case 403:
+          throw new Error('403 forbidden');
+        case 404:
+          throw new Error('404 not found');
+        default:
+          throw new Error('unexpected http status');
       }
     }
 
@@ -144,41 +152,45 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
       submissions,
     });
 
-    if(contest.problems) {
+    if (contest.problems !== undefined) {
       this.fetchRanking();
     }
   }
 
-  public async join() {
+  public async join(): Promise<void> {
     const formData: FormData = new FormData();
     formData.append(this.csrfParam, this.csrfToken);
 
     const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/entry`, {
-      method: "post",
+      method: 'post',
       credentials: 'same-origin',
-      body: formData
+      body: formData,
     });
 
-    switch(response.status) {
+    switch (response.status) {
       case 201:
         this.fetchContest();
         break;
 
-      case 403: throw new Error('403 forbidden');
-      case 404: throw new Error('404 not found');
-      case 409: throw new Error('409 conflict');
-      default: throw new Error('unexpected http status');
+      case 403:
+        throw new Error('403 forbidden');
+      case 404:
+        throw new Error('404 not found');
+      case 409:
+        throw new Error('409 conflict');
+      default:
+        throw new Error('unexpected http status');
     }
   }
 
-  public async submit(problemId: number, dataSetId: number) {
-    const contest = this.state.contest;
-    const problems = contest.problems;
-    const problemIndex = problems.findIndex((problem) => problem.id === problemId);
-    const problem = problems[ problemIndex ];
-    const dataSets = problem.dataSets;
-    const dataSetIndex = dataSets.findIndex((dataSet) => dataSet.id === dataSetId);
-    const dataSet = dataSets[ dataSetIndex ];
+  public async submit(problemId: number, dataSetId: number): Promise<void> {
+    const contest: ContestObject = this.state.contest;
+    const problems: ProblemObject[] = contest.problems;
+    const problemIndex: number = problems.findIndex((problem: ProblemObject) => problem.id === problemId);
+    const problem: ProblemObject = problems[problemIndex];
+    const dataSets: DataSetObject[] = problem.dataSets;
+    const dataSetIndex: number = dataSets.findIndex((dataSet: DataSetObject) => dataSet.id === dataSetId);
+    const dataSet: DataSetObject = dataSets[dataSetIndex];
 
     const formData: FormData = new FormData();
     formData.append(this.csrfParam, this.csrfToken);
@@ -190,67 +202,74 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
       method: 'post',
       credentials: 'same-origin',
-      body: formData
+      body: formData,
     });
 
-    switch(response.status) {
+    switch (response.status) {
       case 201:
         const json: any = await response.json();
         const contest: ContestObject = this.state.contest;
-        const problems: [ ProblemObject ] = contest.problems;
-        const problemIndex: number = problems.findIndex((problem) => problem.id === problemId);
-        const problem: ProblemObject = problems[ problemIndex ];
-        const dataSets: [ DataSetObject ] = problem.dataSets;
-        const dataSetIndex: number = dataSets.findIndex((dataSet) => dataSet.id === dataSetId);
-        const dataSet: DataSetObject = dataSets[ dataSetIndex ];
+        const problems: ProblemObject[] = contest.problems;
+        const problemIndex: number = problems.findIndex((problem: ProblemObject) => problem.id === problemId);
+        const problem: ProblemObject = problems[problemIndex];
+        const dataSets: DataSetObject[] = problem.dataSets;
+        const dataSetIndex: number = dataSets.findIndex((dataSet: DataSetObject) => dataSet.id === dataSetId);
+        const dataSet: DataSetObject = dataSets[dataSetIndex];
 
-        let state: ContestAppState = Object.assign({}, this.state, {
+        const state: ContestAppState = {
+          ...this.state,
           submissions: this.state.submissions.concat({
             id: json.id,
             problemId: json.problem_id,
             dataSetId: json.data_set_id,
             judgeStatus: json.judge_status,
             score: json.score || 0,
-            createdAt: new Date(json.created_at)
+            createdAt: new Date(json.created_at),
           }),
-          submitResults: this.state.submitResults.concat(json.id)
-        });
-        if(json.judge_status === JUDGE_STATUS.AC) {
+          submitResults: this.state.submitResults.concat(json.id),
+        };
+        if (json.judge_status === JUDGE_STATUS.AC) {
           Object.assign(state, {
-            contest: Object.assign({}, contest, {
+            contest: {
+              ...contest,
               problems: [
                 ...problems.slice(0, problemIndex),
-                Object.assign({}, problem, {
+                {
+                  ...problem,
                   dataSets: [
                     ...dataSets.slice(0, dataSetIndex),
-                    Object.assign({}, dataSet, {
+                    {
+                      ...dataSet,
                       correct: true,
-                      score: Math.max(json.score, dataSet.score)
-                    }),
-                    ...dataSets.slice(dataSetIndex + 1)
-                  ]
-                }),
-                ...problems.slice(problemIndex + 1)
-              ]
-            })
-          })
+                      score: Math.max(json.score, dataSet.score),
+                    },
+                    ...dataSets.slice(dataSetIndex + 1),
+                  ],
+                },
+                ...problems.slice(problemIndex + 1),
+              ],
+            },
+          });
         }
         this.setState(state);
         break;
 
-      case 403: throw new Error('403 forbidden');
-      case 404: throw new Error('404 not found');
-      default: throw new Error('unexpected http status');
+      case 403:
+        throw new Error('403 forbidden');
+      case 404:
+        throw new Error('404 not found');
+      default:
+        throw new Error('unexpected http status');
     }
   }
 
-  public async fetchRanking() {
+  public async fetchRanking(): Promise<void> {
     const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/ranking${t('locale')}`, {
-      credentials: 'same-origin'
+      credentials: 'same-origin',
     });
 
-    let users: [ UserScoreObject ];
-    switch(response.status) {
+    let users: UserScoreObject[];
+    switch (response.status) {
       case 200:
         const json: any = await response.json();
         users = json.users.map((user: any) => ({
@@ -266,150 +285,153 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
               score: dataSet.score,
               solvedAt: dataSet.solved_at ? new Date(dataSet.solved_at) : null,
               wrongAnswers: dataSet.wrong_answers,
-            }))
-          }))
+            })),
+          })),
         }));
         break;
 
-      case 403: throw new Error('403 forbidden');
-      case 404: throw new Error('404 not found');
+      case 403:
+        throw new Error('403 forbidden');
+      case 404:
+        throw new Error('404 not found');
+      default:
     }
 
-    this.setState({ users })
+    this.setState({ users });
 
-    if(!this.rankingRequestTimerId) {
+    if (!this.rankingRequestTimerId) {
       this.rankingRequestTimerId = setInterval(this.fetchRanking.bind(this), 60 * 1000);
     }
   }
 
-  public closeSubmitResults() {
-    this.setState(Object.assign({}, this.state, {
-      submitResults: []
-    }));
+  public closeSubmitResults(): void {
+    this.setState({
+      ...this.state,
+      submitResults: [],
+    });
   }
 
-  public async initTimer() {
-    const time = await this.fetchTime();
-    const now = new Date();
+  public async initTimer(): Promise<void> {
+    const time: TimerObject = await this.fetchTime();
+    const now: Date = new Date();
 
-    if(now <= time.startAt){
-      setInterval(function() {
+    if (now <= time.startAt) {
+      setInterval(() => {
         this.beforeContestTimer(time.startAt);
-      }.bind(this), 1000);
+      }, 1000);
     }
   }
 
-  public async beforeContestTimer(startAt: Date) {
-    const now = new Date();
-    let startTime = startAt;
+  public async beforeContestTimer(startAt: Date): Promise<void> {
+    const now: Date = new Date();
+    const startTime: Date = startAt;
 
-    if(now < startAt) {
+    if (now < startAt) {
+      //
     } else if (now >= startTime) {
-      alert("コンテストを開始します");
+      alert('コンテストを開始します');
       location.reload();
     }
   }
 
-  public async fetchTime() {
+  public async fetchTime(): Promise<TimerObject> {
     let fetchedTime: TimerObject;
     const responseTime: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
       credentials: 'same-origin',
     });
 
-    switch(responseTime.status) {
+    switch (responseTime.status) {
       case 200:
         const json: any = await responseTime.json();
         fetchedTime = {
           startAt: new Date(json.start_at),
-          endAt: new Date(json.end_at)
-        }
+          endAt: new Date(json.end_at),
+        };
         break;
-      case 404: throw new Error('404 not found');
-      default: throw new Error('unexpected http status');
+      case 404:
+        throw new Error('404 not found');
+      default:
+        throw new Error('unexpected http status');
     }
+
     return fetchedTime;
   }
 
-  public changeAnswerForm(problemId: number, dataSetId: number, answer: string) {
-    const contest = this.state.contest;
-    const problems = contest.problems;
-    const problemIndex = problems.findIndex((problem) => problem.id === problemId);
-    const problem = problems[ problemIndex ];
-    const dataSets = problem.dataSets;
-    const dataSetIndex = dataSets.findIndex((dataSet) => dataSet.id === dataSetId);
-    const dataSet = dataSets[ dataSetIndex ];
+  public changeAnswerForm(problemId: number, dataSetId: number, answer: string): void {
+    const contest: ContestObject = this.state.contest;
+    const problems: ProblemObject[] = contest.problems;
+    const problemIndex: number = problems.findIndex((problem: ProblemObject) => problem.id === problemId);
+    const problem: ProblemObject = problems[problemIndex];
+    const dataSets: DataSetObject[] = problem.dataSets;
+    const dataSetIndex: number = dataSets.findIndex((dataSet: DataSetObject) => dataSet.id === dataSetId);
+    const dataSet: DataSetObject = dataSets[dataSetIndex];
 
     this.setState({
-      contest: Object.assign({}, contest, {
+      contest: {
+        ...contest,
         problems: [
           ...problems.slice(0, problemIndex),
-          Object.assign({}, problem, {
+          {
+            ...problem,
             dataSets: [
               ...dataSets.slice(0, dataSetIndex),
-              Object.assign({}, dataSet, {
-                answer: answer
-              }),
-              ...dataSets.slice(dataSetIndex + 1)
-            ]
-          }),
-          ...problems.slice(problemIndex + 1)
-        ]
-      })
+              {
+                ...dataSet,
+                answer: answer,
+              },
+              ...dataSets.slice(dataSetIndex + 1),
+            ],
+          },
+          ...problems.slice(problemIndex + 1),
+        ],
+      },
     });
   }
 
-  public render() {
-    if(!this.state.initialized) {
+  public render(): JSX.Element {
+    if (!this.state.initialized) {
       return (
         <div className="container">
           <div>Now Initializing...</div>
         </div>
-      )
+      );
     }
 
     return (
       <div className="container">
-        <Navigation
-          contest={ this.state.contest }
-        />
-        { this.props.children && this.props.children.type === ContestHome &&
-          <ContestHome
-            contest={ this.state.contest }
-            join={ this.join.bind(this) }
-          />
-        }
-        { this.props.children && this.props.children.type === Problem && this.state.contest.problems &&
-          <Problem
-            contest={ this.state.contest }
-            problem={ this.state.contest.problems.find((problem) => problem.id === +this.props.params.problemId) }
-            changeAnswerForm={ this.changeAnswerForm.bind(this) }
-            submit={ this.submit.bind(this) }
-          />
-        }
-        { this.props.children && this.props.children.type === Submissions &&
-          <Submissions
-            contest={ this.state.contest }
-            submissions={ this.state.submissions }
-          />
-        }
-        { this.props.children && this.props.children.type === Ranking && this.state.users &&
-          <Ranking
-            contest={ this.state.contest }
-            users={ this.state.users }
-          />
-        }
-        { this.state.submissions &&
+        <Navigation contest={this.state.contest} />
+        {this.props.children &&
+          this.props.children.type === ContestHome && (
+            <ContestHome contest={this.state.contest} join={this.join.bind(this)} />
+          )}
+        {this.props.children &&
+          this.props.children.type === Problem &&
+          this.state.contest.problems && (
+            <Problem
+              contest={this.state.contest}
+              problem={this.state.contest.problems.find(
+                (problem: ProblemObject) => problem.id === +this.props.params.problemId
+              )}
+              changeAnswerForm={this.changeAnswerForm.bind(this)}
+              submit={this.submit.bind(this)}
+            />
+          )}
+        {this.props.children &&
+          this.props.children.type === Submissions && (
+            <Submissions contest={this.state.contest} submissions={this.state.submissions} />
+          )}
+        {this.props.children &&
+          this.props.children.type === Ranking &&
+          this.state.users && <Ranking contest={this.state.contest} users={this.state.users} />}
+        {this.state.submissions && (
           <SubmitResults
-            submissions={ this.state.submissions }
-            submitResults={ this.state.submitResults }
-            closeSubmitResults={ this.closeSubmitResults.bind(this) }
+            submissions={this.state.submissions}
+            submitResults={this.state.submitResults}
+            closeSubmitResults={this.closeSubmitResults.bind(this)}
           />
-        }
-        { this.props.children && this.props.children.type === Editorial &&
-          <Editorial
-            editorial={ this.state.contest.editorial }
-          />
-        }
+        )}
+        {this.props.children &&
+          this.props.children.type === Editorial && <Editorial editorial={this.state.contest.editorial} />}
       </div>
     );
   }

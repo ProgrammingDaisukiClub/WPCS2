@@ -1,11 +1,11 @@
-import ProblemObject from 'contests/ProblemObject';
 import EditorialObject from 'contests/EditorialObject';
+import ProblemObject from 'contests/ProblemObject';
 
 interface ContestObject {
   id: number;
   name: string;
   description: string;
-  problems?: [ProblemObject];
+  problems?: ProblemObject[];
   joined: boolean;
   currentUserId: number;
   adminRole: boolean;

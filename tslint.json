@@ -1,14 +1,37 @@
 {
-  "extends": "tslint-microsoft-contrib/recommended_ruleset",
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-microsoft-contrib",
+    "tslint-plugin-prettier",
+    "tslint-config-prettier"
+  ],
   "rules": {
-    "interface-name": false, // c.f. https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
+    // You should enable followings in the future.
+    "jsx-no-bind": false,
+    "jsx-no-lambda": false,
+    "no-shadowed-variable": false,
+    "react-this-binding-issue": false,
+    // tslint
+    "completed-docs": false,
+    "interface-name": false, // https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines#names
+    "no-any": false,
+    "no-default-export": false, // Required to use react.
+    "no-floating-promises": false,
+    "no-implicit-dependencies": false,
+    "no-import-side-effect": false, // Required to use whatwg-fetch.
+    "no-submodule-imports": false,
+    "no-unsafe-any": false,
+    "no-use-before-declare": false, // https://github.com/palantir/tslint/issues/1400
+    "no-void-expression": [true, "ignore-arrow-function-shorthand"],
+    "strict-boolean-expressions": false,
+    // tslint-microsoft-contrib
     "missing-jsdoc": false,
-    "no-default-export": false, // required to use react
-    "no-use-before-declare": false // due to https://github.com/palantir/tslint/issues/1400
+    "no-increment-decrement": false,
+    "no-multiline-string": false,
+    // tslint-plugin-prettier
+    "prettier": true
   },
-  "jsRules": {
-  },
-  "rulesDirectory": [
-    "node_modules/tslint-microsoft-contrib"
-  ]
+  "jsRules": {},
+  "rulesDirectory": ["tslint-plugin-prettier", "node_modules/tslint-microsoft-contrib"]
 }

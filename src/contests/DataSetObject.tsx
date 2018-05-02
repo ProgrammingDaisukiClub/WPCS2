@@ -5,6 +5,6 @@ interface DataSetObject {
   correct: boolean;
   score: number;
   answer: string;
-};
+}
 
-export default DataSetObject
+export default DataSetObject;

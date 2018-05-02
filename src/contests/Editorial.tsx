@@ -7,13 +7,13 @@ export interface EditorialProps {
   editorial: EditorialObject;
 }
 
-export default class Editorial extends React.Component<EditorialProps, {}> {
+export default class Editorial extends React.Component<EditorialProps> {
   constructor() {
     super();
     this.state = {};
   }
 
-  public render() {
+  public render(): JSX.Element {
     if (this.props.editorial) {
       return (
         <div className="editorial">
@@ -22,7 +22,7 @@ export default class Editorial extends React.Component<EditorialProps, {}> {
             <div className="editorial--body">
               <div className="editorial--content">
                 <div className="editorial--content">
-                  <MarkdownRenderer text= { this.props.editorial.content } />
+                  <MarkdownRenderer text={this.props.editorial.content} />
                 </div>
               </div>
             </div>
@@ -36,9 +36,7 @@ export default class Editorial extends React.Component<EditorialProps, {}> {
             <h2 className="editorial--header">解説</h2>
             <div className="editorial--body">
               <div className="editorial--content">
-                <div className="editorial--content">
-                  まだ解説はありません
-                </div>
+                <div className="editorial--content">まだ解説はありません</div>
               </div>
             </div>
           </div>
