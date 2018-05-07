@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :problem do
     sequence(:name_ja) { |n| "問題#{n}の名前" }
     sequence(:name_en) { |n| "name of problem#{n}" }
