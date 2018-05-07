@@ -78,10 +78,10 @@ GEM
       railties (>= 3.2, < 6.0)
     erubi (1.7.1)
     execjs (2.7.0)
-    factory_girl (4.9.0)
+    factory_bot (4.8.2)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
+    factory_bot_rails (4.8.2)
+      factory_bot (~> 4.8.2)
       railties (>= 3.0.0)
     ffi (1.9.23)
     globalid (0.4.1)
@@ -265,7 +265,7 @@ DEPENDENCIES
   devise
   devise-i18n
   dotenv-rails
-  factory_girl_rails
+  factory_bot_rails
   jbuilder (~> 2.5)
   jquery-rails
   kaminari

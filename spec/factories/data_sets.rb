@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :data_set do
     sequence(:label) { |n| "label of data_set#{n}" }
     input 'input of data_set'
