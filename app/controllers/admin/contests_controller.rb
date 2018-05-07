@@ -69,8 +69,8 @@ class Admin::ContestsController < Admin::ControllerBase
 
     Contest.transaction do
       @contest.update(
-        name_ja: json[:contest_name],
-        name_en: json[:contest_name]
+        name_ja: json[:contest_name] || @contest.name_ja,
+        name_en: json[:contest_name] || @contest.name_en
       )
       @contest.problems.destroy_all
       json[:problems].each.with_index(1) do |problem_json, i|
