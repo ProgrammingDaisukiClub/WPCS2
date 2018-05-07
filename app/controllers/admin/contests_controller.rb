@@ -1,5 +1,5 @@
 class Admin::ContestsController < Admin::ControllerBase
-  before_action :set_contest, only: %i[show edit update destroy]
+  before_action :set_contest, only: %i[show edit update destroy json_upload update_from_json]
 
   # GET /contests
   # GET /contests.json
@@ -57,6 +57,48 @@ class Admin::ContestsController < Admin::ControllerBase
       format.html { redirect_to admin_contests_url, notice: 'Contest was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # GET /contests/1/json_upload
+  def json_upload; end
+
+  # PATCH /contests/1
+  def update_from_json
+    json_string = params.require(:contest).require(:file).tempfile.read
+    json = JSON.parse(json_string, symbolize_names: true)
+
+    Contest.transaction do
+      @contest.update(
+        name_ja: json[:contest_name] || @contest.name_ja,
+        name_en: json[:contest_name] || @contest.name_en
+      )
+      @contest.problems.destroy_all
+      json[:problems].each.with_index(1) do |problem_json, i|
+        problem = Problem.create(
+          contest_id: @contest.id,
+          name_ja: problem_json[:title],
+          name_en: problem_json[:title],
+          description_ja: problem_json[:statement],
+          description_en: problem_json[:statement],
+          order: i
+        )
+        problem_json[:data_sets].each.with_index(1) do |data_set_json, j|
+          DataSet.create(
+            problem_id: problem.id,
+            label: data_set_json[:label],
+            input: data_set_json[:input],
+            output: data_set_json[:output],
+            score: data_set_json[:score],
+            order: j
+          )
+        end
+      end
+    end
+
+    redirect_to admin_contest_url(@contest), notice: 'Contest was successfully updated.'
+  rescue StandardError => e
+    @contest.errors[:base] << "Invalid JSON file was uploaded - #{e.message}"
+    render :json_upload
   end
 
   private

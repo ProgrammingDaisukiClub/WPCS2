@@ -5,4 +5,10 @@ FactoryBot.define do
     password 'password'
     confirmed_at 3.days.ago
   end
+
+  factory :admin_user, parent: :user do
+    after(:create) do |admin_user|
+      create(:admin_role, user_id: admin_user.id)
+    end
+  end
 end

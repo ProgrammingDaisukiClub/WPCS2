@@ -84,6 +84,9 @@
   <%= link_to 'Create Editorial', new_admin_contest_editorial_path(contest_id: @contest.id) %>
 <% end %>
 
+<h2>JSON Upload</h2>
+<%= link_to 'Upload JSON file', json_upload_admin_contest_path(@contest) %>
+
 <h2>
   <%= link_to 'view all submissions', admin_contest_submissions_path(contest_id: @contest.id) %>
 </h2>
