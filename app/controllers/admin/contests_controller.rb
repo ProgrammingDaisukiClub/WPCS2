@@ -82,22 +82,22 @@ class Admin::ContestsController < Admin::ControllerBase
           description_en: problem_json[:statement],
           order: i
         )
-        problem_json[:data_sets].each.with_index(1) do |data_set_json, i|
+        problem_json[:data_sets].each.with_index(1) do |data_set_json, j|
           DataSet.create(
             problem_id: problem.id,
             label: data_set_json[:label],
             input: data_set_json[:input],
             output: data_set_json[:output],
             score: data_set_json[:score],
-            order: i
+            order: j
           )
         end
       end
     end
 
     redirect_to admin_contest_url(@contest), notice: 'Contest was successfully updated.'
-  rescue => e
-    @contest.errors[:base] << "Invalid JSON file was uploaded."
+  rescue StandardError => e
+    @contest.errors[:base] << "Invalid JSON file was uploaded - #{e.message}"
     render :json_upload
   end
 
