@@ -1,0 +1,28 @@
+<h1><%= @contest.name %></h1>
+
+<p id="notice"><%= notice %></p>
+
+<h2>JSON Upload</h2>
+<p>Upload JSON file to update contest information, problems and data sets.</p>
+<%= form_for([:admin, @contest], url: { action: :update_from_json }) do |f| %>
+  <% if @contest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contest.errors.count, "error") %> prohibited this contest from being saved:</h2>
+
+      <ul>
+      <% @contest.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :"JSON file" %>
+    <%= f.file_field(:file) %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
