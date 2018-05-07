@@ -5,8 +5,8 @@ class AddStatusAndPasswordToContests < ActiveRecord::Migration[5.1]
 
     Contest.update_all("status=#{Contest.statuses['outside']}, password=''")
 
-    change_column :contests, :password, :string , null: false
-    change_column :contests, :status, :string , null: false
+    change_column :contests, :password, :string, null: false, default: ''
+    change_column :contests, :status, :integer, null: false, default: Contest.statuses['outside']
   end
 
   def down

@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 20170508110039) do
     t.datetime "start_at", null: false
     t.datetime "end_at", null: false
     t.float "score_baseline", null: false
-    t.integer "status"
-    t.string "password"
+    t.integer "status", default: 0, null: false
+    t.string "password", default: '', null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
