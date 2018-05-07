@@ -48,7 +48,7 @@
 
   <div class="field">
     <%= f.label :status %>
-    <%= f.check_box :status, checked_value: 1, unchecked_value: 0 %>
+    <%= f.select :status, Contest.statuses.keys %>
   </div>
 
   <div class="field">

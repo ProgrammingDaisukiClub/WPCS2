@@ -32,7 +32,7 @@ namespace :sample_data do
                 end,
         score_baseline: 0.5,
         status: i.zero? ? 0 : 1,
-        password: i.zero? ? nil : 'password'
+        password: i.zero? ? '' : 'password'
       )
 
       users.each do |user|
