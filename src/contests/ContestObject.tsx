@@ -13,6 +13,7 @@ interface ContestObject {
   endAt: Date;
   baseline: number;
   editorial?: EditorialObject;
+  contest_status: string;
 }
 
 export default ContestObject;
