@@ -83,6 +83,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
           startAt: new Date(json.start_at),
           endAt: new Date(json.end_at),
           baseline: json.baseline,
+          contest_status: json.contest_status,
         };
         if (json.problems) {
           Object.assign(contest, {
