@@ -17,7 +17,7 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
     super(props);
     this.state = {
       password: '',
-      passwordFormStyleState: {display: (props.contest.contest_status === "outside" ? "none" : 'inherit')}
+      passwordFormStyleState: { display: props.contest.contest_status === 'outside' ? 'none' : 'inherit' },
     };
   }
 
