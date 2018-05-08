@@ -9,7 +9,6 @@ export interface ContestHomeProps {
 
 export interface ContestHomeState {
   password: string;
-  contestStatus: string;
   passwordFormStyleState: any;
 }
 
@@ -18,14 +17,11 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
     super(props);
     this.state = {
       password: '',
-      contestStatus: '',
-      passwordFormStyleState: {},
+      passwordFormStyleState: { display: props.contest.contest_status === 'outside' ? 'none' : 'inherit' },
     };
   }
 
   public render(): JSX.Element {
-    this.fetchContestStatus();
-
     return (
       <div className="contestHome">
         <div className="contestHome--inner">
@@ -78,36 +74,8 @@ export default class ContestHome extends React.Component<ContestHomeProps, Conte
     );
   }
 
-  private async fetchContestStatus(): Promise<void> {
-    const responseContestStatus: Response = await fetch(`/api/contests/${this.props.contest.id}/status`, {
-      credentials: 'same-origin',
-    });
-
-    switch (responseContestStatus.status) {
-      case 200:
-        const json: any = await responseContestStatus.json();
-        const status: string = json.status;
-        const isStatusInside: boolean = status === 'inside';
-
-        this.setState({ contestStatus: status });
-
-        if (!isStatusInside) {
-          this.setState({
-            passwordFormStyleState: { display: 'none' },
-          });
-        }
-
-        break;
-
-      case 404:
-        throw new Error('404 not found');
-      default:
-        throw new Error('unexpected http status');
-    }
-  }
-
   private async submitPasswordValidationAPI(): Promise<void> {
-    if (this.state.contestStatus === 'inside') {
+    if (this.props.contest.contest_status === 'inside') {
       const responsePasswordValidation: Response = await fetch(`/api/contests/${this.props.contest.id}/validation`, {
         method: 'POST',
         headers: {
