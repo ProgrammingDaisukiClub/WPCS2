@@ -1,11 +1,12 @@
-<div class="globalHeader">
+<div class="globalHeader <%= contest&.outside? ? 'outside' : 'inside' %>">
   <header class="globalHeader--inner">
     <nav class="globalHeader--navigation__left">
-      <%= link_to root_path, class: 'globalHeader--navLink' do %>
+      <%= link_to root_path, class: ['globalHeader--navLink', (contest&.outside? ? 'outside' : 'inside')].join(' ') do %>
         <h1 class="globalHeader--brandName"><%= t('layouts.brand') %></h1>
       <% end %>
       <%= link_to Contest.model_name.human, root_path,
-        class: 'globalHeader--navLink' + (%(welcome contests).include?(controller.controller_name) ? '__active' : '') %>
+        class: ['globalHeader--navLink' + (%(welcome contests).include?(controller.controller_name) ? '__active' : ''),
+               (contest&.outside? ? 'outside' : 'inside')].join(' ') %>
     </nav>
     <nav class="globalHeader--navigation__right">
       <%= form_tag request.original_fullpath, method: :get, class: 'globalHeader--langSelectForm', enforce_utf8: false do %>
@@ -13,16 +14,18 @@
           class: 'globalHeader--langSelect', onchange: 'this.form.submit()' %>
       <% end %>
       <% if current_user && current_user.admin_role %>
-        <%= link_to '管理者用ページ', admin_contests_path, class: 'globalHeader--navLink' %>
+        <%= link_to '管理者用ページ', admin_contests_path, class: ['globalHeader--navLink', (contest&.outside? ? 'outside' : 'inside')].join(' ') %>
       <% end %>
       <% unless current_user %>
         <%= link_to t('layouts.header.sign_in'), new_user_session_path,
-          class: 'globalHeader--navLink' + (new_user_session_path == request.path_info ? '__active' : '') %>
+          class: ['globalHeader--navLink' + (new_user_session_path == request.path_info ? '__active' : ''),
+                  (contest&.outside? ? 'outside' : 'inside')].join(' ') %>
         <%= link_to t('layouts.header.sign_up'), new_user_registration_path, class: 'globalHeader--navButton' %>
       <% else %>
-        <%= link_to t('layouts.header.sign_out'), destroy_user_session_path, method: :delete, class: 'globalHeader--navLink' %>
+        <%= link_to t('layouts.header.sign_out'), destroy_user_session_path, method: :delete, class: ['globalHeader--navLink', (contest&.outside? ? 'outside' : 'inside')].join(' ') %>
         <%= link_to current_user.name, user_path(current_user), method: :get,
-          class: 'globalHeader--navLink' + (%(users registrations).include?(controller.controller_name) ? '__active' : '') %>
+          class: ['globalHeader--navLink' + (%(users registrations).include?(controller.controller_name) ? '__active' : ''),
+                  (contest&.outside? ? 'outside' : 'inside')].join(' ') %>
       <% end %>
     </nav>
   </header>

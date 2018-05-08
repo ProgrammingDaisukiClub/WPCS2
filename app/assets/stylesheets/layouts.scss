@@ -14,6 +14,14 @@
   background-color: #fff;
   box-shadow: 0 0.5px 1px 0 rgba(0, 0, 0, 0.12), 0 0.5px 0.5px 0 rgba(0, 0, 0, 0.24);
 
+  .outside {
+    background-color: #b3424a;
+  }
+
+  .inside {
+    background-color: #42b361;
+  }
+
   &--inner {
     @include clearfix;
   }
@@ -27,7 +35,6 @@
 
   &--brandName {
     display: inline-block;
-    color: #000;
     font-size: 14px;
     font-weight: bold;
   }
@@ -38,15 +45,26 @@
     padding: 16px 8px 12px 8px;
     margin: 0 8px;
     border-bottom: 4px solid transparent;
-    color: #000;
     font-size: 14px;
     font-weight: normal;
+
+    .outside,
+    .inside {
+      color: #fff;
+    }
+
     &:hover {
       text-decoration: none;
       border-bottom: 4px solid $brand-color;
     }
+
     &:visited {
       color: #000;
+
+      .outside,
+      .inside {
+        color: #fff;
+      }
     }
   }
   &--navLink__active {
