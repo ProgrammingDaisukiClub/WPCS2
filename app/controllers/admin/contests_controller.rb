@@ -73,7 +73,7 @@ class Admin::ContestsController < Admin::ControllerBase
         name_en: json[:contest_name] || @contest.name_en
       )
       @contest.problems.destroy_all
-      json[:problems].each.with_index(1) do |problem_json, i|
+      json[:problems].each.with_index do |problem_json, i|
         problem = Problem.create(
           contest_id: @contest.id,
           name_ja: problem_json[:title],
@@ -82,7 +82,7 @@ class Admin::ContestsController < Admin::ControllerBase
           description_en: problem_json[:statement],
           order: i
         )
-        problem_json[:data_sets].each.with_index(1) do |data_set_json, j|
+        problem_json[:data_sets].each.with_index do |data_set_json, j|
           DataSet.create(
             problem_id: problem.id,
             label: data_set_json[:label],
