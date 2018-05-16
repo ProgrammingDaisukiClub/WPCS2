@@ -105,10 +105,11 @@ RSpec.describe Admin::ContestsController, type: :controller do
         updated_contest = Contest.find_by(id: contest.id)
         expect(response).to redirect_to admin_contest_path(contest)
         expect(updated_contest.name_ja).to eq json[:contest_name]
-        expect(updated_contest.problems.size).to eq 1
-        expect(updated_contest.problems.first.name_ja).to eq 'A + B'
-        expect(updated_contest.problems.first.data_sets.size).to eq 1
-        expect(updated_contest.problems.first.data_sets.first.label).to eq 'Small'
+        expect(updated_contest.problems.size).to eq json[:problems].size
+        expect(updated_contest.problems.first.name_ja).to eq json[:problems].first[:title]
+        expect(updated_contest.problems.first.order).to eq 0
+        expect(updated_contest.problems.first.data_sets.size).to eq json[:problems].first[:data_sets].size
+        expect(updated_contest.problems.first.data_sets.first.label).to eq json[:problems].first[:data_sets].first[:label]
       end
     end
 

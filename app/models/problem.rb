@@ -1,6 +1,6 @@
 class Problem < ApplicationRecord
   belongs_to :contest
-  has_many :data_sets, dependent: :destroy
+  has_many :data_sets, -> { order(:order) }, dependent: :destroy
   has_many :submissions, through: :data_sets
 
   def name
