@@ -134,10 +134,9 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
                     <textarea
                       className="problem--answer"
                       name="answer"
-                      placeholder={`このテキストボックスに解答（作成したプログラムにデータセットを入力して得られた実行結果）を貼り付けて、右下の提出ボタンを押してください。
-
-入力となるデータセットはフォームの右上のリンクからダウンロードできます。
-データセットは2種類あるので、SmallもしくはLargeを押して選択してから、ダウンロードしてください。`}
+                      placeholder={`このテキストボックスに解答（作成したプログラムにデータセットを入力して得られた実行結果）を貼り付けて、右下の提出ボタンを押してください。\n\n${
+                        this.props.problem.dataSets.length >= 2 ? `データセットの種類を選択してから、` : ``
+                      }入力となるデータをフォームの右上のリンクからダウンロードしてください。`}
                       value={this.selectedDataSet().answer}
                       rows={Math.max(6, Math.min(18, this.selectedDataSet().answer.split('\n').length))}
                       onChange={(e: React.ChangeEvent<HTMLTextAreaElement>): void => {
