@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import ContestObject from 'contests/ContestObject';
 import DataSetObject from 'contests/DataSetObject';
@@ -14,8 +14,8 @@ export interface SubmissionsProps extends React.Props<Submissions> {
 }
 
 export default class Submissions extends React.Component<SubmissionsProps> {
-  constructor() {
-    super();
+  constructor(props: SubmissionsProps) {
+    super(props);
     this.state = {};
   }
 

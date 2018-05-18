@@ -4,9 +4,9 @@
     <title><%= t('layouts.brand') %></title>
     <%= csrf_meta_tags %>
 
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/katex/katex.css" />
-    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= yield :styles %>
   </head>
 
@@ -20,9 +20,8 @@
       <%= render partial: 'layouts/footer' %>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
-    <script src="/katex/katex.js"></script>
     <%= javascript_include_tag 'application' %>
+    <script src="/katex/katex.js"></script>
     <%= yield :scripts %>
   </body>
 </html>

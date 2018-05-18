@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
 import ContestObject from 'contests/ContestObject';
 import DataSetObject from 'contests/DataSetObject';
@@ -19,9 +20,11 @@ import SubmitResults from 'contests/SubmitResults';
 
 export interface ContestAppProps extends React.Props<ContestApp> {
   children: React.ReactElement<any>;
-  params: {
-    contestId: string;
-    problemId: string;
+  match: {
+    params: {
+      contestId: string;
+      problemId: string;
+    };
   };
 }
 
@@ -65,7 +68,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
   }
 
   public async fetchContest(): Promise<void> {
-    const responseContest: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
+    const responseContest: Response = await fetch(`/api/contests/${this.props.match.params.contestId}${t('locale')}`, {
       credentials: 'same-origin',
     });
 
@@ -119,7 +122,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     let submissions: SubmissionObject[];
     if (contest.problems) {
       const responseSubmissions: Response = await fetch(
-        `/api/contests/${this.props.params.contestId}/submissions${t('locale')}`,
+        `/api/contests/${this.props.match.params.contestId}/submissions${t('locale')}`,
         {
           credentials: 'same-origin',
         }
@@ -162,7 +165,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     const formData: FormData = new FormData();
     formData.append(this.csrfParam, this.csrfToken);
 
-    const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/entry`, {
+    const response: Response = await fetch(`/api/contests/${this.props.match.params.contestId}/entry`, {
       method: 'post',
       credentials: 'same-origin',
       body: formData,
@@ -200,7 +203,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
     this.changeAnswerForm(problemId, dataSetId, '');
 
-    const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/submissions`, {
+    const response: Response = await fetch(`/api/contests/${this.props.match.params.contestId}/submissions`, {
       method: 'post',
       credentials: 'same-origin',
       body: formData,
@@ -265,7 +268,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
   }
 
   public async fetchRanking(): Promise<void> {
-    const response: Response = await fetch(`/api/contests/${this.props.params.contestId}/ranking${t('locale')}`, {
+    const response: Response = await fetch(`/api/contests/${this.props.match.params.contestId}/ranking${t('locale')}`, {
       credentials: 'same-origin',
     });
 
@@ -337,7 +340,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
   public async fetchTime(): Promise<TimerObject> {
     let fetchedTime: TimerObject;
-    const responseTime: Response = await fetch(`/api/contests/${this.props.params.contestId}${t('locale')}`, {
+    const responseTime: Response = await fetch(`/api/contests/${this.props.match.params.contestId}${t('locale')}`, {
       credentials: 'same-origin',
     });
 
@@ -401,29 +404,48 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     return (
       <div className="container">
         <Navigation contest={this.state.contest} />
-        {this.props.children &&
-          this.props.children.type === ContestHome && (
-            <ContestHome contest={this.state.contest} join={this.join.bind(this)} />
-          )}
-        {this.props.children &&
-          this.props.children.type === Problem &&
-          this.state.contest.problems && (
-            <Problem
-              contest={this.state.contest}
-              problem={this.state.contest.problems.find(
-                (problem: ProblemObject) => problem.id === +this.props.params.problemId
-              )}
-              changeAnswerForm={this.changeAnswerForm.bind(this)}
-              submit={this.submit.bind(this)}
-            />
-          )}
-        {this.props.children &&
-          this.props.children.type === Submissions && (
-            <Submissions contest={this.state.contest} submissions={this.state.submissions} />
-          )}
-        {this.props.children &&
-          this.props.children.type === Ranking &&
-          this.state.users && <Ranking contest={this.state.contest} users={this.state.users} />}
+        <Switch>
+          <Route
+            exact={true}
+            path="/contests/:contestId"
+            render={(): JSX.Element => <ContestHome contest={this.state.contest} join={this.join.bind(this)} />}
+          />;
+          <Route
+            exact={true}
+            path="/contests/:contestId/problems/:problemId"
+            render={(props: any): JSX.Element => {
+              return !this.state.contest.problems ? null : (
+                <Problem
+                  contest={this.state.contest}
+                  problem={this.state.contest.problems.find(
+                    (problem: ProblemObject) => problem.id === +props.match.params.problemId
+                  )}
+                  changeAnswerForm={this.changeAnswerForm.bind(this)}
+                  submit={this.submit.bind(this)}
+                />
+              );
+            }}
+          />
+          <Route
+            exact={true}
+            path="/contests/:contestId/ranking"
+            render={(): JSX.Element => {
+              return !this.state.users ? null : <Ranking contest={this.state.contest} users={this.state.users} />;
+            }}
+          />
+          <Route
+            exact={true}
+            path="/contests/:contestId/submissions"
+            render={(): JSX.Element => (
+              <Submissions contest={this.state.contest} submissions={this.state.submissions} />
+            )}
+          />
+          <Route
+            exact={true}
+            path="/contests/:contestId/editorials/:editorialId"
+            render={(): JSX.Element => <Editorial editorial={this.state.contest.editorial} />}
+          />
+        </Switch>
         {this.state.submissions && (
           <SubmitResults
             submissions={this.state.submissions}
@@ -431,8 +453,6 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             closeSubmitResults={this.closeSubmitResults.bind(this)}
           />
         )}
-        {this.props.children &&
-          this.props.children.type === Editorial && <Editorial editorial={this.state.contest.editorial} />}
       </div>
     );
   }

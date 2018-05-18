@@ -16,8 +16,8 @@ interface RankingState {
 }
 
 export default class Ranking extends React.Component<RankingProps, RankingState> {
-  constructor() {
-    super();
+  constructor(props: RankingProps) {
+    super(props);
 
     this.state = {
       currentPage: 1,
