@@ -8,7 +8,7 @@ ja:
     footer:
       terms_of_service: "利用規約"
       privacy_policy: "プライバシーポリシー"
-      copyright: ©2017 Programing Daisuki Club
+      copyright: ©2017–%{current_year} Programing Daisuki Club
   welcome:
     index:
       start_at: "開始日時"
