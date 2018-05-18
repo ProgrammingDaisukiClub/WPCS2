@@ -69,5 +69,9 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "whatwg-fetch": "^2.0.2"
+  },
+  "engines": {
+    "node": "8.11.2",
+    "npm": "5.6.0"
   }
 }
