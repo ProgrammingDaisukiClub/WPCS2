@@ -20,7 +20,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
   private timerId: number;
 
   constructor(props: ProblemProps) {
-    super();
+    super(props);
 
     this.state = {
       dataSetTabId: props.problem.dataSets[0].id,
@@ -28,7 +28,7 @@ export default class Problem extends React.Component<ProblemProps, ProblemState>
   }
 
   public componentDidMount(): void {
-    this.timerId = setInterval(() => {
+    this.timerId = window.setInterval(() => {
       this.forceUpdate();
     }, 10000);
   }
