@@ -7,12 +7,9 @@ Waseda Programming Contest System 2
 ## Requirements
 
 * Ruby: 2.5.1
-
 * Rails: 5.1.6
-
-* Node: 7.5.0
-
-* npm: 4.1.2
+* Node: 8.11.2
+* npm: 5.6.0
 
 ## How to deploy
 
@@ -40,9 +37,9 @@ Waseda Programming Contest System 2
 
 1. Build JavaScripts
   ```
-  npm run dev-build    # for development (build)
-  npm run dev-watch    # for development (watch)
-  npm run prod         # for production
+  npm run dev-build  # for development (build)
+  npm run dev-watch  # for development (watch)
+  npm run prod-build # for production
   ```
 
 1. Run db migration

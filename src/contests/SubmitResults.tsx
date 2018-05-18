@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import { Link } from 'react-router';
 
 import SubmissionObject from 'contests/SubmissionObject';
 
@@ -62,7 +61,7 @@ export default class SubmitResults extends React.Component<SubmitResultsProps> {
         <div className="submitResults--inner">
           <div className="submitResults--header">{t('judge_results')}</div>
           {this.results().map((submission: SubmissionObject) => (
-            <div className="submitResults--item">
+            <div key={submission.id} className="submitResults--item">
               <span className="submitResults--date">{this.createdAt(submission.createdAt)}</span>
               <span className={`submitResults--judgeStatus__${this.judgeStatus(submission.judgeStatus)}`}>
                 {this.judgeStatus(submission.judgeStatus)}

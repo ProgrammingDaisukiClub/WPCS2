@@ -12,7 +12,7 @@ export interface Props {
 }
 
 export default class MarkdownRenderer extends React.Component<Props> {
-  private renderer: MarkedRenderer;
+  private renderer: marked.Renderer;
 
   constructor(props: Props) {
     super(props);

@@ -8,8 +8,8 @@ export interface EditorialProps {
 }
 
 export default class Editorial extends React.Component<EditorialProps> {
-  constructor() {
-    super();
+  constructor(props: EditorialProps) {
+    super(props);
     this.state = {};
   }
 
