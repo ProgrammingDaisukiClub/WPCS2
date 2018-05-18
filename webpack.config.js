@@ -14,21 +14,21 @@ i18n_configs = Object.keys(languages).map(lang => ({
     contests: path.resolve(__dirname, 'src/contests/index.tsx')
   },
   output: {
-    path: path.join(__dirname, "app/assets/javascripts/build"),
+    path: path.join(__dirname, 'app/assets/javascripts/build'),
     filename: `[name].${lang}.js`
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: ['.ts', '.tsx', '.js'],
     modules: [
-      "node_modules",
-      path.resolve(__dirname, "src")
+      'node_modules',
+      path.resolve(__dirname, 'src')
     ]
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: 'ts-loader',
       }
     ]
   },

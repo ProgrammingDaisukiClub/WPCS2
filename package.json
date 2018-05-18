@@ -2,9 +2,19 @@
   "name": "wpcs2",
   "version": "1.0.0",
   "description": "no description",
-  "main": "index.js",
+  "homepage": "https://github.com/ProgrammingDaisukiClub/WPCS2#readme",
+  "bugs": {
+    "url": "https://github.com/ProgrammingDaisukiClub/WPCS2/issues"
+  },
+  "license": "ISC",
+  "author": "",
+  "main": "",
   "directories": {
     "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProgrammingDaisukiClub/WPCS2.git"
   },
   "scripts": {
     "dev-build": "NODE_ENV=development webpack --progress --colors",
@@ -29,16 +39,6 @@
       "git add"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ProgrammingDaisukiClub/WPCS2.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ProgrammingDaisukiClub/WPCS2/issues"
-  },
-  "homepage": "https://github.com/ProgrammingDaisukiClub/WPCS2#readme",
   "devDependencies": {
     "@types/katex": "^0.5.0",
     "@types/marked": "0.3.0",
@@ -60,6 +60,7 @@
     "webpack-cli": "^2.1.3"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "i18n-webpack-plugin": "^1.0.0",
     "marked": "^0.3.6",
     "react": "^16.3.2",
