@@ -40,7 +40,7 @@ class Contest < ApplicationRecord
   end
 
   def outside?
-    status == outside
+    status == 'outside'
   end
 
   def show_without_problems(joined, current_user)

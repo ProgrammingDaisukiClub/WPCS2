@@ -8,10 +8,12 @@ class ProblemsController < ApplicationController
   private
 
   def raise_not_found
-    contest = Contest.find_by(id: params.require(:contest_id))
-    raise ActionController::RoutingError, 'Not Found' unless contest
+    @contest = Contest.find_by(id: params.require(:contest_id))
+    raise ActionController::RoutingError, 'Not Found' unless @contest
 
-    problem = contest.problems.find_by(id: params.require(:id))
-    raise ActionController::RoutingError, 'Not Found' unless problem
+    @problem = @contest.problems.find_by(id: params.require(:id))
+    raise ActionController::RoutingError, 'Not Found' unless @problem
+
+    @header_style = @contest.outside? ? 'outside' : 'inside'
   end
 end

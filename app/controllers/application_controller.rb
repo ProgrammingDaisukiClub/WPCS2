@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :staging_authentication, if: -> { ENV['staging'] == 'true' }
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_header_style
 
   def set_locale
     I18n.locale = lang_param
@@ -14,6 +15,10 @@ class ApplicationController < ActionController::Base
 
   def lang_param
     params.fetch(:lang, I18n.default_locale.to_s)
+  end
+
+  def set_header_style
+    @header_style = 'outside'
   end
 
   private
