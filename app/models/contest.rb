@@ -39,10 +39,6 @@ class Contest < ApplicationRecord
     !editorial.nil?
   end
 
-  def outside?
-    status == 'outside'
-  end
-
   def show_without_problems(joined, current_user)
     {
       id: id,
