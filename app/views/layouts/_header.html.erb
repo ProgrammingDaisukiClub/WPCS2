@@ -1,29 +1,33 @@
 <div class="globalHeader">
-  <header class="globalHeader--inner">
-    <nav class="globalHeader--navigation__left">
-      <%= link_to root_path, class: 'globalHeader--navLink' do %>
-        <h1 class="globalHeader--brandName"><%= t('layouts.brand') %></h1>
-      <% end %>
-      <%= link_to Contest.model_name.human, root_path,
-        class: 'globalHeader--navLink' + (%(welcome contests).include?(controller.controller_name) ? '__active' : '') %>
-    </nav>
-    <nav class="globalHeader--navigation__right">
-      <%= form_tag request.original_fullpath, method: :get, class: 'globalHeader--langSelectForm', enforce_utf8: false do %>
-        <%= select_tag 'lang', options_for_select([['日本語', 'ja'], ['English', 'en']], I18n.locale),
-          class: 'globalHeader--langSelect', onchange: 'this.form.submit()' %>
-      <% end %>
-      <% if current_user && current_user.admin_role %>
-        <%= link_to '管理者用ページ', admin_contests_path, class: 'globalHeader--navLink' %>
-      <% end %>
-      <% unless current_user %>
-        <%= link_to t('layouts.header.sign_in'), new_user_session_path,
-          class: 'globalHeader--navLink' + (new_user_session_path == request.path_info ? '__active' : '') %>
-        <%= link_to t('layouts.header.sign_up'), new_user_registration_path, class: 'globalHeader--navButton' %>
-      <% else %>
-        <%= link_to t('layouts.header.sign_out'), destroy_user_session_path, method: :delete, class: 'globalHeader--navLink' %>
-        <%= link_to current_user.name, user_path(current_user), method: :get,
-          class: 'globalHeader--navLink' + (%(users registrations).include?(controller.controller_name) ? '__active' : '') %>
-      <% end %>
-    </nav>
+  <header class="globalHeader--outer__<%= header_style %>">
+    <div class="globalHeader--inner">
+      <nav class="globalHeader--navigation__left">
+        <%= link_to root_path, class: 'globalHeader--navLink' do %>
+          <h1 class="globalHeader--brandName"><%= t('layouts.brand') %></h1>
+        <% end %>
+        <%= link_to Contest.model_name.human, root_path,
+          class: 'globalHeader--navLink' + ([WelcomeController, ::ContestsController].include?(controller.class) ? '__active' : '') %>
+      </nav>
+      <nav class="globalHeader--navigation__right">
+        <%= form_tag request.original_fullpath, method: :get, class: 'globalHeader--langSelectForm', enforce_utf8: false do %>
+          <%= select_tag 'lang', options_for_select([['日本語', 'ja'], ['English', 'en']], I18n.locale),
+            class: 'globalHeader--langSelect', onchange: 'this.form.submit()' %>
+        <% end %>
+        <% if current_user && current_user.admin_role %>
+          <%= link_to '管理者用ページ', admin_contests_path,
+            class: 'globalHeader--navLink' + ([Admin::ControllerBase].include?(controller.class.superclass) ? '__active' : '') %>
+        <% end %>
+        <% unless current_user %>
+          <%= link_to t('layouts.header.sign_in'), new_user_session_path,
+            class: 'globalHeader--navLink' + ([Users::SessionsController].include?(controller.class) ? '__active' : '') %>
+          <%= link_to t('layouts.header.sign_up'), new_user_registration_path,
+            class: 'globalHeader--navLink' + ([Users::RegistrationsController].include?(controller.class) ? '__active' : '') %>
+        <% else %>
+          <%= link_to t('layouts.header.sign_out'), destroy_user_session_path, method: :delete, class: 'globalHeader--navLink' %>
+          <%= link_to current_user.name, user_path(current_user),
+            class: 'globalHeader--navLink' + ([UsersController, Users::RegistrationsController].include?(controller.class) ? '__active' : '') %>
+        <% end %>
+      </nav>
+    </div>
   </header>
 </div>

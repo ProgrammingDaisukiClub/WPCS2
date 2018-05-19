@@ -8,7 +8,12 @@ class EditorialsController < ApplicationController
   private
 
   def raise_not_found
-    @editorial = Editorial.find_by(contest_id: params.require(:contest_id))
+    @contest = Contest.find_by(id: params.require(:contest_id))
+    raise ActionController::RoutingError, 'Not Found' unless @contest
+
+    @editorial = @contest.editorial
     raise ActionController::RoutingError, 'Not Found' unless @editorial
+
+    @header_style = @contest.outside? ? 'outside' : 'inside'
   end
 end

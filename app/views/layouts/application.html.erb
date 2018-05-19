@@ -12,7 +12,7 @@
 
   <body>
     <div class="globalWrapper">
-      <%= render partial: 'layouts/header' %>
+      <%= render partial: 'layouts/header', locals: { header_style: @header_style } %>
       <div class="globalContents">
         <%= render partial: 'layouts/flash' %>
         <%= yield %>
