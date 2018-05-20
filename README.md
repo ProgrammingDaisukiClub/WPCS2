@@ -111,3 +111,8 @@ bundle exec rake test
 # run rspec
 bundle exec
 ```
+
+## More information
+
+See our Wiki.  
+https://github.com/ProgrammingDaisukiClub/WPCS2/wiki
