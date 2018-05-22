@@ -1,74 +1,118 @@
 # WPCS2
 
-Waseda Programming Contest System 2
+Waseda Programming Contest System 2  
+https://wpcs2.herokuapp.com
 
 [![wercker status](https://app.wercker.com/status/252b5ef09b779ef907f68c6b9b43a192/m/master "wercker status")](https://app.wercker.com/project/byKey/252b5ef09b779ef907f68c6b9b43a192)
 
 ## Requirements
 
 * Ruby: 2.5.1
-* Rails: 5.1.6
+  * bundler: 1.15.2
+  * Rails: 5.1.6
 * Node: 8.11.2
-* npm: 5.6.0
+  * npm: 5.6.0
+* TypeScript: 2.1.6
+  * React: 16.3.2
+  * webpack: 4.8.3
+* PostgreSQL: 9.6.8
 
-## How to deploy
+## Setup for development environment
 
-1. Make sure you have been installed following gems
-  - `rails`
-  - `railties`
-  - `bundler`
+for ubuntu 18.04
 
-1. Install nodejs and npm
+```sh
+# install rbenv and ruby-build
+# see https://github.com/rbenv/rbenv#basic-github-checkout
+# see https://github.com/rbenv/ruby-build#installation
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+cd ~/.rbenv && src/configure && make -C src
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+source ~/.bash_profile
+mkdir -p "$(rbenv root)"/plugins
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
-1. Install webpack using npm
-  ```
-  sudo npm install webpack -g
-  ```
+# install Ruby
+rbenv install 2.5.1
+rbenv global 2.5.1
 
-1. Install gems using bundler
-  ```
-  bundle install
-  ```
+# install bundler
+gem install bundler -v '1.15.2'
 
-1. Install nodejs packages
-  ```
-  npm install
-  ```
+# install nvm
+# see https://github.com/creationix/nvm#installation
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bash_profile
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bash_profile
+source ~/.bash_profile
 
-1. Build JavaScripts
-  ```
-  npm run dev-build  # for development (build)
-  npm run dev-watch  # for development (watch)
-  npm run prod-build # for production
-  ```
+# install node
+nvm install 8.11.2
 
-1. Run db migration
-  ```
-  rake db:migrate
-  ```
+# install PostgreSQL
+# for other versions of ubuntu or other operating systems
+# see https://www.postgresql.org/download/
+sudo localectl set-locale LANG=en_US.utf8
+sudo apt-add-repository 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt update
+sudo apt install -y postgresql-9.6 libpq-dev 
 
-1. Run rails server
-  ```
-  bundle exec rails s -b 0.0.0.0
-  ```
+# create postgresql role
+# enter password
+sudo -u postgres createuser vagrant -s -P
 
-## For developers
-You may need to run following commands after pulling some changes.
-```
+# clone this repository
+git clone https://github.com/ProgrammingDaisukiClub/WPCS2.git ~/WPCS2
+cd ~/WPCS2
+
+# create .env and edit it
+cp .env.sample .env
+
+# install ruby gems
 bundle install
-rake db:migrate
+
+# install npm packages
 npm install
+
+# create database
+bundle exec rake db:create
+
+# migrate database
+bundle exec rake db:migrate
+
+# build javascript with webpack
 npm run dev-build
 ```
 
-Following command is useful for front-end developer. (auto building Javascript)
+## Run development server
+
 ```
-npm run dev-watch
+bundle exec rails server -b 0.0.0.0
 ```
 
-### How to setup by Docker
-You may need to run following commands after pulling some changes.
+## Run lint tools
+
 ```
-npm run dev-build
-bash docker.sh
+# run rubocop
+bundle exec rubocop -a
+
+# run tslint
+npm run fix
 ```
+
+## Run tests
+
+```
+# run minitest
+bundle exec rake test
+
+# run rspec
+bundle exec
+```
+
+## More information
+
+See our Wiki.  
+https://github.com/ProgrammingDaisukiClub/WPCS2/wiki
