@@ -57,6 +57,7 @@ RSpec.describe Api::SubmissionsController do
             created_at: JSON.parse(submission.created_at.to_json)
           }
           next data unless submission.judge_status_accepted?
+
           data.merge(score: submission.score)
         end
       end

@@ -14,17 +14,17 @@ FactoryBot.define do
 
   factory :contest_preparing, parent: :contest do
     start_at { 1.week.since }
-    end_at  { 2.week.since }
+    end_at { 2.week.since }
   end
 
   factory :contest_holding, parent: :contest do
     start_at { 1.week.ago }
-    end_at  { 1.week.since }
+    end_at { 1.week.since }
   end
 
   factory :contest_ended, parent: :contest do
     start_at { 2.week.ago }
-    end_at  { 1.week.ago }
+    end_at { 1.week.ago }
   end
 
   factory :contest_preparing_open, parent: :contest_preparing do

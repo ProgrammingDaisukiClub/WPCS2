@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   resources 'users', only: %w[index show], constraints: { id: /\d+/ }
   devise_for :users, controllers: {
     confirmations: 'users/confirmations',
-    passwords:     'users/passwords',
+    passwords: 'users/passwords',
     registrations: 'users/registrations',
-    sessions:      'users/sessions'
+    sessions: 'users/sessions'
   }
   resources 'contests', only: ['show'] do
     resources 'problems', only: ['show'] do

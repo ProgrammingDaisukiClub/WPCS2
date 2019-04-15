@@ -6,11 +6,13 @@ class DataSet < ApplicationRecord
 
   def solved_by?(user)
     return false if user.nil?
+
     submissions.where(user: user).judge_status_accepted.count.positive?
   end
 
   def solved_by_during_contest?(user)
     return false if user.nil?
+
     submissions.where(
       user: user,
       created_at: contest.start_at..contest.end_at
@@ -19,6 +21,7 @@ class DataSet < ApplicationRecord
 
   def user_score(user)
     return 0 if user.nil?
+
     submission = submissions.where(
       user: user,
       judge_status: :accepted,
@@ -29,12 +32,14 @@ class DataSet < ApplicationRecord
 
   def user_solved_at(user)
     return nil if user.nil?
+
     submission = submissions.where(user: user, judge_status: :accepted).order(score: :desc).limit(1).first
     submission.created_at if submission && (submission.created_at < contest.end_at)
   end
 
   def user_wrong_answers(user)
     return 0 if user.nil?
+
     solved_at = user_solved_at(user)
     submissions.where(
       user_id: user.id,
