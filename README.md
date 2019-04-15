@@ -10,7 +10,7 @@ https://wpcs2.herokuapp.com
 * Ruby: 2.6.2
   * bundler: 1.16.5
   * Rails: 5.1.7
-* Node: 8.11.2
+* Node: 11.14.0
   * npm: 6.9.0
 * TypeScript: 2.1.6
   * React: 16.3.2
@@ -48,7 +48,7 @@ echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bash_profile
 source ~/.bash_profile
 
 # install node
-nvm install 8.11.2
+nvm install 11.14.0
 
 # install PostgreSQL
 # for other versions of ubuntu or other operating systems

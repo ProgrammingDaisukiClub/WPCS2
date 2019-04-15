@@ -6,7 +6,7 @@ services:
 build:
   steps:
     - bigtruedata/install-node:
-      version: 10.6.0
+      version: 11.14.0
 
     - script:
       name: Install dependencies
