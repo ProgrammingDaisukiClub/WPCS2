@@ -1,4 +1,4 @@
-box: ruby:2.5.1
+box: ruby:2.6.2
 
 services:
   - postgres
@@ -51,7 +51,6 @@ build:
     - sherzberg/slack-notify:
       subdomain: contestholics
       token: $SLACK_TOKEN
-      channel: "#develop"
+      channel: '#develop'
       username: wercker
       icon_url: https://avatars3.githubusercontent.com/u/1695193?s=140
-
