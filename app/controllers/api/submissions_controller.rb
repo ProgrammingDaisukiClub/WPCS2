@@ -41,6 +41,7 @@ class Api::SubmissionsController < ApplicationController
         created_at: submission.created_at
       }
       next data unless submission.judge_status_accepted?
+
       data.merge(score: submission.score)
     end
   end

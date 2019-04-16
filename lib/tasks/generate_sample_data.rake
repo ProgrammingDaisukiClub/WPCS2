@@ -37,6 +37,7 @@ namespace :sample_data do
 
       users.each do |user|
         next unless rand(2) == 1
+
         ContestRegistration.create(
           user_id: user.id,
           contest_id: contest.id
@@ -80,6 +81,7 @@ namespace :sample_data do
             user_id: user.id
           )
           next unless ended || (started && registered)
+
           [*0..8].sample.times do |_k|
             data_set = rand(2) == 1 ? data_set_small : data_set_large
             judge_status = rand(3)
