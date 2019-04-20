@@ -3,15 +3,15 @@
 Waseda Programming Contest System 2  
 https://wpcs2.herokuapp.com
 
-[![wercker status](https://app.wercker.com/status/252b5ef09b779ef907f68c6b9b43a192/m/master "wercker status")](https://app.wercker.com/project/byKey/252b5ef09b779ef907f68c6b9b43a192)
+[![wercker status](https://app.wercker.com/status/252b5ef09b779ef907f68c6b9b43a192/m/master 'wercker status')](https://app.wercker.com/project/byKey/252b5ef09b779ef907f68c6b9b43a192)
 
 ## Requirements
 
-* Ruby: 2.5.1
-  * bundler: 1.15.2
-  * Rails: 5.1.6
-* Node: 8.11.2
-  * npm: 5.6.0
+* Ruby: 2.6.2
+  * bundler: 1.16.5
+  * Rails: 5.1.7
+* Node: 11.14.0
+  * npm: 6.9.0
 * TypeScript: 2.1.6
   * React: 16.3.2
   * webpack: 4.8.3
@@ -34,11 +34,11 @@ mkdir -p "$(rbenv root)"/plugins
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
 # install Ruby
-rbenv install 2.5.1
-rbenv global 2.5.1
+rbenv install 2.6.2
+rbenv global 2.6.2
 
 # install bundler
-gem install bundler -v '1.15.2'
+gem install bundler -v '1.16.4'
 
 # install nvm
 # see https://github.com/creationix/nvm#installation
@@ -48,7 +48,7 @@ echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bash_profile
 source ~/.bash_profile
 
 # install node
-nvm install 8.11.2
+nvm install 11.14.0
 
 # install PostgreSQL
 # for other versions of ubuntu or other operating systems
@@ -57,7 +57,7 @@ sudo localectl set-locale LANG=en_US.utf8
 sudo apt-add-repository 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt update
-sudo apt install -y postgresql-9.6 libpq-dev 
+sudo apt install -y postgresql-9.6 libpq-dev
 
 # create postgresql role
 # enter password

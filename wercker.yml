@@ -1,4 +1,4 @@
-box: ruby:2.5.1
+box: ruby:2.6.2
 
 services:
   - postgres
@@ -6,7 +6,7 @@ services:
 build:
   steps:
     - bigtruedata/install-node:
-      version: 7.6.0
+      version: 11.14.0
 
     - script:
       name: Install dependencies
@@ -51,7 +51,6 @@ build:
     - sherzberg/slack-notify:
       subdomain: contestholics
       token: $SLACK_TOKEN
-      channel: "#develop"
+      channel: '#develop'
       username: wercker
       icon_url: https://avatars3.githubusercontent.com/u/1695193?s=140
-

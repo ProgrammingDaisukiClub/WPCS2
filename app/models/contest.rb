@@ -97,6 +97,7 @@ class Contest < ApplicationRecord
 
   def user_score(user)
     return 0 unless user && registered_by?(user)
+
     data_sets.map { |data_set| data_set.user_score(user) }.inject(0, :+)
   end
 end
