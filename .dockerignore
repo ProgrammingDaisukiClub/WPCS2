@@ -1,0 +1,14 @@
+# wercker
+.wercker/
+wercker.yml
+
+# git
+.git/
+
+# editor/lint
+.editorconfig
+tsconfig.json
+.rubocop.yml
+.prettierrc.json
+
+.env.sample
