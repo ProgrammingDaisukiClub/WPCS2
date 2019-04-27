@@ -7,7 +7,7 @@ wercker.yml
 
 # editor/lint
 .editorconfig
-tsconfig.json
+tslint.json
 .rubocop.yml
 .prettierrc.json
 
