@@ -3,6 +3,9 @@ RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client nodejs
 ADD Gemfile Gemfile
 ADD Gemfile.lock Gemfile.lock
+ADD package.json package.json
 RUN bundle install
+RUN npm i
 COPY . /frontend
 WORKDIR /frontend
+RUN npm run dev-build
