@@ -8,5 +8,6 @@ Rails.application.routes.draw do
       end
     end
     resources :problems, :data_sets, only: %i[show new edit create update destroy]
+    resources :users, only: %i[index show]
   end
 end
