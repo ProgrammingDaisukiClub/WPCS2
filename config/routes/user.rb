@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     sessions: 'users/sessions'
   }
+  resources :users, only: ['show']
   resources 'contests', only: ['show'] do
     resources 'problems', only: ['show'] do
       resources 'data_sets', only: ['show']
