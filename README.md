@@ -7,7 +7,7 @@ https://wpcs2.herokuapp.com
 
 ## Requirements
 
-* Ruby: 2.6.2
+* Ruby: 2.7.0
   * bundler: 1.16.5
   * Rails: 5.1.7
 * Node: 11.14.0
@@ -34,8 +34,8 @@ mkdir -p "$(rbenv root)"/plugins
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
 # install Ruby
-rbenv install 2.6.2
-rbenv global 2.6.2
+rbenv install 2.7.0
+rbenv global 2.7.0
 
 # install bundler
 gem install bundler -v '1.16.4'
