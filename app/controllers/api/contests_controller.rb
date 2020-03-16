@@ -20,7 +20,7 @@ class Api::ContestsController < ApplicationController
       return
     end
 
-    if !signed_in? || @contest.ended? || (current_user&.admin_role)
+    if !signed_in? || @contest.ended? || current_user&.admin_role
       render(json: {}, status: 403)
       return
     end
@@ -63,7 +63,7 @@ class Api::ContestsController < ApplicationController
   end
 
   def hide_problems?
-    !(current_user&.admin_role) && !((@contest.during? && @joined) || @contest.ended?)
+    !current_user&.admin_role && !((@contest.during? && @joined) || @contest.ended?)
   end
 
   def hide_editorial?

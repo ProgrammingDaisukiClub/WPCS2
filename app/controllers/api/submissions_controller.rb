@@ -19,7 +19,7 @@ class Api::SubmissionsController < ApplicationController
       return
     end
 
-    if !(current_user&.admin_role) && prevent_submission?(contest)
+    if !current_user&.admin_role && prevent_submission?(contest)
       render json: {}, status: 403
       return
     end
