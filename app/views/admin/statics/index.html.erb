@@ -1,0 +1,23 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'pages/admin/submissions' %>
+<% end %>
+
+<div class="submissions">
+  <div class="submissions--inner">
+    <div class="submissions--header">参加者の提出履歴</div>
+    <div class="submissions--body">
+      <table class="submissions--table">
+        <thead>
+          <tr>
+          </tr>
+        </thead>
+        <tbody>
+          <% @ranking.each do |data| %>
+            <tr>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
