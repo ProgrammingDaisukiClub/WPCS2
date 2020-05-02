@@ -12,3 +12,5 @@ tslint.json
 .prettierrc.json
 
 .env.sample
+
+package-lock.json
