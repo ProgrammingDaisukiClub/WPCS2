@@ -1,0 +1,29 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and run the Docker images
+      run: docker-compose up -d
+    - name: Activate Postgres for testing
+      run: docker-compose run -e RACK_ENV=test app bundle exec rails db:create
+    - name: Run RSpec
+      run: docker-compose run app bundle exec rspec
+    - name: Notify slack
+      uses: 8398a7/action-slack@v3
+      if: always()
+      with:
+        status: ${{ job.status }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
