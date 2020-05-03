@@ -5,7 +5,7 @@ https://wpcs2.herokuapp.com
 
 ## Requirements
 
-* Ruby: 2.6.2
+* Ruby: 2.7.0
   * bundler: 1.16.5
   * Rails: 5.1.7
 * Node: 11.14.0
@@ -15,9 +15,15 @@ https://wpcs2.herokuapp.com
   * webpack: 4.8.3
 * PostgreSQL: 9.6.8
 
-## Setup for development environment
+## Setup docker based environment
 
-for ubuntu 18.04
+```sh
+sh docker.sh
+```
+
+## Setup for development environment
+　
+We recommend to use docker-compose based environment.
 
 ```sh
 # install rbenv and ruby-build
@@ -32,8 +38,8 @@ mkdir -p "$(rbenv root)"/plugins
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
 # install Ruby
-rbenv install 2.6.2
-rbenv global 2.6.2
+rbenv install 2.7.0
+rbenv global 2.7.0
 
 # install bundler
 gem install bundler -v '1.16.4'
