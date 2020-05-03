@@ -6,7 +6,7 @@ RUN npm install -g yarn n
 
 # To install the specific version of Node.js
 RUN n 11.14.0
-RUN apt purge -y nodejs && apt autoremove -y
+RUN apt purge -y npm && apt autoremove -y
 
 ADD . /app
 WORKDIR /app
