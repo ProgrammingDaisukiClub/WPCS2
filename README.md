@@ -6,7 +6,7 @@ https://wpcs2.herokuapp.com
 ## Requirements
 
 * Ruby: 2.7.0
-  * bundler: 1.17.2
+  * bundler: 2.1.2
   * Rails: 5.1.7
 * Node: 11.14.0
   * npm: 6.9.0
@@ -42,7 +42,7 @@ rbenv install 2.7.0
 rbenv global 2.7.0
 
 # install bundler
-gem install bundler -v '1.17.2'
+gem install bundler -v '2.1.2'
 
 # install nvm
 # see https://github.com/creationix/nvm#installation
