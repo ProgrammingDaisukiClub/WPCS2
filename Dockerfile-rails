@@ -8,9 +8,14 @@ RUN npm install -g yarn n
 RUN n 11.14.0
 RUN apt purge -y npm && apt autoremove -y
 
-ADD . /app
 WORKDIR /app
 
+ADD Gemfile Gemfile
+ADD Gemfile.lock Gemfile.lock
 RUN bundle install
+
+ADD package.json package.json
 RUN yarn
+
+ADD . /app
 RUN yarn dev-build
