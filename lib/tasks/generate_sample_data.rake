@@ -21,14 +21,14 @@ namespace :sample_data do
         description_ja: "サンプルコンテスト#{i}の説明です",
         description_en: "Description of SampleContest#{i}",
         start_at: case i % 3
-                  when 1 then DateTime.now
-                  when 2 then DateTime.now - 1.week
                   when 0 then DateTime.now + 1.week
+                  when 1 then DateTime.now + 1.minutes
+                  when 2 then DateTime.now - 1.week
                   end,
         end_at: case i % 3
-                when 1 then DateTime.now + 10.year
-                when 2 then DateTime.now - 1.week + 2.hour
                 when 0 then DateTime.now + 1.week + 2.hour
+                when 1 then DateTime.now + 1.minutes + 10.year
+                when 2 then DateTime.now - 1.week + 2.hour
                 end,
         score_baseline: 0.5,
         status: i.zero? ? 0 : 1,
