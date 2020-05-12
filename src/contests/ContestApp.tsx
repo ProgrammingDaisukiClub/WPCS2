@@ -319,22 +319,11 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     const time: TimerObject = await this.fetchTime();
     const now: Date = new Date();
 
-    if (now <= time.startAt) {
-      setInterval(() => {
-        this.beforeContestTimer(time.startAt);
-      }, 1000);
-    }
-  }
-
-  public async beforeContestTimer(startAt: Date): Promise<void> {
-    const now: Date = new Date();
-    const startTime: Date = startAt;
-
-    if (now < startAt) {
-      //
-    } else if (now >= startTime) {
-      alert('コンテストを開始します');
-      location.reload();
+    if (now < time.startAt) {
+      setTimeout(() => {
+        alert("コンテストを開始します");
+        location.reload();
+      }, time.startAt.getTime() - now.getTime());
     }
   }
 
