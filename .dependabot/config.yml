@@ -7,6 +7,13 @@ update_configs:
       - Shikugawa
       - musaprg
     target_branch: master
+    automerged_updates:
+      - match:
+          dependency_type: "development"
+          update_type: "all"
+      - match:
+          dependency_type: "production"
+          update_type: "semver:patch"
   - package_manager: "ruby:bundler"
     directory: "/"
     update_schedule: "daily"
@@ -14,3 +21,10 @@ update_configs:
       - Shikugawa
       - musaprg
     target_branch: master
+    automerged_updates:
+      - match:
+          dependency_type: "development"
+          update_type: "all"
+      - match:
+          dependency_type: "production"
+          update_type: "semver:patch"
