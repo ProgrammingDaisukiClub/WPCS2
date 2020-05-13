@@ -22,7 +22,7 @@ jobs:
       run: docker-compose run app bundle exec rspec
     - name: Notify slack
       uses: 8398a7/action-slack@v3
-      if: always()
+      if: failure()
       with:
         status: ${{ job.status }}
       env:
