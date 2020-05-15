@@ -30,20 +30,24 @@
   </div>
 
   <div class="submissions--inner">
-    <div class="submissions--header">FastAC Award</div>
+    <div class="submissions--header">SpeedAC Award</div>
     <div class="submissions--body">
       <table class="submissions--table">
         <thead>
           <tr>
-            <td class="submissions--submitterIdHeader">ユーザーID</td>
+            <td class="submissions--submitterHeader">問題</td>
+            <td class="submissions--submitterHeader">ユーザーID</td>
             <td class="submissions--submitterHeader">ユーザー名</td>
+            <td class="submissions--submitterHeader">提出時間</td>
           </tr>
         </thead>
         <tbody>
-          <% @fastac_awards.each do |hoge| %>
+          <% @fastac_awards.each do |key,value| %>
             <tr>
-              <td class="submissions--submitterId"><%= hoge["user_id"] %></td>
-              <td class="submissions--submitter"><%= hoge["user_name"] %></td>
+              <td class="submissions--submitter"><%= key %></td>
+              <td class="submissions--submitter"><%= value[:id] %></td>
+              <td class="submissions--submitter"><%= value[:name] %></td>
+              <td class="submissions--submitter"><%= value[:min] %></td>
             </tr>
           <% end %>
         </tbody>
