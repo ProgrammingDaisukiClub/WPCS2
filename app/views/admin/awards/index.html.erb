@@ -1,16 +1,53 @@
-<p id="notice"><%= notice %></p>
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'pages/admin/submissions' %>
+<% end %>
 
-<h1>Awards</h1>
+<div class="submissions">
+  <div class="submissions--inner">
+    <div class="submissions--header">Ranking Award</div>
+    <div class="submissions--body">
+      <table class="submissions--table">
+        <thead>
+          <tr>
+            <td class="submissions--submitterHeader">順位</td>
+            <td class="submissions--submitterHeader">ユーザーID</td>
+            <td class="submissions--submitterHeader">ユーザー名</td>
+            <td class="submissions--submitterHeader">合計スコア</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @ranking_awards.each_with_index do |user_data, rank| %>
+            <tr>
+              <td class="submissions--submitter"><%= rank+1 %></td>
+              <td class="submissions--submitter"><%= user_data[:id] %></td>
+              <td class="submissions--submitter"><%= user_data[:name] %></td>
+              <td class="submissions--submitter"><%= user_data[:total_score] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>hogehogehoge</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    
-  </tbody>
-</table>
+  <div class="submissions--inner">
+    <div class="submissions--header">FastAC Award</div>
+    <div class="submissions--body">
+      <table class="submissions--table">
+        <thead>
+          <tr>
+            <td class="submissions--submitterIdHeader">ユーザーID</td>
+            <td class="submissions--submitterHeader">ユーザー名</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @fastac_awards.each do |hoge| %>
+            <tr>
+              <td class="submissions--submitterId"><%= hoge["user_id"] %></td>
+              <td class="submissions--submitter"><%= hoge["user_name"] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

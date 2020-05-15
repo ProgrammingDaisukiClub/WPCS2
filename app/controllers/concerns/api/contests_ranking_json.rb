@@ -81,6 +81,10 @@ module Api::ContestsRankingJson
   end
 
   def talbe_to_json(table)
+    { users: table_to_array(table) }
+  end
+
+  def table_to_array(table)
     @users.map do |user|
       @problems.map do |problem|
         data = table[user.id][:problems][problem.id]
@@ -90,6 +94,6 @@ module Api::ContestsRankingJson
       data[:problems] = data[:problems].values
     end
     users_json = table.values
-    { users: users_json.sort { |user1, user2| user2[:total_score] <=> user1[:total_score] } }
+    users_json.sort { |user1, user2| user2[:total_score] <=> user1[:total_score] }
   end
 end
