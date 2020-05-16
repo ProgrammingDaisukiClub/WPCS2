@@ -71,7 +71,7 @@ class Admin::AwardsController < Admin::ControllerBase
             AND submissions.judge_status = 2
         )
       GROUP BY (problems.name_ja, problems.id, users.id, users.name)
-      ORDER BY problems.order ASC, MIN(submissions.created_at) ASC;
+      ORDER BY problems.order DESC, MIN(submissions.created_at) ASC;
     QUERY
     ActiveRecord::Base.send(
       :sanitize_sql_array,
