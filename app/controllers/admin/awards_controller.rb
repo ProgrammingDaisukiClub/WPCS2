@@ -6,7 +6,7 @@ class Admin::AwardsController < Admin::ControllerBase
   # GET /awards
   # GET /awards.json
   def index
-    # @contest = Contest.find_by_id(params[:contest_id])
+    # FIXME: Refactor these lines (migrate to helper)
     @ranking_awards = calculate_ranking_awards.take(10)
     @already_awarded_user = @ranking_awards.map{ |item| item[:id] }
     @fastac_awards = calculate_fastac_candidates
