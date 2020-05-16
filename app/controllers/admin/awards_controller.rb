@@ -10,7 +10,6 @@ class Admin::AwardsController < Admin::ControllerBase
     @ranking_awards = calculate_ranking_awards.take(10)
     @already_awarded_user = @ranking_awards.map{ |item| item[:id] }
     @fastac_awards = calculate_fastac_candidates
-    p @fastac_awards
   end
 
   private
