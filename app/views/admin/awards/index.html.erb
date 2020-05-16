@@ -1,0 +1,57 @@
+<% content_for :styles do %>
+  <%= stylesheet_link_tag 'pages/admin/submissions' %>
+<% end %>
+
+<div class="submissions">
+  <div class="submissions--inner">
+    <div class="submissions--header">Ranking Award</div>
+    <div class="submissions--body">
+      <table class="submissions--table">
+        <thead>
+          <tr>
+            <td class="submissions--submitterHeader">順位</td>
+            <td class="submissions--submitterHeader">ユーザーID</td>
+            <td class="submissions--submitterHeader">ユーザー名</td>
+            <td class="submissions--submitterHeader">合計スコア</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @ranking_awards.each_with_index do |user_data, rank| %>
+            <tr>
+              <td class="submissions--submitter"><%= rank+1 %></td>
+              <td class="submissions--submitter"><%= user_data[:id] %></td>
+              <td class="submissions--submitter"><%= user_data[:name] %></td>
+              <td class="submissions--submitter"><%= user_data[:total_score] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="submissions--inner">
+    <div class="submissions--header">SpeedAC Award</div>
+    <div class="submissions--body">
+      <table class="submissions--table">
+        <thead>
+          <tr>
+            <td class="submissions--submitterHeader">問題</td>
+            <td class="submissions--submitterHeader">ユーザーID</td>
+            <td class="submissions--submitterHeader">ユーザー名</td>
+            <td class="submissions--submitterHeader">提出時間</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @fastac_awards.each do |key,value| %>
+            <tr>
+              <td class="submissions--submitter"><%= key %></td>
+              <td class="submissions--submitter"><%= value[:id] %></td>
+              <td class="submissions--submitter"><%= value[:name] %></td>
+              <td class="submissions--submitter"><%= value[:min] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

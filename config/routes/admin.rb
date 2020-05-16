@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :admin do
     resources :contests do
+      resources :awards, only: %i[index]
       resources :submissions, :editorials
       member do
         get :json_upload
