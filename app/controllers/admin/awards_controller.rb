@@ -7,7 +7,7 @@ class Admin::AwardsController < Admin::ControllerBase
   # GET /awards.json
   def index
     # FIXME: Refactor these lines (migrate to helper)
-    @ranking_awards = calculate_ranking_awards.take(10)
+    @ranking_awards = calculate_ranking_awards.take(6)
     @already_awarded_user = @ranking_awards.map{ |item| item[:id] }
     @fastac_awards = calculate_fastac_candidates
   end
@@ -71,7 +71,7 @@ class Admin::AwardsController < Admin::ControllerBase
             AND submissions.judge_status = 2
         )
       GROUP BY (problems.name_ja, problems.id, users.id, users.name)
-      ORDER BY problems.order ASC, MIN(submissions.created_at) ASC;
+      ORDER BY problems.order DESC, MIN(submissions.created_at) ASC;
     QUERY
     ActiveRecord::Base.send(
       :sanitize_sql_array,
