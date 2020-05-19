@@ -5,7 +5,7 @@ RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresq
 RUN npm install -g yarn n
 
 # To install the specific version of Node.js
-RUN n 11.14.0
+RUN n 12.16
 RUN apt purge -y npm && apt autoremove -y
 
 WORKDIR /app
