@@ -3,18 +3,6 @@
 Waseda Programming Contest System 2
 https://wpcs2.herokuapp.com
 
-## Requirements
-
-* Ruby: 2.7.0
-  * bundler: 2.1.2
-  * Rails: 6.0.3
-* Node: 12.16
-  * npm: 6.14
-* TypeScript: 2.9.2
-  * React: 16.3.1
-  * webpack: 4.43.0
-* PostgreSQL: 9.6.8
-
 ## Setup docker based environment
 
 ```sh
