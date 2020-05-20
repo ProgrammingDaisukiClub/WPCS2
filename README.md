@@ -1,19 +1,7 @@
 # WPCS2
 
-Waseda Programming Contest System 2  
+Waseda Programming Contest System 2
 https://wpcs2.herokuapp.com
-
-## Requirements
-
-* Ruby: 2.7.0
-  * bundler: 2.1.2
-  * Rails: 5.1.7
-* Node: 11.14.0
-  * npm: 6.9.0
-* TypeScript: 2.1.6
-  * React: 16.3.2
-  * webpack: 4.8.3
-* PostgreSQL: 9.6.8
 
 ## Setup docker based environment
 
@@ -118,5 +106,5 @@ bundle exec
 
 ## More information
 
-See our Wiki.  
+See our Wiki.
 https://github.com/ProgrammingDaisukiClub/WPCS2/wiki
