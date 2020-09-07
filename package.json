@@ -68,7 +68,7 @@
     "react-render-html": "^0.6.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.1.2",
-    "whatwg-fetch": "^3.4.0"
+    "whatwg-fetch": "^3.4.1"
   },
   "engines": {
     "node": "~12.16",
