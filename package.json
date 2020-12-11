@@ -62,7 +62,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "i18n-webpack-plugin": "^1.0.0",
-    "marked": "^1.1.1",
+    "marked": "^1.2.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-render-html": "^0.6.0",
