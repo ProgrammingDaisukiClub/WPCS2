@@ -49,7 +49,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
     this.state = {
       initialized: false,
-      submitResults: [] as [number],
+      submitResults: ([] as unknown) as [number],
     };
   }
 
@@ -59,7 +59,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
   public componentWillUnmount(): void {
     if (this.rankingRequestTimerId !== 0) {
-      clearInterval(this.rankingRequestTimerId);
+      window.clearInterval(this.rankingRequestTimerId);
     }
   }
 
@@ -287,7 +287,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
               label: dataSet.label,
               correct: dataSet.correct,
               score: dataSet.score,
-              solvedAt: dataSet.solved_at ? new Date(dataSet.solved_at) : null,
+              solvedAt: dataSet.solved_at ? new Date(dataSet.solved_at) : undefined,
               wrongAnswers: dataSet.wrong_answers,
             })),
           })),
@@ -304,7 +304,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
     this.setState({ users });
 
     if (!this.rankingRequestTimerId) {
-      this.rankingRequestTimerId = setInterval(this.fetchRanking.bind(this), 60 * 1000);
+      this.rankingRequestTimerId = window.setInterval(this.fetchRanking.bind(this), 60 * 1000);
     }
   }
 
@@ -321,7 +321,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
 
     if (now < time.startAt) {
       setTimeout(() => {
-        alert("コンテストを開始します");
+        alert('コンテストを開始します');
         location.reload();
       }, time.startAt.getTime() - now.getTime());
     }
@@ -398,12 +398,13 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             exact={true}
             path="/contests/:contestId"
             render={(): JSX.Element => <ContestHome contest={this.state.contest} join={this.join.bind(this)} />}
-          />;
+          />
+          ;
           <Route
             exact={true}
             path="/contests/:contestId/problems/:problemId"
             render={(props: any): JSX.Element => {
-              return !this.state.contest.problems ? null : (
+              return !this.state.contest.problems ? undefined : (
                 <Problem
                   contest={this.state.contest}
                   problem={this.state.contest.problems.find(
@@ -419,7 +420,7 @@ export default class ContestApp extends React.Component<ContestAppProps, Contest
             exact={true}
             path="/contests/:contestId/ranking"
             render={(): JSX.Element => {
-              return !this.state.users ? null : <Ranking contest={this.state.contest} users={this.state.users} />;
+              return !this.state.users ? undefined : <Ranking contest={this.state.contest} users={this.state.users} />;
             }}
           />
           <Route
