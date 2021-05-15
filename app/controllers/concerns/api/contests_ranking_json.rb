@@ -60,8 +60,10 @@ module Api::ContestsRankingJson
       problem_id = submission.problem.id
       data_set_id = submission.data_set.id
       user_data = table[user_id]
-      data = table[user_id][:problems][problem_id][:data_sets][data_set_id]
-      update_ranking_score(submission, user_data, data) unless data[:correct]
+      if table[user_id] && table[user_id][:problems] && table[user_id][:problems][problem_id] && table[user_id][:problems][problem_id][:data_sets]
+        data = table[user_id][:problems][problem_id][:data_sets][data_set_id]
+        update_ranking_score(submission, user_data, data) unless data[:correct]
+      end
     end
   end
 
