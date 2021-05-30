@@ -101,8 +101,5 @@ fabric.properties
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Ruby version definition file
-.ruby-version
-
 # Wercker CLI temporary file
 .wercker/
