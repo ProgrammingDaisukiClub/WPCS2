@@ -72,7 +72,7 @@
     "babel-polyfill": "^6.26.0",
     "i18n-webpack-plugin": "^1.0.0",
     "marked": "^2.0.3",
-    "react": "^16.14.0",
+    "react": "^17.0.2",
     "react-dom": "^16.14.0",
     "react-render-html": "^0.6.0",
     "react-router": "^5.2.0",
