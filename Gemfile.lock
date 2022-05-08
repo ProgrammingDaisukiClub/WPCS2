@@ -155,7 +155,7 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.0)
       ast (~> 2.4.1)
-    pg (1.2.3)
+    pg (1.3.5)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -300,7 +300,7 @@ DEPENDENCIES
   kaminari
   letter_opener_web
   listen (~> 3.5.1)
-  pg (= 1.2.3)
+  pg (= 1.3.5)
   pry-byebug
   puma (~> 4.3)
   rails (~> 6.0.3)
