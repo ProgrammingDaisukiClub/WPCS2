@@ -76,7 +76,7 @@
     "react-dom": "^16.14.0",
     "react-render-html": "^0.6.0",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.4.5",
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
