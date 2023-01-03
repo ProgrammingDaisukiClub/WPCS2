@@ -55,7 +55,7 @@
     "@types/react-dom": "^16.9.12",
     "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.1.7",
-    "husky": "^6.0.0",
+    "husky": "^8.0.3",
     "lint-staged": "^11.0.0",
     "prettier": "^2.2.1",
     "ts-loader": "^8.2.0",
