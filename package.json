@@ -64,5 +64,9 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "whatwg-fetch": "^3.6.2"
+  },
+  "engines": {
+    "node": "^18.19.0",
+    "npm": "^9.2.0"
   }
 }
