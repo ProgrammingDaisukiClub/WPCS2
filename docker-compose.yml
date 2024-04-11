@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   db:
     image: postgres:latest
@@ -24,7 +24,7 @@ services:
       - "3000:3000"
     volumes:
       - bundle:/bundle
-    links:
+    depends_on:
       - db
 
 volumes:

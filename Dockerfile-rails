@@ -1,12 +1,6 @@
-FROM ruby:2.7.3
+FROM ruby:3.1.4
 
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash -
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client npm
-RUN npm install -g yarn n
-
-# To install the specific version of Node.js
-RUN n 12.16
-RUN apt purge -y npm && apt autoremove -y
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev postgresql-client nodejs npm
 
 WORKDIR /app
 
@@ -15,7 +9,7 @@ ADD Gemfile.lock Gemfile.lock
 RUN bundle install
 
 ADD package.json package.json
-RUN yarn
+RUN npm i
 
 ADD . /app
-RUN yarn dev-build
+RUN npm run dev-build
