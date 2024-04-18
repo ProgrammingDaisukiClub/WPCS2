@@ -6,16 +6,16 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3'
+gem 'rails', '~> 6.1.7'
 # Use PostgreSQL as the database for Active Record
-gem 'pg', '1.3.5'
+gem 'pg', '~> 1.4'
 # Use Puma as the app server
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.6'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 6.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'devise'
-gem 'devise-i18n'
+gem 'devise', '~> 4.9'
+gem 'devise-i18n', '~> 1.11'
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 5.0'
@@ -33,7 +33,7 @@ gem 'jbuilder', '~> 2.11'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 # Pagination
-gem 'kaminari'
+gem 'kaminari', '~> 1.2'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -42,27 +42,27 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'dotenv-rails'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '~> 6.2'
   gem 'pry-byebug'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 6.0'
 end
 
 group :development do
-  gem 'listen', '~> 3.7.1'
+  gem 'listen', '~> 3.8'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen', '~> 2.1'
   # Show mails via Web browser
-  gem 'letter_opener_web'
+  gem 'letter_opener_web', '~> 2.0'
   # Check code style
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 1.50', require: false
 end
 
 group :test do
-  gem 'capybara'
-  gem 'rails-controller-testing'
+  gem 'capybara', '~> 3.39'
+  gem 'rails-controller-testing', '~> 1.0'
 end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
