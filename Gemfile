@@ -57,7 +57,7 @@ group :development do
   # Show mails via Web browser
   gem 'letter_opener_web', '~> 2.0'
   # Check code style
-  gem 'rubocop', '~> 1.50', require: false
+  gem 'rubocop', '~> 1.63', require: false
 end
 
 group :test do

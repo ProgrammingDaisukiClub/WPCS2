@@ -252,7 +252,7 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.1)
-    rubocop (1.63.2)
+    rubocop (1.63.3)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -334,7 +334,7 @@ DEPENDENCIES
   rails (~> 6.1.7)
   rails-controller-testing (~> 1.0)
   rspec-rails (~> 6.0)
-  rubocop (~> 1.50)
+  rubocop (~> 1.63)
   sass-rails (~> 6.0)
   spring
   spring-watcher-listen (~> 2.1)
