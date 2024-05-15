@@ -55,7 +55,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.1'
   # Show mails via Web browser
-  gem 'letter_opener_web', '~> 2.0'
+  gem 'letter_opener_web', '~> 3.0'
   # Check code style
   gem 'rubocop', '~> 1.50', require: false
 end
