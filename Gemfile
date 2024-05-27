@@ -15,7 +15,7 @@ gem 'puma', '~> 5.6'
 gem 'sass-rails', '~> 6.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'devise', '~> 4.9'
-gem 'devise-i18n', '~> 1.11'
+gem 'devise-i18n', '~> 1.12'
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 5.0'
